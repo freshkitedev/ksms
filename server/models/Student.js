@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
 const student = new mongoose.Schema({
-  student_id: {
-    type: String,
-    required: true,
-  },
+ 
   rollNo: {
     type: Number,
     required: true,
   },
-  name: {
+  Name: {
     fName: {
+      type: String,
+      required: true,
+    },
+    mName: {
       type: String,
       required: true,
     },
@@ -19,16 +20,11 @@ const student = new mongoose.Schema({
       required: true,
     },
   },
-  standard: {
-    type: String,
-    required: true,
-  },
-  section: {
+  dateOfBirth: {
     type: String,
     required: true,
   },
   fatherName: {
-    
       type: String,
       required: true,
   },
@@ -36,12 +32,36 @@ const student = new mongoose.Schema({
     type:String,
     required:true
   },
-  address:{
+  homeAddress:{
+    type:String,
+    required:true
+  },
+  enrollmentDate:{
+    type:String,
+    required:true
+  },
+  emailID:{
     type:String,
     required:true
   },
   mobileNo:{
     type:Number,
+    required:true
+  },
+  lastDate:{
+    type:String,
+    required:true
+  },
+  activeIndicator:{
+    type:Boolean,
+    required:true
+  },
+  isAdim:{
+    type:Boolean,
+    required:true
+  },   
+  userGroup:{
+    type:String,
     required:true
   }
 });
