@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const student = new mongoose.Schema({
  
-  rollNo: {
+  rollNumber: {
     type: Number,
     required: true,
   },
@@ -56,11 +56,11 @@ const student = new mongoose.Schema({
     type:Boolean,
     required:true
   },
-  isAdim:{
-    type:Boolean,
-    required:true
-  },   
   userGroup:{
+    type:Array,
+    required:true
+  },
+  class:{
     type:String,
     required:true
   }

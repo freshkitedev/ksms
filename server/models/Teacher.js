@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const teacher = new mongoose.Schema({
-    Teacher_id: {
-        type: String,
+    StaffID: {
+        type: Number,
         required: true,
     },
      
@@ -62,9 +62,22 @@ const teacher = new mongoose.Schema({
 
     },
     userGroup:{
+        type:Array,
+        required:true
+    },
+    primarySubject:{
         type:String,
         required:true
+    },
+    secondarySubject:{
+        type:Array,
+        required:true
+    },
+    deptID:{
+        type:Number,
+        required:true
     }
+
 });
 
 export default mongoose.model("Teacher",teacher)

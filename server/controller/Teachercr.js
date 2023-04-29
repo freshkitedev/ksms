@@ -4,7 +4,7 @@ import Teacher from "../models/Teacher.js";
 export const createTeacher = async(req,res)=>{
 try{
     const newTeacher = new Teacher ({
-        Teacher_id:req.body.Teacher_id,
+        StaffID:req.body.StaffID,
         Name:req.body.Name,
         dateOfBirth:req.body.dateOfBirth,
         fatherName:req.body.fatherName,
@@ -16,7 +16,10 @@ try{
         lastDate:req.body.lastDate,
         activeIndicator:req.body.activeIndicator,
         isAdim:req.body.isAdim,
-        userGroup:req.body.userGroup
+        userGroup:req.body.userGroup,
+        primarySubject:req.body.primarySubject,
+        secondarySubject:req.body.secondarySubject,
+        deptID:req.body.deptID
     })
     console.log(newTeacher);
     await newTeacher.save();
