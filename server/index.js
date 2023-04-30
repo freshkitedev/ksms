@@ -1,13 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import routes from "./routes/studentRt.js"
+import studentroutes from "./routes/studentRt.js"
+import teacherroutes from "./routes/TeacherRt.js"
 dotenv.config();
 const app = express();
 
 //MIDDLE WARES
 app.use(express.json());
-app.use("/api",routes)
+app.use("/api/student",studentroutes)
+app.use("/api/teacher",teacherroutes)
 
  
 const connect = async()=>{

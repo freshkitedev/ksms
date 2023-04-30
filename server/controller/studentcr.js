@@ -4,15 +4,19 @@ import student from "../models/Student.js";
 export const createStudent = async (req, res) => {
   try {
     const newStudent = new student({
-      student_id: req.body.student_id,
-      rollNo: req.body.rollNo,
-      name: req.body.name,
-      standard: req.body.standard,
-      section: req.body.section,
-      fatherName: req.body.fatherName,
-      motherName: req.body.motherName,
-      address: req.body.address,
-      mobileNo: req.body.mobileNo,
+        rollNumber: req.body.rollNumber,
+        Name: req.body.Name,
+        dateOfBirth:req.body.dateOfBirth,
+        fatherName:req.body.fatherName,
+        motherName:req.body.motherName,
+        homeAddress:req.body.homeAddress,
+        enrollmentDate:req.body.enrollmentDate,
+        emailID:req.body.emailID,
+        mobileNo:req.body.mobileNo,
+        lastDate:req.body.lastDate,
+        activeIndicator:req.body.activeIndicator,
+        userGroup:req.body.userGroup,
+        class:req.body.class
     });
     console.log(newStudent);
     await newStudent.save();
@@ -22,7 +26,7 @@ export const createStudent = async (req, res) => {
   }
 };
 
-//getstudents
+//All Student Details
 export const getstudents = async (req, res) => {
   try {
     const allStudents = await student.find();
@@ -32,13 +36,39 @@ export const getstudents = async (req, res) => {
   }
 };
 
-//getstudent
-
+//Particular Student Details
 export const getstudent = async (req, res) => {
   try {
-    const student = await student.findOne(req.params.id);
-    res.json(student);
+    const Student = await student.findById(req.params.id);
+    res.json(Student);
   } catch (err) {
     return res.json({ Error: err });
+  }
+};
+
+//Update Student Details
+export const updateStudent=async(req,res)=>{
+  try {
+      const updatestudent = await student.findByIdAndUpdate(
+        req.params.id,
+        { $set: req.body },
+        { new: "true"}
+        
+      )
+       return res.json(updatestudent);
+    } catch (err) {
+          return res.json({Error:err});
+    }
+  
+  };
+
+//Delete Student
+export const deleteStudent = async(req,res)=>{
+  
+  try{
+      await student.findByIdAndDelete(req.params.id);
+      return res.json({success:"Student has been deleted" });
+  }catch(err){
+      return res.json({Error:err});
   }
 };
