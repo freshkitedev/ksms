@@ -1,7 +1,7 @@
 import transaction from "../models/Transaction.js";
 
 // Create Transaction
-export const createEnrollment = async (req, res) => {
+export const createTransaction = async (req, res) => {
   try {
     const newTransaction = new Transaction({
         dateOfTxn:         req.body.dateOfTxn,
