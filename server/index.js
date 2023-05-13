@@ -5,15 +5,17 @@ import studentroutes from "./routes/studentRt.js"
 import teacherroutes from "./routes/TeacherRt.js"
 import courseroutes from "./routes/CourseRt.js"
 import coursefeesroutes from "./routes/CourseFeesRt.js"
+import enrollmentroutes from "./routes/EnrollmentRt.js"
 dotenv.config();
 const app = express();
 
 //MIDDLE WARES
 app.use(express.json());
-app.use("/api/student",studentroutes)
-app.use("/api/teacher",teacherroutes)
-app.use("/api/course",courseroutes)
-app.use("/api/coursefee",coursefeesroutes)
+app.use("/api/student", studentroutes)
+app.use("/api/teacher", teacherroutes)
+app.use("/api/course", courseroutes)
+app.use("/api/coursefees", coursefeesroutes)
+app.use("/api/enrollment", enrollmentroutes)
 
  
 const connect = async()=>{

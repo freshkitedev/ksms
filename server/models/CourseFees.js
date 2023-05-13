@@ -1,32 +1,50 @@
 import mongoose from "mongoose";
+import autoIncrement from "mongoose-auto-increment"
 
-const courseFees = new mongoose.Schema({
+const courseFeesSchema = new mongoose.Schema({
     courseName: {
         type: String,
-        required: true,
+        required: true
       },
+    FeesId: {
+      type: Number
+    },
     courseId: {
-        type: Number,
+        type: String
       },
     year: {
-        type: Number,
+        type: Number
       },
     frequency: {
-        type: Number,
+        type: Number
       },
     totalCharges: {
-        type: Number,
+        type: Number
+    },
+    Term: {
+      type: Array
+    },
+    startDate: {
+      type: Date
+    },
+    endDate: {
+      type: Date
     },
     status: {
-        type: Boolean,
+        type: Boolean
     },
     category: {
-        type: String,
-    },
-    Description: {
-        type: String,
+        type: String
     }
 
 })
- 
-export default mongoose.model("course",courseFees);
+
+autoIncrement.initialize(mongoose.connection);
+courseFeesSchema.plugin(autoIncrement.plugin, {
+  model: "coursefees", 
+  field: "FeesId", 
+  startAt: 101, 
+  incrementBy: 1, 
+});
+
+export default mongoose.model("coursefees",courseFeesSchema);

@@ -1,74 +1,79 @@
 import mongoose from "mongoose";
+import autoIncrement from "mongoose-auto-increment"
 
-const student = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
  
   rollNumber: {
-    type: Number,
-    required: true,
+    type: Number
   },
   Name: {
     fName: {
-      type: String,
-      required: true,
+      type: String
     },
     mName: {
-      type: String,
-      required: true,
+      type: String
     },
     lName: {
-      type: String,
-      required: true,
-    },
+      type: String
+  }
   },
   dateOfBirth: {
-    type: String,
-    required: true,
+    type: String
   },
   fatherName: {
-      type: String,
-      required: true,
+      type: String
   },
   motherName: {
     type:String,
-    required:true
   },
   homeAddress: {
-    type:String,
-    required:true
+    type:String
   },
   enrollmentDate: {
     type:String,
-    required:true
+    required: true,
   },
   emailID: {
-    type:String,
-    required:true
+    type:String
   },
   mobileNo: {
-    type:Number,
-    required:true
+    type:Number
   },
   lastDate: {
-    type:String,
+    type:String
   },
   activeIndicator: {
-    type:Boolean,
+    type:Boolean
   },
   userGroup:{
     type:Array,
   },
-  class:{
+  grade:{
     type:String,
     required:true
   },
+  section: {
+    type:String
+  },
+  group:{
+    type:String,
+  },
   emisNumber:{
-    type:Number,
+    type:Number
   },
   admissionNo: {
-    type:Number,
+    type:Number
+  },
+  category: {
+    type: String
   }
 });
+autoIncrement.initialize(mongoose.connection);
+studentSchema.plugin(autoIncrement.plugin, {
+  model: "Student", 
+  field: "rollNumber", 
+  startAt: 1001, 
+  incrementBy: 1, 
+})
 
-
-
-export default mongoose.model("student",student)
+export default mongoose.model("Student",studentSchema)

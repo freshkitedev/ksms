@@ -1,13 +1,13 @@
-import student from "../models/Course.js";
+import course from "../models/Course.js";
 
 // Create Course
 export const createCourse = async (req, res) => {
   try {
-    const newStudent = new student({
+    const newcourse = new course({
         courseName:   req.body.courseName,
         type:         req.body.type,
     });
-    console.log(newCourse);
+    console.log(newcourse);
     await newcourse.save();
     res.json({ success: "Course Created SuccessFully" });
   } catch (err) {

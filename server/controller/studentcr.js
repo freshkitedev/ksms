@@ -19,6 +19,8 @@ export const createStudent = async (req, res) => {
         class:            req.body.class,
         emisNumber:       req.body.emisNumber,
         admissionNo:      req.body.admissionNo,
+        category:         req.body.category,
+        group:            req.body.group,
     });
     console.log(newStudent);
     await newStudent.save();

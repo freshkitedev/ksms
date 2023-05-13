@@ -1,13 +1,23 @@
 import mongoose from "mongoose";
+import autoIncrement from "mongoose-auto-increment"
 
-const course = new mongoose.Schema({
+const courseSchema = new mongoose.Schema({
     courseName: {
         type: String,
-        required: true,
+        required: true
       },
-    type: {
-        type: String,
-      },
-})
- 
-export default mongoose.model("course",course);
+    courseId: {
+        type: Number
+    },
+    courseType: {
+        type: String
+      }
+});
+autoIncrement.initialize(mongoose.connection);
+courseSchema.plugin(autoIncrement.plugin, {
+  model: "course", 
+  field: "courseId", 
+  startAt: 1, 
+  incrementBy: 1, 
+});
+export default mongoose.model("course",courseSchema);
