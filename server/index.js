@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import studentroutes from "./routes/studentRt.js"
 import teacherroutes from "./routes/TeacherRt.js"
+import courseroutes from "./routes/CourseRt.js"
+import coursefeesroutes from "./routes/CourseFeesRt.js"
 dotenv.config();
 const app = express();
 
@@ -10,6 +12,8 @@ const app = express();
 app.use(express.json());
 app.use("/api/student",studentroutes)
 app.use("/api/teacher",teacherroutes)
+app.use("/api/course",courseroutes)
+app.use("/api/coursefee",coursefeesroutes)
 
  
 const connect = async()=>{

@@ -28,41 +28,44 @@ const student = new mongoose.Schema({
       type: String,
       required: true,
   },
-  motherName:{
+  motherName: {
     type:String,
     required:true
   },
-  homeAddress:{
+  homeAddress: {
     type:String,
     required:true
   },
-  enrollmentDate:{
+  enrollmentDate: {
     type:String,
     required:true
   },
-  emailID:{
+  emailID: {
     type:String,
     required:true
   },
-  mobileNo:{
+  mobileNo: {
     type:Number,
     required:true
   },
-  lastDate:{
+  lastDate: {
     type:String,
-    required:true
   },
-  activeIndicator:{
+  activeIndicator: {
     type:Boolean,
-    required:true
   },
   userGroup:{
     type:Array,
-    required:true
   },
   class:{
     type:String,
     required:true
+  },
+  emisNumber:{
+    type:Number,
+  },
+  admissionNo: {
+    type:Number,
   }
 });
 

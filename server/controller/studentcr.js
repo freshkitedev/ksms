@@ -4,19 +4,21 @@ import student from "../models/Student.js";
 export const createStudent = async (req, res) => {
   try {
     const newStudent = new student({
-        rollNumber: req.body.rollNumber,
-        Name: req.body.Name,
-        dateOfBirth:req.body.dateOfBirth,
-        fatherName:req.body.fatherName,
-        motherName:req.body.motherName,
-        homeAddress:req.body.homeAddress,
-        enrollmentDate:req.body.enrollmentDate,
-        emailID:req.body.emailID,
-        mobileNo:req.body.mobileNo,
-        lastDate:req.body.lastDate,
-        activeIndicator:req.body.activeIndicator,
-        userGroup:req.body.userGroup,
-        class:req.body.class
+        rollNumber:       req.body.rollNumber,
+        Name:             req.body.Name,
+        dateOfBirth:      req.body.dateOfBirth,
+        fatherName:       req.body.fatherName,
+        motherName:       req.body.motherName,
+        homeAddress:      req.body.homeAddress,
+        enrollmentDate:   req.body.enrollmentDate,
+        emailID:          req.body.emailID,
+        mobileNo:         req.body.mobileNo,
+        lastDate:         req.body.lastDate,
+        activeIndicator:  req.body.activeIndicator,
+        userGroup:        req.body.userGroup,
+        class:            req.body.class,
+        emisNumber:       req.body.emisNumber,
+        admissionNo:      req.body.admissionNo,
     });
     console.log(newStudent);
     await newStudent.save();
