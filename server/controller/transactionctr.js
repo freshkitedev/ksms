@@ -1,7 +1,7 @@
 import transaction from "../models/Transaction.js";
-
+import { createError } from "../error.js";
 // Create Transaction
-export const createTransaction = async (req, res) => {
+export const createTransaction = async (req, res, next) => {
   try {
     const newTransaction = new Transaction({
         dateOfTxn:         req.body.dateOfTxn,
@@ -18,44 +18,45 @@ export const createTransaction = async (req, res) => {
     });
     console.log(newTransaction);
     await newTransaction.save();
-    res.json({ success: "Transaction of student/staff Created SuccessFully" });
+    //res.json({ success: "Transaction of student/staff Created SuccessFully" });
+    res.status(200).send("Transaction of student/staff Created SuccessFully");
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //All Transaction Details
-export const getAllTransaction = async (req, res) => {
+export const getAllTransaction = async (req, res, next) => {
   try {
     const allTransaction = await transaction.find();
-    res.json(allTransaction);
+    res.status(201).send(allTransaction);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err);
   }
 };
 
 //Get Transaction for particular staff/student
-export const getTransaction = async (req, res) => {
+export const getTransaction = async (req, res, next) => {
   try {
     const Transaction = await transaction.findById(req.params.id);
-    res.json(Transaction);
+    res.status(202).send(Transaction);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Get Transaction details by date
-export const getTransactionByDate = async (req, res) => {
+export const getTransactionByDate = async (req, res, next) => {
     try {
       const Transaction = await transaction.findOne(req.body.dateOfTxn);
-      res.json(Transaction);
+      res.status(201).send(Transaction);
     } catch (err) {
-      return res.json({ Error: err });
+      next(err)
     }
   };
 
 //Update Transaction Details
-export const updateTransaction =async(req,res)=>{
+export const updateTransaction =async(req,res, next)=>{
   try {
       const updateTransaction = await transaction.findByIdAndUpdate(
         req.params.id,
@@ -63,20 +64,20 @@ export const updateTransaction =async(req,res)=>{
         { new: "true"}
         
       )
-       return res.json(updateTransaction);
+       res.status(202).send(updateTransaction);
     } catch (err) {
-          return res.json({Error:err});
+        next(err)
     }
   
   };
 
 //Delete Transaction
-export const deleteTransaction = async(req,res)=>{
+export const deleteTransaction = async(req,res,next)=>{
   
   try{
       await transaction.findByIdAndDelete(req.params.id);
-      return res.json({success:"Transaction has been deleted" });
+      res.status(204).send("Transaction has been deleted" );
   }catch(err){
-      return res.json({Error:err});
+      next(err)
   }
 };

@@ -1,10 +1,11 @@
 import student from "../models/Student.js";
-
+import { createError } from "../error.js";
 // Create Student
-export const createStudent = async (req, res) => {
+export const createStudent = async (req, res, next) => {
   try {
+    const Student = await student.countDocuments({admissionNo: req.body.admissionNo});
+    if(Student < 1) {
     const newStudent = new student({
-        rollNumber:       req.body.rollNumber,
         Name:             req.body.Name,
         dateOfBirth:      req.body.dateOfBirth,
         fatherName:       req.body.fatherName,
@@ -16,42 +17,48 @@ export const createStudent = async (req, res) => {
         lastDate:         req.body.lastDate,
         activeIndicator:  req.body.activeIndicator,
         userGroup:        req.body.userGroup,
-        class:            req.body.class,
         emisNumber:       req.body.emisNumber,
         admissionNo:      req.body.admissionNo,
         category:         req.body.category,
         group:            req.body.group,
+        grade:            req.body.grade,
+        section:            req.body.section,
     });
     console.log(newStudent);
     await newStudent.save();
-    res.json({ success: "User Created SuccessFully" });
+    res.status(200).send("User Created SuccessFully");
+  }
+  else 
+  {
+    return next(createError("500", "student already exists"))
+  }
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //All Student Details
-export const getstudents = async (req, res) => {
+export const getstudents = async (req, res, next) => {
   try {
     const allStudents = await student.find();
-    res.json(allStudents);
+    res.status(201).send(allStudents);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Particular Student Details
-export const getstudent = async (req, res) => {
+export const getstudent = async (req, res, next) => {
   try {
     const Student = await student.findById(req.params.id);
-    res.json(Student);
+    res.status(201).send(Student);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Update Student Details
-export const updateStudent=async(req,res)=>{
+export const updateStudent=async(req,res, next)=>{
   try {
       const updatestudent = await student.findByIdAndUpdate(
         req.params.id,
@@ -59,20 +66,20 @@ export const updateStudent=async(req,res)=>{
         { new: "true"}
         
       )
-       return res.json(updatestudent);
+       return res.status(201).send(updatestudent);
     } catch (err) {
-          return res.json({Error:err});
+          next(err)
     }
   
   };
 
 //Delete Student
-export const deleteStudent = async(req,res)=>{
+export const deleteStudent = async(req,res, next)=>{
   
   try{
       await student.findByIdAndDelete(req.params.id);
-      return res.json({success:"Student has been deleted" });
+      return res.status(204).send("Student has been deleted" );
   }catch(err){
-      return res.json({Error:err});
+     next(err)
   }
 };

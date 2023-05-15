@@ -1,14 +1,21 @@
 import courseFees from "../models/CourseFees.js";
-
+import { createError } from "../error.js";
 // Create CourseFees
-export const createCourseFees = async (req, res) => {
+export const createCourseFees = async (req, res, next) => {
   try {
-    Term = req.body.Term 
-    frequency = req.body.frequency
-    totalCharges = req.body.totalCharges
-    if(length(Term) == frequency) 
+    const courseCnt = await courseFees.countDocuments({courseName: req.body.courseName});
+    console.log(courseCnt);
+    if(courseCnt < 1) 
     {
-      sum = 0 
+    const Term = req.body.Term
+    console.log(Term) 
+    const frequency = req.body.frequency
+    console.log(frequency)
+    const totalCharges = req.body.totalCharges
+    console.log(totalCharges)
+    if( Term.length == frequency) 
+    {
+      var sum = 0 
       Term.forEach(item => {
         sum += item;
       });
@@ -30,43 +37,48 @@ export const createCourseFees = async (req, res) => {
       });
     console.log(newCourseFees);
     await newCourseFees.save();
-    res.json({ success: "Course Fees Created SuccessFully" });
+    res.status(200).send("Course Fees Created SuccessFully");
+      }
+      else 
+    {
+      return next(createError(404,"Term fee not proper"));
+    }
   }
   else 
   {
-    return res.json({ Error: "Term fee is not proper" });
+    return next(createError(500, "Term Fee is not proper"))
   }
   } 
   else {
-    return res.json({ Error: "Term fee is not proper" });
+    return next(createError(500,"Course Fees already defined"))
   }
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //All Course Fees Details
-export const getAllCourseFees = async (req, res) => {
+export const getAllCourseFees = async (req, res, next) => {
   try {
     const allCourseFees = await courseFees.find();
-    res.json(allCourseFees);
+    res.status(201).send(allCourseFees);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Get CourseFees
-export const getCourseFees = async (req, res) => {
+export const getCourseFees = async (req, res, next) => {
   try {
     const CourseFees = await courseFees.findById(req.params.id);
-    res.json(CourseFees);
+    res.status(201).send(CourseFees);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Update CourseFees Details
-export const updateCourseFees =async(req,res)=>{
+export const updateCourseFees =async(req, res, next)=>{
   try {
       const updatecoursefees = await courseFees.findByIdAndUpdate(
         req.params.id,
@@ -74,20 +86,20 @@ export const updateCourseFees =async(req,res)=>{
         { new: "true"}
         
       )
-       return res.json(updatecoursefees);
+       return res.status(202).send(updatecoursefees);
     } catch (err) {
-          return res.json({Error:err});
+        next(err)
     }
   
   };
 
 //Delete Course
-export const deleteCourseFees = async(req,res)=>{
+export const deleteCourseFees = async(req,res, next)=>{
   
   try{
       await courseFees.findByIdAndDelete(req.params.id);
-      return res.json({success:"Course Fees has been deleted" });
+      return res.status(204).send("Course Fees has been deleted");
   }catch(err){
-      return res.json({Error:err});
+     next(err)
   }
 };

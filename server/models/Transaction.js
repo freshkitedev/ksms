@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+mongoose.set('useFindAndModify', false);
 const transactionSchema = new mongoose.Schema({
     dateOfTxn: {
         type: Date

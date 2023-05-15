@@ -1,7 +1,7 @@
 import enrollment from "../models/Enrollment.js";
-
+import { createError } from "../error.js";
 // Create Course
-export const createEnrollment = async (req, res) => {
+export const createEnrollment = async (req, res, next) => {
   try {
     const newEnrollment = new Enrollment({
         courseId:   req.body.courseId,
@@ -18,34 +18,34 @@ export const createEnrollment = async (req, res) => {
     });
     console.log(newEnrollment);
     await newEnrollment.save();
-    res.json({ success: "Enrollment of student/staff Created SuccessFully" });
+    res.status(200).send("Enrollment of student/staff Created SuccessFully");
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //All Enrollment Details
-export const getAllEnrollment = async (req, res) => {
+export const getAllEnrollment = async (req, res, next) => {
   try {
     const allEnrollment = await enrollment.find();
-    res.json(allEnrollment);
+    res.status(201).send(allEnrollment);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Get Enrollment for particular staff/student
-export const getEnrollment = async (req, res) => {
+export const getEnrollment = async (req, res, next) => {
   try {
     const Enrollment = await enrollment.findById(req.params.id);
-    res.json(Enrollment);
+    res.status(201).send(Enrollment);
   } catch (err) {
-    return res.json({ Error: err });
+    next(err)
   }
 };
 
 //Update Enrollment Details
-export const updateEnrollment =async(req,res)=>{
+export const updateEnrollment =async(req,res, next)=>{
   try {
       const updateEnrollment = await enrollment.findByIdAndUpdate(
         req.params.id,
@@ -53,20 +53,20 @@ export const updateEnrollment =async(req,res)=>{
         { new: "true"}
         
       )
-       return res.json(updateEnrollment);
+       return res.status(201).send(updateEnrollment);
     } catch (err) {
-          return res.json({Error:err});
+         next(err)
     }
   
   };
 
 //Delete Enrollment
-export const deleteEnrollment = async(req,res)=>{
+export const deleteEnrollment = async(req,res, next)=>{
   
   try{
       await enrollment.findByIdAndDelete(req.params.id);
-      return res.json({success:"Enrollment has been deleted" });
+      return res.status(204).send("Enrollment has been deleted" );
   }catch(err){
-      return res.json({Error:err});
+      next(err)
   }
 };

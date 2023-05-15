@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import autoIncrement from "mongoose-auto-increment"
-
+mongoose.set('useFindAndModify', false);
 const teacherSchema = new mongoose.Schema({
     StaffID: {
         type: Number,

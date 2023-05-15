@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import autoIncrement from "mongoose-auto-increment"
-
+mongoose.set('useFindAndModify', false);
 const studentSchema = new mongoose.Schema({
  
   rollNumber: {
@@ -18,7 +18,7 @@ const studentSchema = new mongoose.Schema({
   }
   },
   dateOfBirth: {
-    type: String
+    type: Date
   },
   fatherName: {
       type: String
@@ -40,7 +40,7 @@ const studentSchema = new mongoose.Schema({
     type:Number
   },
   lastDate: {
-    type:String
+    type:Date
   },
   activeIndicator: {
     type:Boolean
@@ -62,7 +62,8 @@ const studentSchema = new mongoose.Schema({
     type:Number
   },
   admissionNo: {
-    type:Number
+    type:Number,
+    required: true
   },
   category: {
     type: String

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import autoIncrement from "mongoose-auto-increment"
-
+mongoose.set('useFindAndModify', false);
 const enrollmentSchema = new mongoose.Schema({
     userId: {
         type: Number,
@@ -8,6 +8,9 @@ const enrollmentSchema = new mongoose.Schema({
       },
     enrollmentId: {
         type: Number
+    },
+    courseName: {
+        type: String
     },
     courseId: {
         type: Number,
