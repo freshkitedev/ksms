@@ -4,7 +4,7 @@ import { createError } from "../error.js";
 export const createCourseFees = async (req, res, next) => {
   try {
     const courseCnt = await courseFees.countDocuments({courseName: req.body.courseName});
-    console.log(courseCnt);
+    console.log(courseCnt)
     if(courseCnt < 1) 
     {
     const Term = req.body.Term
