@@ -3,7 +3,7 @@ import { createError } from "../error.js";
 // Create Course
 export const createEnrollment = async (req, res, next) => {
   try {
-    const newEnrollment = new Enrollment({
+    const newEnrollment = new enrollment({
         courseId:   req.body.courseId,
         year:         req.body.year,
         userId:       req.body.userId,
@@ -15,6 +15,7 @@ export const createEnrollment = async (req, res, next) => {
         totalCharges:   req.body.totalCharges,
         totalPaid:      req.body.totalPaid,
         totalDues:      req.body.totalDues,
+        balance:        req.body.balance,
     });
     console.log(newEnrollment);
     await newEnrollment.save();

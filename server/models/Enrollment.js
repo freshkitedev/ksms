@@ -39,6 +39,9 @@ const enrollmentSchema = new mongoose.Schema({
     },
     totalDues: {
         type: Number
+    },
+    balance: {
+        type: Number
     }
 
 });

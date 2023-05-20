@@ -1,8 +1,16 @@
 import student from "../models/Student.js";
+import course from "../models/Course.js";
+import coursefees from "../models/CourseFees.js"
+import enrollment from "../models/Enrollment.js"
 import { createError } from "../error.js";
 // Create Student
 export const createStudent = async (req, res, next) => {
   try {
+    const coursecnt = await course.countDocuments({courseName: req.body.grade})
+    if(coursecnt > 0)
+    {
+    const coursedata = await course.findOne({courseName: req.body.grade})
+    const courseFee = await coursefees.findOne({courseName: req.body.grade},{year: req.body.academicYear});
     const Student = await student.countDocuments({admissionNo: req.body.admissionNo});
     if(Student < 1) {
     const newStudent = new student({
@@ -23,10 +31,25 @@ export const createStudent = async (req, res, next) => {
         group:            req.body.group,
         grade:            req.body.grade,
         section:            req.body.section,
+        academicYear:     req.body.academicYear,
     });
     console.log(newStudent);
     await newStudent.save();
+    const newenrollment = new enrollment({
+      year:              req.body.academicYear,
+      userId:            newStudent.rollNumber,
+      totalCharges:      courseFee.totalCharges,
+      courseName:        req.body.grade,
+      courseId:          coursedata.courseId,
+      
+
+    })
     res.status(200).send("User Created SuccessFully");
+  }
+  else
+  {
+    return next(createError("500", "course not registered"))
+  }
   }
   else 
   {

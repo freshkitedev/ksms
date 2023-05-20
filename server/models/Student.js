@@ -67,6 +67,9 @@ const studentSchema = new mongoose.Schema({
   },
   category: {
     type: String
+  },
+  academicYear: {
+    type: String
   }
 });
 autoIncrement.initialize(mongoose.connection);
