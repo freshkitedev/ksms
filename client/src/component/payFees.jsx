@@ -16,10 +16,6 @@ function PayFees() {
                                       <input
                                         className="box col-xl-5"
                                         name="selectedClusters"
-                                        // value={values.selectedClusters}
-                                        // onChange={(e) => {
-                                        //   this.handleInputChange(e);
-                                        // }}
                                       />
 
                                     </div>
@@ -28,48 +24,31 @@ function PayFees() {
                                       <input
                                         className="box col-xl-5"
                                         name="selectedClusters"
-                                        // value={values.selectedClusters}
-                                        // onChange={(e) => {
-                                        //   this.handleInputChange(e);
-                                        // }}
-                                      />
+                                       />
                                     </div>
                                     <div className='pt-3'>
                                       <label className="col-xl-3">Amount</label>
                                       <input
                                         className="box col-xl-5"
                                         name="selectedClusters"
-                                        // value={values.selectedClusters}
-                                        // onChange={(e) => {
-                                        //   this.handleInputChange(e);
-                                        // }}
-                                      />
+                                        />
                                     </div>
                                     <div className='pt-3'>
                                       <label className="col-xl-3">Class</label>
                                       <input
                                         className="box col-xl-5"
                                         name="selectedClusters"
-                                        // value={values.selectedClusters}
-                                        // onChange={(e) => {
-                                        //   this.handleInputChange(e);
-                                        // }}
-                                      />
+                                        />
                                     </div>
                                     <div className='pt-3'>
                                       <label className="col-xl-3">Course</label>
                                       <select
                                         className="box col-xl-5"
                                         name="selectedClusters"
-                                        // value={values.selectedClusters}
-                                        // onChange={(e) => {
-                                        //   this.handleInputChange(e);
-                                        // }}
                                       >
                                         <option value="" defaultValue>
                                          Select Course
                                         </option>
-                                        {/* {this.renderClusterOptions(clustersList)} */}
                                       </select>
                                     </div>
                                     <div  className='pt-3'>
@@ -77,15 +56,11 @@ function PayFees() {
                                       <select
                                         className="box col-xl-5"
                                         name="selectedClusters"
-                                        // value={values.selectedClusters}
-                                        // onChange={(e) => {
-                                        //   this.handleInputChange(e);
-                                        // }}
+                                        
                                       >
                                         <option value="" defaultValue>
                                           Payment type...
                                         </option>
-                                        {/* {this.renderClusterOptions(clustersList)} */}
                                       </select>
                                     </div> 
                                     <div>
