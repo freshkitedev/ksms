@@ -74,3 +74,13 @@ color: white;
     height: 34px;
     width: 91px;
 }
+
+.containers{
+  display: flex;
+}
+.containerId{
+  text-align: left;
+  margin-left: 3%;
+  margin-top: 4%;
+  width: 30%; 
+}
