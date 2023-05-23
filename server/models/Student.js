@@ -66,9 +66,22 @@ const studentSchema = new mongoose.Schema({
     required: true
   },
   category: {
-    type: String
+    type: String,
+    required: true
   },
   academicYear: {
+    type: String,
+    required: true
+  },
+  concessionApplicable: {
+    type: Boolean,
+    required: true
+  },
+  vanApplicable: {
+    type: Boolean,
+    required: true
+  },
+  vanStop: {
     type: String
   }
 });

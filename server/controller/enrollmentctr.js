@@ -3,6 +3,14 @@ import { createError } from "../error.js";
 // Create Course
 export const createEnrollment = async (req, res, next) => {
   try {
+    const concessionFee = req.body.concession
+    if(concessionFee)
+    {
+      var totalFee = req.body.totalCharges - concessionFee
+    }
+    else{
+       var totalFee = req.body.totalCharges
+    }
     const newEnrollment = new enrollment({
         courseId:   req.body.courseId,
         year:         req.body.year,
@@ -12,10 +20,11 @@ export const createEnrollment = async (req, res, next) => {
         dateEnrolled:  req.body.dateEnrolled,
         dateDeEnrolled: req.body.dateDeEnrolled,
         feesStatus:     req.body.feesStatus,
-        totalCharges:   req.body.totalCharges,
+        totalCharges:   totalFee,
         totalPaid:      req.body.totalPaid,
         totalDues:      req.body.totalDues,
         balance:        req.body.balance,
+        concession:     req.body.concession,
     });
     console.log(newEnrollment);
     await newEnrollment.save();

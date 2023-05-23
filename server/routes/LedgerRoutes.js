@@ -10,4 +10,4 @@ Router.get("/getledger", getLedgerByDate);
 
 Router.get("/getallledger", getAllLedgers);
 
-
+export default Router;

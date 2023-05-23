@@ -14,7 +14,7 @@ const transactionSchema = new mongoose.Schema({
         type: String
     },
     txnAmount: {
-        type: String
+        type: Number
     },
     txnNotes: {
         type: String
@@ -32,6 +32,12 @@ const transactionSchema = new mongoose.Schema({
         type: String
     },
     year: {
+        type: String
+    },
+    rteIndicator: {
+        type: Boolean
+    },
+    rtePayer: {
         type: String
     }
 

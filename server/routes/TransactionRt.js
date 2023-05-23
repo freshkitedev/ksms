@@ -23,7 +23,4 @@ Router.put("/update/:id", updateTransaction);
 //Router.delete("/delete/:id",deleteTransaction);
 //Revert Transaction
 //Router.put("/revert/:id", revertTransaction);
-
-
-
 export default Router;

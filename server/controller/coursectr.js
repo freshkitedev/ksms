@@ -5,6 +5,7 @@ export const createCourse = async (req, res, next) => {
   try {
     const courseCnt = await course.countDocuments({courseName: req.body.courseName});
     console.log(courseCnt);
+    try {
     if(courseCnt < 1) 
     {
     const newcourse = new course({
@@ -20,7 +21,9 @@ export const createCourse = async (req, res, next) => {
     return next(createError(404,"Course already exists"));
     //return res.json({ Error: new Error("course already exists") });
   }
-  } catch (err) {
+} catch (err) {
+  next(err)
+}  } catch (err) {
     next(err)
   }
 };

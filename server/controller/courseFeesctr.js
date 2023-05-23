@@ -3,7 +3,11 @@ import { createError } from "../error.js";
 // Create CourseFees
 export const createCourseFees = async (req, res, next) => {
   try {
-    const courseCnt = await courseFees.countDocuments({courseName: req.body.courseName});
+    const query = {
+      courseName: req.body.courseName,
+      category: req.body.category
+    };
+    const courseCnt = await courseFees.countDocuments(query);
     console.log(courseCnt)
     if(courseCnt < 1) 
     {
@@ -13,6 +17,9 @@ export const createCourseFees = async (req, res, next) => {
     console.log(frequency)
     const totalCharges = req.body.totalCharges
     console.log(totalCharges)
+    const feeCategory = req.body.category
+    if(feeCategory == "General") 
+    {
     if( Term.length == frequency) 
     {
       var sum = 0 
@@ -48,6 +55,48 @@ export const createCourseFees = async (req, res, next) => {
   {
     return next(createError(500, "Term Fee is not proper"))
   }
+} 
+else 
+{
+  if( Term.length == frequency) 
+    {
+      var sum = 0 
+      Term.forEach(item => {
+        sum += item;
+      });
+      console.log(sum);
+      var rteFees = req.body.rteFees
+      if(sum + rteFees == totalCharges+rteFees ) 
+      {
+      const newCourseFees = new courseFees({
+          courseName:   req.body.courseName,
+          courseId:     req.body.courseId,
+          year:         req.body.year,
+          totalCharges: req.body.totalCharges,
+          frequency:    req.body.frequency,
+          startDate:     req.body.startDate,
+          endDate:       req.body.endDate,
+          status:        req.body.status,
+          Term:          req.body.Term,
+          category:      req.body.category,
+          rteFees:       req.body.rteFees,
+          
+      });
+    console.log(newCourseFees);
+    await newCourseFees.save();
+    res.status(200).send("Course Fees Created SuccessFully");
+      }
+      else 
+    {
+      return next(createError(404,"Term fee not proper"));
+    }
+  }
+  else 
+  {
+    return next(createError(500, "Term Fee is not proper"))
+  }
+
+}
   } 
   else {
     return next(createError(500,"Course Fees already defined"))

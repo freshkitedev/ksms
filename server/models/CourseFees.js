@@ -35,6 +35,9 @@ const courseFeesSchema = new mongoose.Schema({
     },
     category: {
         type: String
+    },
+    rteFees: {
+      type: Number
     }
 
 })

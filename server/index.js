@@ -7,6 +7,8 @@ import courseroutes from "./routes/CourseRt.js"
 import coursefeesroutes from "./routes/CourseFeesRt.js"
 import enrollmentroutes from "./routes/EnrollmentRt.js"
 import xlupload from "./routes/ExcelUploadRt.js"
+import transactionrt from "./routes/TransactionRt.js"
+import ledgerrt from "./routes/LedgerRoutes.js"
 dotenv.config();
 const app = express();
 export const errorHandler = (err, req, res, next) => {
@@ -29,6 +31,8 @@ app.use("/api/course", courseroutes)
 app.use("/api/coursefees", coursefeesroutes)
 app.use("/api/enrollment", enrollmentroutes)
 app.use("/api/upload", xlupload)
+app.use("/api/transaction", transactionrt)
+app.use("/api/ledger", ledgerrt)
 
  
 const connect = async()=>{

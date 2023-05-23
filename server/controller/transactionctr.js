@@ -1,7 +1,7 @@
 import Transaction from "../models/Transaction.js";
 import enrollment from "../models/Enrollment.js";
 import ledger from "../models/Ledger.js"
-import { createError } from "../error.js";
+//import { createError } from "../error.js";
 // Create Transaction
 export const createTransaction = async (req, res, next) => {
   try {
@@ -20,31 +20,46 @@ export const createTransaction = async (req, res, next) => {
     });
     console.log(newTransaction);
     await newTransaction.save();
+    const ledgerCnt = await ledger.countDocuments({date: req.body.dateOfTxn});
+    console.log(ledgerCnt);
+    if(ledgerCnt < 1)
+    {
     const ledgerdata = new ledger({
       date: req.body.dateOfTxn,
       openingBalance: req.body.openingBalance,
-      txn: newTransaction,
+      txn: [newTransaction],
       closingBalance: req.body.closingBalance,
     })
     console.log(ledgerdata)
     await ledgerdata.save();
+    }
+    else{
+      const ledgerdata = await ledger.findOneAndUpdate({date: req.body.date},
+        { $set: { txn: [newTransaction]}  },
+      { new: "true"})
+
+
+    }
+    const type = req.body.txnType
     //res.json({ success: "Transaction of student/staff Created SuccessFully" });
-    if(req.body.txnType == "credit") 
+    if( type == "credit") 
     {
-    const studentEnrollment = await enrollment.findById(req.body.rollNumber)
+    const studentEnrollment = await enrollment.findOne({userId:req.body.rollNumber})
+    console.log(studentEnrollment)
     const paid = studentEnrollment.totalPaid + req.body.txnAmount
     const balanceamt = studentEnrollment.totalCharges - paid
-    const enrollmentdata = await enrollment.findByIdAndUpdate(
+    const enrollmentdata = await enrollment.findOneAndUpdate(
       req.params.id,
       { $set: { totalPaid: paid, balance: balanceamt}  },
       { new: "true"}
       
     )
+    console.log(enrollmentdata)
     res.status(200).send("Transaction of student/staff Created SuccessFully");
     }
-    else 
+    else if(type == "debit")
     {
-      const studentEnrollment = await enrollment.findById(req.body.rollNumber)
+      const studentEnrollment = await enrollment.findOne({userId:req.body.rollNumber})
     const paid = studentEnrollment.totalPaid - req.body.txnAmount
     const balanceamt = studentEnrollment.totalCharges - paid
     const enrollmentdata = await enrollment.findByIdAndUpdate(
@@ -53,6 +68,7 @@ export const createTransaction = async (req, res, next) => {
       { new: "true"}
       
     )
+    console.log(enrollmentdata)
     }
   } catch (err) {
     next(err)

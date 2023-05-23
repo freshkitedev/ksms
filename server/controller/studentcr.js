@@ -1,6 +1,6 @@
 import student from "../models/Student.js";
 import course from "../models/Course.js";
-import coursefees from "../models/CourseFees.js"
+import courseFees from "../models/CourseFees.js"
 import enrollment from "../models/Enrollment.js"
 import { createError } from "../error.js";
 // Create Student
@@ -9,10 +9,17 @@ export const createStudent = async (req, res, next) => {
     const coursecnt = await course.countDocuments({courseName: req.body.grade})
     if(coursecnt > 0)
     {
+      const query = {
+        courseName: req.body.grade,
+        category: req.body.category,
+        year: req.body.academicYear
+      };
     const coursedata = await course.findOne({courseName: req.body.grade})
-    const courseFee = await coursefees.findOne({courseName: req.body.grade},{year: req.body.academicYear});
-    const Student = await student.countDocuments({admissionNo: req.body.admissionNo});
-    if(Student < 1) {
+    const courseFeedata = await courseFees.findOne(query)
+    console.log(courseFeedata)
+    const Studentcnt = await student.countDocuments({admissionNo: req.body.admissionNo});
+    console.log(Studentcnt)
+    if(Studentcnt < 1) {
     const newStudent = new student({
         Name:             req.body.Name,
         dateOfBirth:      req.body.dateOfBirth,
@@ -32,23 +39,56 @@ export const createStudent = async (req, res, next) => {
         grade:            req.body.grade,
         section:            req.body.section,
         academicYear:     req.body.academicYear,
+        concessionApplicable: req.body.concessionApplicable,
+        vanApplicable:    req.body.vanApplicable,
+        vanStop:          req.body.vanStop,
     });
     console.log(newStudent);
     await newStudent.save();
+    console.log(courseFeedata.totalCharges)
     const newenrollment = new enrollment({
       year:              req.body.academicYear,
       userId:            newStudent.rollNumber,
-      totalCharges:      courseFee.totalCharges,
+      totalCharges:      courseFeedata.totalCharges,
+      totalPaid:         0,
       courseName:        req.body.grade,
       courseId:          coursedata.courseId,
-      
-
     })
+    console.log(newenrollment)
+    await newStudent.save();
+    await newenrollment.save();
+    const van = req.body.vanApplicable
+    if(van)
+    {
+      const coursecnt = await course.countDocuments({courseName: req.body.grade})
+        if(coursecnt > 0)
+        {
+          const query = {
+          courseName: req.body.vanStop,
+          year: req.body.academicYear
+        };
+      const coursedata = await course.findOne({courseName: req.body.vanStop})
+      const courseFeedata = await courseFees.findOne(query)
+      console.log(courseFeedata)
+      const vanStop = req.body.vanStop
+      const newenrollment = new enrollment({
+      year:              req.body.academicYear,
+      userId:            newStudent.rollNumber,
+      totalCharges:      courseFeedata.totalCharges,
+      totalPaid:         0,
+      courseName:        req.body.grade,
+      courseId:          coursedata.courseId,
+    })
+  }
+  else {
+    next(createError(500,"Fee is not defined for van"))
+  }
+    }
     res.status(200).send("User Created SuccessFully");
   }
   else
   {
-    return next(createError("500", "course not registered"))
+    return next(createError("500", "user already exists"))
   }
   }
   else 
@@ -74,7 +114,13 @@ export const getstudents = async (req, res, next) => {
 export const getstudent = async (req, res, next) => {
   try {
     const Student = await student.findById(req.params.id);
-    res.status(201).send(Student);
+    const Studentfees = await enrollment.findOne(req.body.rollNumber);
+    res.status(201).json(
+      {
+        status: "success",
+        details: Student,
+        fees: Studentfees,
+      });
   } catch (err) {
     next(err)
   }
