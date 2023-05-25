@@ -42,15 +42,22 @@ export const createStudent = async (req, res, next) => {
         concessionApplicable: req.body.concessionApplicable,
         vanApplicable:    req.body.vanApplicable,
         vanStop:          req.body.vanStop,
+        isNew:            req.body.isNew
     });
     console.log(newStudent);
     await newStudent.save();
+    size = courseFeedata.frequency;
+    const arraySize = size;
+    const array = new Array(arraySize);
+// Initialize all elements with 0
+    array.fill(0);
     console.log(courseFeedata.totalCharges)
     const newenrollment = new enrollment({
       year:              req.body.academicYear,
       userId:            newStudent.rollNumber,
       totalCharges:      courseFeedata.totalCharges,
       totalPaid:         0,
+      termPaid:          array,
       courseName:        req.body.grade,
       courseId:          coursedata.courseId,
     })
@@ -60,7 +67,8 @@ export const createStudent = async (req, res, next) => {
     const van = req.body.vanApplicable
     if(van)
     {
-      const coursecnt = await course.countDocuments({courseName: req.body.grade})
+      const coursecnt = await course.countDocuments({courseName: req.body.vanStop})
+      console.log(coursecnt)
         if(coursecnt > 0)
         {
           const query = {
@@ -68,6 +76,7 @@ export const createStudent = async (req, res, next) => {
           year: req.body.academicYear
         };
       const coursedata = await course.findOne({courseName: req.body.vanStop})
+      console.log(coursedata)
       const courseFeedata = await courseFees.findOne(query)
       console.log(courseFeedata)
       const vanStop = req.body.vanStop
@@ -76,9 +85,11 @@ export const createStudent = async (req, res, next) => {
       userId:            newStudent.rollNumber,
       totalCharges:      courseFeedata.totalCharges,
       totalPaid:         0,
-      courseName:        req.body.grade,
+      courseName:        req.body.vanStop,
       courseId:          coursedata.courseId,
     })
+    console.log(newenrollment)
+    await newenrollment.save();
   }
   else {
     next(createError(500,"Fee is not defined for van"))
@@ -114,7 +125,10 @@ export const getstudents = async (req, res, next) => {
 export const getstudent = async (req, res, next) => {
   try {
     const Student = await student.findById(req.params.id);
-    const Studentfees = await enrollment.findOne(req.body.rollNumber);
+    const query = {
+
+    }
+    const Studentfees = await enrollment.find(req.body.rollNumber);
     res.status(201).json(
       {
         status: "success",

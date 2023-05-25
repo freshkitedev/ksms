@@ -83,6 +83,9 @@ const studentSchema = new mongoose.Schema({
   },
   vanStop: {
     type: String
+  },
+  isNew: {
+    type: Boolean
   }
 });
 autoIncrement.initialize(mongoose.connection);

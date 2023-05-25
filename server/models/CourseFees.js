@@ -33,10 +33,19 @@ const courseFeesSchema = new mongoose.Schema({
     status: {
         type: Boolean
     },
-    category: {
+    courseCategory: {
         type: String
     },
     rteFees: {
+      type: Number
+    },
+    vanFees: {
+      type: Number
+    },
+    admissionFees: {
+      type: Number
+    },
+    bookFees: {
       type: Number
     }
 
