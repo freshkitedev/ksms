@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-
-const teacher = new mongoose.Schema({
+import autoIncrement from "mongoose-auto-increment"
+mongoose.set('useFindAndModify', false);
+const teacherSchema = new mongoose.Schema({
     StaffID: {
         type: Number,
-        required: true,
     },
      
     Name: {
@@ -26,19 +26,16 @@ const teacher = new mongoose.Schema({
     },
     fatherName: {
           type: String,
-          required: true,
     },
     motherName:{
         type:String,
-        required:true
     },
     homeAddress:{
         type:String,
         required:true
     },
     enrollmentDate:{
-        type:String,
-        required:true
+        type:String
     },
     emailID:{
         type:String,
@@ -50,20 +47,15 @@ const teacher = new mongoose.Schema({
     },
     lastDate:{
         type:String,
-        required:true
     },
     activeIndicator:{
         type:Boolean,
-        required:true
     },
     isAdim:{
         type:Boolean,
-        required:true
-
     },
     userGroup:{
         type:Array,
-        required:true
     },
     primarySubject:{
         type:String,
@@ -71,13 +63,18 @@ const teacher = new mongoose.Schema({
     },
     secondarySubject:{
         type:Array,
-        required:true
     },
     deptID:{
         type:Number,
-        required:true
     }
 
 });
+autoIncrement.initialize(mongoose.connection);
+teacherSchema.plugin(autoIncrement.plugin, {
+    model: "teacher", 
+    field: "StaffID", 
+    startAt: 5001, 
+    incrementBy: 1, 
+  });
 
-export default mongoose.model("Teacher",teacher)
+export default mongoose.model("teacher",teacherSchema)

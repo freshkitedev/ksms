@@ -6,7 +6,7 @@ const Router = express.Router();
 //Create Student 
 Router.post("/createstudent",createStudent);
 
-//Get Student Detials
+//Get All Student Detials
 Router.get("/getstudent",getstudents);
 
 //Get Details For Particular Student

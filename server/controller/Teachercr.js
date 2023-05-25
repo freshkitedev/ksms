@@ -1,7 +1,7 @@
 import Teacher from "../models/Teacher.js";
-
+import { createError } from "../error.js";
 //Create Teacher
-export const createTeacher = async(req,res)=>{
+export const createTeacher = async(req,res, next)=>{
 try{
     const newTeacher = new Teacher ({
         StaffID:req.body.StaffID,
@@ -23,35 +23,35 @@ try{
     })
     console.log(newTeacher);
     await newTeacher.save();
-    res.json({ success: "Teacher  Created SuccessFully" });
+    res.status(200).send("Teacher  Created SuccessFully");
     }catch (err) {
-        return res.json({ Error: err });
+        next(err)
     }
 };
 
 //All Teachers Details
-export const getTeachers = async(req,res)=>{
+export const getTeachers = async(req,res, next)=>{
    try{
     const allTeacher = await Teacher.find();
-     res.json(allTeacher);
+     res.status(201).send(allTeacher);
     }catch (err) {
-        return res.json({Error:err});
+        next(err)
     }
 };
 
 //Particular Teacher Details 
-export const getTeacher = async(req,res)=>{
+export const getTeacher = async(req,res, next)=>{
 
     try{
         const Teacherdetails = await Teacher.findById(req.params.id);
-        res.json(Teacherdetails);
+        res.status(201).send(Teacherdetails);
     }catch (err) {
-        return res.json({Error:err});
+        next(err)
     }
 };
 
 //Update Teacher Details
-export const updateTeacher=async(req,res)=>{
+export const updateTeacher=async(req,res, next)=>{
 try {
     const updateteacher = await Teacher.findByIdAndUpdate(
       req.params.id,
@@ -59,20 +59,20 @@ try {
       { new: "true"}
       
     )
-     return res.json(updateteacher);
+     return res.status(202).send(updateteacher);
   } catch (err) {
-        return res.json({Error:err});
+      next(err)
   }
 
 };
 
 //Delete Teacher
-export const deleteTeacher = async(req,res)=>{
+export const deleteTeacher = async(req,res, next)=>{
    
     try{
         await Teacher.findByIdAndDelete(req.params.id);
-        return res.json({success:"Teacher has been deleted" });
+        return res.status(204).send("Teacher has been deleted");
     }catch(err){
-        return res.json({Error:err});
+        next(err)
     }
 };
