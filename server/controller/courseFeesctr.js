@@ -11,7 +11,7 @@ export const createCourseFees = async (req, res, next) => {
     console.log(courseCnt)
     if(courseCnt < 1) 
     {
-    const Term = req.body.Term
+    const Term = req.body.terms
     console.log(Term) 
     const frequency = req.body.frequency
     console.log(frequency)
