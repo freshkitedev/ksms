@@ -70,6 +70,9 @@ export const createTransaction = async (req, res, next) => {
     )
     console.log(enrollmentdata)
     }
+    else {
+      
+    }
   } catch (err) {
     next(err)
   }

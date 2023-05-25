@@ -39,7 +39,7 @@ export const createCourseFees = async (req, res, next) => {
           endDate:       req.body.endDate,
           status:        req.body.status,
           Term:          req.body.Term,
-          category:      req.body.category,
+          courseCategory:      req.body.category,
           
       });
     console.log(newCourseFees);
@@ -56,7 +56,7 @@ export const createCourseFees = async (req, res, next) => {
     return next(createError(500, "Term Fee is not proper"))
   }
 } 
-else 
+else if(feeCategory == "RTE")
 {
   if( Term.length == frequency) 
     {
@@ -80,6 +80,10 @@ else
           Term:          req.body.Term,
           category:      req.body.category,
           rteFees:       req.body.rteFees,
+          vanFees:       req.body.vanFees,
+          admissionFees: req.body.admissionFees,
+          bookFees:      req.body.bookFees,
+          courseCategory: req.body.courseCategory,
           
       });
     console.log(newCourseFees);
@@ -95,6 +99,28 @@ else
   {
     return next(createError(500, "Term Fee is not proper"))
   }
+
+}
+else
+{
+  const newCourseFees = new courseFees({
+    courseName:   req.body.courseName,
+    courseId:     req.body.courseId,
+    year:         req.body.year,
+    totalCharges: req.body.totalCharges,
+    frequency:    req.body.frequency,
+    startDate:     req.body.startDate,
+    endDate:       req.body.endDate,
+    status:        req.body.status,
+    category:      req.body.category,
+    rteFees:       req.body.rteFees,
+    vanFees:       req.body.vanFees,
+    courseCategory: req.body.courseCategory,
+    
+});
+console.log(newCourseFees);
+await newCourseFees.save();
+res.status(200).send("Course Fees Created SuccessFully");
 
 }
   } 

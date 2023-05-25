@@ -37,10 +37,15 @@ const enrollmentSchema = new mongoose.Schema({
     totalPaid: {
         type: Number
     },
+    termPaid: {
+        type: Array
+    },
     totalDues: {
         type: Number
     },
-    
+    feesCategory: {
+        type: String
+    },
     balance: {
         type: Number
     },
