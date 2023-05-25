@@ -8,10 +8,7 @@ const Header = () => {
             Kamatchi Shanmugam  Matriculation School 
         </div>
         <div className='head2'>
-       
-           
-            <Link to="/" className='link'>Transaction</Link>
-           
+          <Link to="/" className='link'>Transaction</Link>
         </div>
     </div>
   )

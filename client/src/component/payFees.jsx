@@ -21,7 +21,7 @@ function PayFees() {
       <div className="main-wrapper">
         <div className="containers">
           <div className="containerId">
-            <form>
+            <form className="Search-pay">
               <div className="mt-3">
                 <label className="col-xl-5">Student Id </label>
                 <input
@@ -30,7 +30,7 @@ function PayFees() {
                 />
               </div>
               </form>
-              <form>
+              <form className="Search-pay"> 
               <div className="mt-3">
                 <label className="col-xl-5">Student Name </label>
                 <input
@@ -40,7 +40,7 @@ function PayFees() {
                 />
               </div>
               </form>
-              <form>
+              <form className="Search-pay">
               <div>
                 <button className="buttons mt-5" onClick={handleSubmit}>
                   Submit
