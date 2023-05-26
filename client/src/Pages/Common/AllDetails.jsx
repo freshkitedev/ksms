@@ -39,6 +39,11 @@ const AllDetails = ()=>{
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link mx-2" to="/payfee" activeClassName="active">
+                  <i className="bi bi-cash"></i>&nbsp;Transaction
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link mx-2" to="/" activeClassName="active">
                   <i className="bi bi-bank"></i>&nbsp;Accounts
                 </Link>

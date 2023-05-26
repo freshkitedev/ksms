@@ -1,0 +1,21 @@
+.trans{
+    width: 100%;
+    height: 100%;
+}
+
+.search{
+    color: red;
+    margin: 10px;
+    width: 35%;
+    float: left;
+}
+
+.search-lab{
+    margin: 10px;
+}
+
+.button{
+    color: red;
+    margin: 10px;
+    float: left;
+}
