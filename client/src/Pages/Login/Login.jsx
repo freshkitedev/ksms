@@ -11,11 +11,11 @@ const Login = () => {
     
     // Redirect to the respective dashboard based on the selected user type
     if (userType === "student") {
-      navigate("/homepageadmin");
+      navigate("/dashboard");
     } else if (userType === "admin") {
-      navigate("/admindashboard");
+      navigate("/dashboard");
     } else if (userType === "staff") {
-      navigate("/staffdashboard");
+      navigate("/dashboard");
     }
   };
 
@@ -32,7 +32,7 @@ const Login = () => {
       <input type="password" name="" required=""/>
       <label>Password</label>
     </div>
-    <a href="/homepageadmin">
+    <a href="/dashboard">
       <span></span>
       <span></span>
       <span></span>
