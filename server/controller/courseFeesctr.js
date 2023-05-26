@@ -5,19 +5,22 @@ export const createCourseFees = async (req, res, next) => {
   try {
     const query = {
       courseName: req.body.courseName,
-      category: req.body.category
+      studentCategory: req.body.studentCategory
     };
     const courseCnt = await courseFees.countDocuments(query);
     console.log(courseCnt)
     if(courseCnt < 1) 
     {
-    const Term = req.body.terms
+    const category = req.body.courseCategory
+    console.log(category)
+    if(category == "Academic") {
+    const Term = req.body.Term
     console.log(Term) 
     const frequency = req.body.frequency
     console.log(frequency)
     const totalCharges = req.body.totalCharges
     console.log(totalCharges)
-    const feeCategory = req.body.category
+    const feeCategory = req.body.studentCategory
     if(feeCategory == "General") 
     {
     if( Term.length == frequency) 
@@ -30,16 +33,20 @@ export const createCourseFees = async (req, res, next) => {
       if(sum == totalCharges) 
       {
       const newCourseFees = new courseFees({
-          courseName:   req.body.courseName,
-          courseId:     req.body.courseId,
-          year:         req.body.year,
-          totalCharges: req.body.totalCharges,
-          frequency:    req.body.frequency,
-          startDate:     req.body.startDate,
-          endDate:       req.body.endDate,
-          status:        req.body.status,
-          Term:          req.body.Term,
-          courseCategory:      req.body.category,
+          courseName:      req.body.courseName,
+          courseId:        req.body.courseId,
+          year:            req.body.year,
+          totalCharges:    req.body.totalCharges,
+          frequency:       req.body.frequency,
+          startDate:       req.body.startDate,
+          endDate:         req.body.endDate,
+          status:          req.body.status,
+          Term:            req.body.Term,
+          courseCategory:  req.body.courseCategory,
+          studentCategory: req.body.studentCategory,
+          vanFees:         req.body.vanFees,
+          bookFees:        req.body.bookFees,
+          admissionFees:   req.body.admissionFees,
           
       });
     console.log(newCourseFees);
@@ -55,12 +62,12 @@ export const createCourseFees = async (req, res, next) => {
   {
     return next(createError(500, "Term Fee is not proper"))
   }
-} 
+}
 else if(feeCategory == "RTE")
 {
   if( Term.length == frequency) 
     {
-      var sum = 0 
+     var sum = 0 
       Term.forEach(item => {
         sum += item;
       });
@@ -84,6 +91,7 @@ else if(feeCategory == "RTE")
           admissionFees: req.body.admissionFees,
           bookFees:      req.body.bookFees,
           courseCategory: req.body.courseCategory,
+          studentCategory: req.body.studentCategory,
           
       });
     console.log(newCourseFees);
@@ -116,6 +124,9 @@ else
     rteFees:       req.body.rteFees,
     vanFees:       req.body.vanFees,
     courseCategory: req.body.courseCategory,
+    studentCategory: req.body.studentCategory,
+    bookFees:        req.body.bookFees,
+    admissionFees:   req.body.admissionFees,
     
 });
 console.log(newCourseFees);
@@ -123,7 +134,30 @@ await newCourseFees.save();
 res.status(200).send("Course Fees Created SuccessFully");
 
 }
+    }
+    else {
+      {
+        const newCourseFees = new courseFees({
+          courseName:   req.body.courseName,
+          courseId:     req.body.courseId,
+          year:         req.body.year,
+          totalCharges: req.body.totalCharges,
+          frequency:    req.body.frequency,
+          startDate:     req.body.startDate,
+          endDate:       req.body.endDate,
+          status:        req.body.status,
+          category:      req.body.category,
+          rteFees:       req.body.rteFees,
+          vanFees:       req.body.vanFees,
+          courseCategory: req.body.courseCategory,
+          studentCategory: req.body.studentCategory,
+      });
+      console.log(newCourseFees);
+      await newCourseFees.save();
+      res.status(200).send("Course Fees Created SuccessFully");
   } 
+}
+    }
   else {
     return next(createError(500,"Course Fees already defined"))
   }
