@@ -7,12 +7,13 @@ import { createError } from "../error.js";
 export const createStudent = async (req, res, next) => {
   try {
     const coursecnt = await course.countDocuments({courseName: req.body.grade})
+    console.log(coursecnt)
     if(coursecnt > 0)
     {
       const query = {
         courseName: req.body.grade,
-        category: req.body.category,
-        year: req.body.academicYear
+        year: req.body.academicYear,
+        studentCategory: req.body.category,
       };
     const coursedata = await course.findOne({courseName: req.body.grade})
     const courseFeedata = await courseFees.findOne(query)
@@ -37,17 +38,16 @@ export const createStudent = async (req, res, next) => {
         category:         req.body.category,
         group:            req.body.group,
         grade:            req.body.grade,
-        section:            req.body.section,
+        section:          req.body.section,
         academicYear:     req.body.academicYear,
         concessionApplicable: req.body.concessionApplicable,
         vanApplicable:    req.body.vanApplicable,
         vanStop:          req.body.vanStop,
-        isNew:            req.body.isNew
+        newStudent:       req.body.newStudent,
     });
     console.log(newStudent);
     await newStudent.save();
-    size = courseFeedata.frequency;
-    const arraySize = size;
+    const arraySize = 3;
     const array = new Array(arraySize);
 // Initialize all elements with 0
     array.fill(0);
@@ -79,11 +79,11 @@ export const createStudent = async (req, res, next) => {
       console.log(coursedata)
       const courseFeedata = await courseFees.findOne(query)
       console.log(courseFeedata)
-      const vanStop = req.body.vanStop
+      //const vanStop = req.body.vanStop
       const newenrollment = new enrollment({
       year:              req.body.academicYear,
       userId:            newStudent.rollNumber,
-      totalCharges:      courseFeedata.totalCharges,
+      totalCharges:      courseFeedata.vanFees,
       totalPaid:         0,
       courseName:        req.body.vanStop,
       courseId:          coursedata.courseId,
@@ -126,9 +126,9 @@ export const getstudent = async (req, res, next) => {
   try {
     const Student = await student.findById(req.params.id);
     const query = {
-
+      userId: req.body.rollNumber
     }
-    const Studentfees = await enrollment.find(req.body.rollNumber);
+    const Studentfees = await enrollment.find(query);
     res.status(201).json(
       {
         status: "success",

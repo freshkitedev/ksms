@@ -36,6 +36,9 @@ const courseFeesSchema = new mongoose.Schema({
     courseCategory: {
         type: String
     },
+    studentCategory: {
+      type: String
+    },
     rteFees: {
       type: Number
     },

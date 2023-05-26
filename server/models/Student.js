@@ -84,7 +84,7 @@ const studentSchema = new mongoose.Schema({
   vanStop: {
     type: String
   },
-  isNew: {
+  newStudent: {
     type: Boolean
   }
 });
