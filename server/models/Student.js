@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import autoIncrement from "mongoose-auto-increment"
 mongoose.set('useFindAndModify', false);
 const studentSchema = new mongoose.Schema({
- 
+
   rollNumber: {
     type: Number
   },
@@ -15,54 +15,54 @@ const studentSchema = new mongoose.Schema({
     },
     lName: {
       type: String
-  }
+    }
   },
   dateOfBirth: {
     type: Date
   },
   fatherName: {
-      type: String
+    type: String
   },
   motherName: {
-    type:String,
+    type: String,
   },
   homeAddress: {
-    type:String
+    type: String
   },
   enrollmentDate: {
-    type:String,
+    type: String,
     required: true,
   },
   emailID: {
-    type:String
+    type: String
   },
   mobileNo: {
-    type:Number
+    type: Number
   },
   lastDate: {
-    type:Date
+    type: Date
   },
   activeIndicator: {
-    type:Boolean
+    type: Boolean
   },
-  userGroup:{
-    type:Array,
+  userGroup: {
+    type: Array,
   },
-  grade:{
-    type:String,
-    required:true
+  grade: {
+    type: String,
+    required: true
   },
   section: {
-    type:String
+    type: String
   },
-  group:{
-    type:String,
+  group: {
+    type: String,
   },
-  emisNumber:{
-    type:Number
+  emisNumber: {
+    type: Number
   },
   admissionNo: {
-    type:Number,
+    type: Number,
     required: true
   },
   category: {
@@ -90,10 +90,10 @@ const studentSchema = new mongoose.Schema({
 });
 autoIncrement.initialize(mongoose.connection);
 studentSchema.plugin(autoIncrement.plugin, {
-  model: "Student", 
-  field: "rollNumber", 
-  startAt: 1001, 
-  incrementBy: 1, 
+  model: "Student",
+  field: "rollNumber",
+  startAt: 1001,
+  incrementBy: 1,
 })
 
-export default mongoose.model("Student",studentSchema)
+export default mongoose.model("Student", studentSchema)

@@ -1,10 +1,10 @@
 import express from "express";
-import {createTransaction,getTransaction, getAllTransaction, getTransactionByDate, updateTransaction} from "../controller/transactionctr.js";
+import { createTransaction, getTransaction, getAllTransaction, getTransactionByDate, updateTransaction } from "../controller/transactionctr.js";
 
 const Router = express.Router();
 
 //Create Transaction
-Router.post("/create",createTransaction);
+Router.post("/create", createTransaction);
 
 //Get All Transaction
 Router.get("/gettransaction", getAllTransaction);

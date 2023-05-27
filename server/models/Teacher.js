@@ -5,19 +5,19 @@ const teacherSchema = new mongoose.Schema({
     StaffID: {
         type: Number,
     },
-     
+
     Name: {
         fName: {
-          type: String,
-          required: true,
+            type: String,
+            required: true,
         },
-        mName:{
-          type: String,
-          required: true,
+        mName: {
+            type: String,
+            required: true,
         },
         lName: {
-          type: String,
-          required: true,
+            type: String,
+            required: true,
         },
     },
     dateOfBirth: {
@@ -25,56 +25,56 @@ const teacherSchema = new mongoose.Schema({
         required: true,
     },
     fatherName: {
-          type: String,
+        type: String,
     },
-    motherName:{
-        type:String,
+    motherName: {
+        type: String,
     },
-    homeAddress:{
-        type:String,
-        required:true
+    homeAddress: {
+        type: String,
+        required: true
     },
-    enrollmentDate:{
-        type:String
+    enrollmentDate: {
+        type: String
     },
-    emailID:{
-        type:String,
-        required:true
+    emailID: {
+        type: String,
+        required: true
     },
-    mobileNo:{
-        type:Number,
-        required:true
+    mobileNo: {
+        type: Number,
+        required: true
     },
-    lastDate:{
-        type:String,
+    lastDate: {
+        type: String,
     },
-    activeIndicator:{
-        type:Boolean,
+    activeIndicator: {
+        type: Boolean,
     },
-    isAdim:{
-        type:Boolean,
+    isAdim: {
+        type: Boolean,
     },
-    userGroup:{
-        type:Array,
+    userGroup: {
+        type: Array,
     },
-    primarySubject:{
-        type:String,
-        required:true
+    primarySubject: {
+        type: String,
+        required: true
     },
-    secondarySubject:{
-        type:Array,
+    secondarySubject: {
+        type: Array,
     },
-    deptID:{
-        type:Number,
+    deptID: {
+        type: Number,
     }
 
 });
 autoIncrement.initialize(mongoose.connection);
 teacherSchema.plugin(autoIncrement.plugin, {
-    model: "teacher", 
-    field: "StaffID", 
-    startAt: 5001, 
-    incrementBy: 1, 
-  });
+    model: "teacher",
+    field: "StaffID",
+    startAt: 5001,
+    incrementBy: 1,
+});
 
-export default mongoose.model("teacher",teacherSchema)
+export default mongoose.model("teacher", teacherSchema)

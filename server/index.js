@@ -16,12 +16,12 @@ export const errorHandler = (err, req, res, next) => {
     const errorStatus = err.status || 500;
     const errorMessage = err.message || "Something went wrong!";
     return res.status(errorStatus).json({
-      success: false,
-      status: errorStatus,
-      message: errorMessage, 
-      stack: err.stack,
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
+        stack: err.stack,
     });
-  };
+};
 
 //MIDDLE WARES
 app.use(cors());
@@ -36,19 +36,19 @@ app.use("/api/upload", xlupload)
 app.use("/api/transaction", transactionrt)
 app.use("/api/ledger", ledgerrt)
 
- 
-const connect = async()=>{
-    try{
+
+const connect = async () => {
+    try {
         await mongoose.connect(process.env.MONGO, { useNewUrlParser: true });
         console.log("Connected to MongoDB");
     }
-    catch(err){
+    catch (err) {
         throw err;
     }
-     
+
 }
 
-app.listen(5000,()=>{
+app.listen(5000, () => {
     connect();
     console.log("Server is listening on 5000");
 })

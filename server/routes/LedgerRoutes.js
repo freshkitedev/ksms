@@ -1,4 +1,4 @@
-import  express from "express";
+import express from "express";
 import { getLedgerByDate, getAllLedgers } from "../controller/Ledgerctr.js";
 
 const Router = express.Router();
