@@ -1,21 +1,63 @@
+.sandy{
+    display: flex;
+
+}
+
 .trans{
     width: 100%;
     height: 100%;
-}
-
-.search{
     color: red;
     margin: 10px;
     width: 35%;
     float: left;
 }
 
+.billing{
+    margin-top: 8.5px;
+    margin-left: -10px;
+}
+
+.bill-div{
+    margin-top: 6.8px;
+    width: 10px important;
+}
 .search-lab{
-    margin: 10px;
+    margin: 20px;
+}
+
+.bill-inp{
+    width: 75px;
+    height: 38px;
+    border: 1.5px solid black;
+}
+
+.search-inp{
+    width: 50%;
 }
 
 .button{
     color: red;
-    margin: 10px;
+    margin-top: 10px;
+    margin-left: 250px;
     float: left;
+    padding: 5px;
+    font-weight: bolder;
+    font-size: 12px;
+    border: 1px solid black;
+}
+
+.trans-tab{
+    width: 35%;
+    margin-left: 10px;
+}
+.tot-fee{
+    background-color: aliceblue;
+    margin-top: 2%;
+    float: left;
+    border: 1px solid black;
+}
+
+.tot-fee-tr{
+    border: 1px solid black;
+    padding : 10px; 
 }

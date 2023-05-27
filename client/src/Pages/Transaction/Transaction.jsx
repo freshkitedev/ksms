@@ -1,66 +1,108 @@
 import React, { useState } from "react";
-import "./transaction.css"
+import "./transaction.css";
 // import Header from "./header";
 import axios from "axios";
 
 function Transaction() {
-  const [data, setData] = useState([]);
-  const id = "646a122eec66ba2db472379b";
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .get(`http://localhost:5000/api/student/getusers/${id}`)
-      .then((result) => {
-        setData(result.data);
-        console.log("student data", data);
-      });
-    console.log("You clicked submit.", data);
-  };
+  const [totalFees, setTotalFees] = useState({termOne:1000,termTwo: 1000,termThree: 1000,bookFees: 500,vanFees: 700,admissionFees: 100});
+  const [paidFees, setPaidFees] = useState({termOne:1000,termTwo: 750,termThree: 0,bookFees: 300,vanFees: 400,admissionFees: 100});
+  const [termOne, setTermOne] = useState(1000);
+  const [termTwo, setTermTwo] = useState(1000);
+  const [termThree, setTermThree] = useState(1000);
+  const [bookFees, setBookFees] = useState(500);
+  const [vanFees, setVanFees] = useState(750);
+  const [admissionFees, setAdmissionFees] = useState(100);
+
+  //   const handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     axios
+  //       .get(`http://localhost:5000/api/student/getusers/${id}`)
+  //       .then((result) => {
+  //         setData(result.data);
+  //         console.log("student data", data);
+  //       });
+  //     console.log("You clicked submit.", data);
+  //   };
   return (
     <>
-      {/* <div className="main-wrapper">
-        <div className="containers">
-          <div className="containerId">
-            <form className="Search-pay">
-              <div className="mt-3">
-                <label className="col-xl-5">Student Id </label>
-                <input className="box col-xl-5" name="student_id" />
-              </div>
-            </form>
-            <form className="Search-pay">
-              <div className="Search-name">
-                <label className="col-xl-5">Student Name </label>
-                <input className="box col-xl-5" name="student_name" />
-              </div>
-            </form>
-            <form className="Search-pay">
-              <div>
-                <button className="buttons mt-5" onClick={handleSubmit}>
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div> */}
+    <div className="sandy">
       <div className="trans">
-        <div className="search">
-            <form>
-                <label className="search-lab">
-                    Student Id
-                </label>
-                <input />
-            </form>
-        </div>
-        <div className="search">
-            <form>
-                <label className="search-lab">
-                    Student Name
-                </label>
-                <input />
-            </form>
-        </div >
+          <form>
+            <label className="search-lab" style={{marginRight:48}}>Student Id</label>
+            <input className="search-inp" placeholder="Enter roll number " />
+            <label className="search-lab">Student Name</label>
+            <input className="search-inp" placeholder="Enter student name " />
+          </form>
         <button className="button">Submit</button>
+      </div>
+      <div className="trans-tab">
+        <table className="tot-fee">
+          <thead>
+            <tr>
+              <th className="tot-fee-tr">Fees Type</th>
+            </tr>
+          </thead>
+          <tbody>
+                <tr>
+                  <td className="tot-fee-tr">Term 1</td>
+                </tr>
+                <tr>
+                  <td className="tot-fee-tr">Term 2</td>
+                </tr>
+                <tr>
+                  <td className="tot-fee-tr">Term 3</td>
+                </tr>
+                <tr>
+                  <td className="tot-fee-tr">Book Fees</td>
+                </tr>
+                <tr>
+                  <td className="tot-fee-tr">Van Fees</td>
+                </tr>
+                <tr>
+                  <td className="tot-fee-tr">Admmision Fees</td>
+                </tr>
+          </tbody>
+        </table>
+        <table className="tot-fee">
+          <thead>
+            <tr>
+              <th className="tot-fee-tr">Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+                <tr><td className="tot-fee-tr">{totalFees.termOne}</td></tr>
+                <tr><td className="tot-fee-tr">{totalFees.termTwo}</td></tr>
+                <tr><td className="tot-fee-tr">{totalFees.termThree}</td></tr>
+                <tr><td className="tot-fee-tr">{totalFees.bookFees}</td></tr>
+                <tr><td className="tot-fee-tr">{totalFees.vanFees}</td></tr>
+                <tr><td className="tot-fee-tr">{totalFees.admissionFees}</td></tr>
+          </tbody>
+        </table>
+        <table className="tot-fee">
+          <thead>
+          <tr>
+            <th className="tot-fee-tr">Paid Amount</th>
+          </tr>
+          </thead>
+          <tbody>
+                <tr><td className="tot-fee-tr">{paidFees.termOne}</td></tr>
+                <tr><td className="tot-fee-tr">{paidFees.termTwo}</td></tr>
+                <tr><td className="tot-fee-tr">{paidFees.termThree}</td></tr>
+                <tr><td className="tot-fee-tr">{paidFees.bookFees}</td></tr>
+                <tr><td className="tot-fee-tr">{paidFees.vanFees}</td></tr>
+                <tr><td className="tot-fee-tr">{paidFees.admissionFees}</td></tr>
+          </tbody>         
+        </table>
+      </div>
+      <div className="billing">
+      <div className="bill-div"><label className="bill-inp">Amount</label></div>
+        <div className="bill-div"><label className="bill-inp">{termOne}</label></div>
+        <div className="bill-div"><label className="bill-inp">{termTwo}</label></div>
+        <div className="bill-div"><label className="bill-inp">{termThree}</label></div>
+        <div className="bill-div" ><input className="bill-inp" name="bookFees" value={bookFees}/></div>
+        <div className="bill-div"><input className="bill-inp" name="vanFees" value={vanFees}/></div>
+        <div className="bill-div"><input className="bill-inp" name="admissionFees" value={admissionFees}/></div>
+      </div>
       </div>
     </>
   );
