@@ -104,6 +104,8 @@ function Transaction() {
         <div className="bill-div"><input className="bill-inp" name="admissionFees" value={admissionFees}/></div>
       </div>
       </div>
+      
+      <button className="submitButton">Sumbit</button>
     </>
   );
 }

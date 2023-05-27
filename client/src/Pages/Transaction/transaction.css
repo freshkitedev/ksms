@@ -31,6 +31,13 @@
     border: 1.5px solid black;
 }
 
+.submitButton{
+        margin-left: 71.6%;
+        width: 75px;
+        color: blue;
+        margin-top: 10px;
+        cursor: pointer;
+}
 .search-inp{
     width: 50%;
 }
