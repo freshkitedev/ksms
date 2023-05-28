@@ -13,8 +13,7 @@
 }
 
 .billing{
-    margin-top: 8.5px;
-    margin-left: -10px;
+    height: 30%;
 }
 
 .bill-div{
@@ -32,11 +31,12 @@
 }
 
 .submitButton{
-        margin-left: 71.6%;
+        margin-left: 78.4%;
         width: 75px;
         color: blue;
-        margin-top: 10px;
+        margin-top: 30px;
         cursor: pointer;
+        border: 1px solid black;
 }
 .search-inp{
     width: 50%;
@@ -54,17 +54,34 @@
 }
 
 .trans-tab{
-    width: 35%;
+    width: 60%;
     margin-left: 10px;
+    
 }
 .tot-fee{
-    background-color: aliceblue;
-    margin-top: 2%;
-    float: left;
+    background-color: rgb(114, 145, 172);
+    /* margin-top: 2%; */
     border: 1px solid black;
 }
 
 .tot-fee-tr{
+    width: 100px;
     border: 1px solid black;
     padding : 10px; 
+    
+}
+.past-fee{
+    background-color: rgb(114, 145, 172);
+    /* margin-top: 2%; */
+    border: 1px solid black;
+}
+
+.last-year-fees{
+    margin-top: 15px;
+}
+.past-fee-tr{
+    width: 100px;
+    border: 1px solid black;
+    padding : 10px; 
+    
 }
