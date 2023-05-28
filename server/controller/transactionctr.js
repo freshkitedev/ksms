@@ -22,6 +22,9 @@ export const createTransaction = async (req, res, next) => {
     await newTransaction.save();
     const query = { date: req.body.dateOfTxn };
     const ledgerCnt = await ledgers.countDocuments(query);
+    const transactionType = req.body.txnType;
+    const transactionAmt = req.body.txnAmount;
+    var amt;
     console.log(ledgerCnt);
     if (ledgerCnt < 1) {
       console.log("inside if of ledger")
@@ -29,7 +32,7 @@ export const createTransaction = async (req, res, next) => {
         date: req.body.dateOfTxn,
         openingBalance: req.body.openingBalance,
         txn: [newTransaction],
-        closingBalance: req.body.closingBalance,
+        closingBalance: transactionAmt,
       })
       console.log(ledgerdata)
       await ledgerdata.save();
@@ -37,8 +40,17 @@ export const createTransaction = async (req, res, next) => {
     else {
       console.log("inside else of ledger")
       const query = { date: req.body.dateOfTxn }
+      const ledgerinfo = await ledgers.findOne(query)
+      const finalbalance = ledgerinfo.closingBalance;
+      if(transactionType == "credit") {
+        amt = transactionAmt + finalbalance;
+      } else if(transactionType == "debit") {
+        amt = finalbalance - transactionAmt ;
+      } else {
+        amt = finalbalance - transactionAmt;
+      }
       const ledgerdata = await ledgers.findOneAndUpdate(query,
-        { $set: { txn: [newTransaction] } },
+        { $set: { txn: [newTransaction] , closingBalance: amt} },
         { new: "true" })
       console.log(ledgerdata)
       await ledgerdata.save();
