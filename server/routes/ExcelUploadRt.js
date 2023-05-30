@@ -1,5 +1,5 @@
 import express from "express";
-import {xlupload} from "../controller/Upload.js";
+import { xlupload } from "../controller/Upload.js";
 import multer from "multer";
 
 const upload = multer({ dest: "uploads/" });

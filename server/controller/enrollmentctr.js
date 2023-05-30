@@ -4,27 +4,29 @@ import { createError } from "../error.js";
 export const createEnrollment = async (req, res, next) => {
   try {
     const concessionFee = req.body.concession
-    if(concessionFee)
-    {
+    if (concessionFee) {
       var totalFee = req.body.totalCharges - concessionFee
     }
-    else{
-       var totalFee = req.body.totalCharges
+    else {
+      var totalFee = req.body.totalCharges
     }
     const newEnrollment = new enrollment({
-        courseId:   req.body.courseId,
-        year:         req.body.year,
-        userId:       req.body.userId,
-        enrollmentId:  req.body.enrollmentId,
-        status:        req.body.status,
-        dateEnrolled:  req.body.dateEnrolled,
-        dateDeEnrolled: req.body.dateDeEnrolled,
-        feesStatus:     req.body.feesStatus,
-        totalCharges:   totalFee,
-        totalPaid:      req.body.totalPaid,
-        totalDues:      req.body.totalDues,
-        balance:        req.body.balance,
-        concession:     req.body.concession,
+      courseId: req.body.courseId,
+      year: req.body.year,
+      userId: req.body.userId,
+      enrollmentId: req.body.enrollmentId,
+      status: req.body.status,
+      dateEnrolled: req.body.dateEnrolled,
+      dateDeEnrolled: req.body.dateDeEnrolled,
+      feesStatus: req.body.feesStatus,
+      totalCharges: totalFee,
+      totalPaid: req.body.totalPaid,
+      totalDues: req.body.totalDues,
+      balance: req.body.balance,
+      concession: req.body.concession,
+      bookFees: req.body.bookFees,
+      admissionFees: req.body.admissionFees,
+      section: req.body.section,
     });
     console.log(newEnrollment);
     await newEnrollment.save();
@@ -55,28 +57,28 @@ export const getEnrollment = async (req, res, next) => {
 };
 
 //Update Enrollment Details
-export const updateEnrollment =async(req,res, next)=>{
+export const updateEnrollment = async (req, res, next) => {
   try {
-      const updateEnrollment = await enrollment.findByIdAndUpdate(
-        req.params.id,
-        { $set: req.body },
-        { new: "true"}
-        
-      )
-       return res.status(201).send(updateEnrollment);
-    } catch (err) {
-         next(err)
-    }
-  
-  };
+    const updateEnrollment = await enrollment.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: "true" }
+
+    )
+    return res.status(201).send(updateEnrollment);
+  } catch (err) {
+    next(err)
+  }
+
+};
 
 //Delete Enrollment
-export const deleteEnrollment = async(req,res, next)=>{
-  
-  try{
-      await enrollment.findByIdAndDelete(req.params.id);
-      return res.status(204).send("Enrollment has been deleted" );
-  }catch(err){
-      next(err)
+export const deleteEnrollment = async (req, res, next) => {
+
+  try {
+    await enrollment.findByIdAndDelete(req.params.id);
+    return res.status(204).send("Enrollment has been deleted");
+  } catch (err) {
+    next(err)
   }
 };

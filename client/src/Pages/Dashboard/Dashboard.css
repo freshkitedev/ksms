@@ -1,0 +1,21 @@
+.para{
+    font-weight:bolder;
+    margin-left: 140px;
+    
+}
+
+.button{
+    
+    padding: 30px;
+    margin-left: 100px;
+      
+}
+
+.image{
+    width: 100px;
+    height: 100px; 
+    
+    
+ 
+}
+.image:hover{opacity: 0.6}

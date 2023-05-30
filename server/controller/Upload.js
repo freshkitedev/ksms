@@ -17,24 +17,24 @@ export const xlupload = async (req, res) => {
 
     console.log('xlData:', xlData); // Check the xlData in the console
 
-  // ...
+    // ...
 
-  const formattedData = xlData.map((row) => ({
-    FeesId: row.courseId.toString(),
-    courseName: row.courseName,
-    courseId: row.courseId,
-    year: row.year,
-    totalCharges: row.totalCharges,
-    frequency: row.frequency,
-    startDate: new Date((row.startDate - 25569) * 86400 * 1000), // Convert Excel serial date to JavaScript date
-    endDate: new Date((row['endDate '] - 25569) * 86400 * 1000), // Convert Excel serial date to JavaScript date
-    status: row['status '],
-    Term: [row['Term ']],
-    category: row['category   '],
-  }));
-  
+    const formattedData = xlData.map((row) => ({
+      FeesId: row.courseId.toString(),
+      courseName: row.courseName,
+      courseId: row.courseId,
+      year: row.year,
+      totalCharges: row.totalCharges,
+      frequency: row.frequency,
+      startDate: new Date((row.startDate - 25569) * 86400 * 1000), // Convert Excel serial date to JavaScript date
+      endDate: new Date((row['endDate '] - 25569) * 86400 * 1000), // Convert Excel serial date to JavaScript date
+      status: row['status '],
+      Term: [row['Term ']],
+      category: row['category   '],
+    }));
 
-// ...
+
+    // ...
 
     console.log('formattedData:', formattedData); // Check the formattedData in the console
 

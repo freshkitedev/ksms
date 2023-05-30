@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./Pages/Login/Login";
 import AllDetails from "./Pages/Common/AllDetails";
-import Home from "./Pages/Home/Home";
+import DashBoard from "./Pages/Dashboard/dashboard";
 import CourseFeesComponent from "./Pages/Coursefees/Coursefee"
 import Transaction from "./Pages/Transaction/Transaction";
 
@@ -21,7 +21,7 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/homepageadmin" element={<Transaction />} />
+            <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/coursefee" element={<CourseFeesComponent />} />
             <Route path="/payfee" element={<Transaction />} />
 

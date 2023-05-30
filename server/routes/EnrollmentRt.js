@@ -1,10 +1,10 @@
 import express from "express";
-import {createEnrollment, deleteEnrollment,getEnrollment, getAllEnrollment,updateEnrollment} from "../controller/enrollmentctr.js";
+import { createEnrollment, deleteEnrollment, getEnrollment, getAllEnrollment, updateEnrollment } from "../controller/enrollmentctr.js";
 
 const Router = express.Router();
 
 //Create Enrollment
-Router.post("/create",createEnrollment);
+Router.post("/create", createEnrollment);
 
 //Get All Enrollment
 Router.get("/getenrollemnt", getAllEnrollment);
@@ -16,7 +16,7 @@ Router.get("/getenrollemnt/:id", getEnrollment);
 Router.put("/update/:id", updateEnrollment);
 
 //Delete Enrollment
-Router.delete("/delete/:id",deleteEnrollment);
+Router.delete("/delete/:id", deleteEnrollment);
 
 
 export default Router;

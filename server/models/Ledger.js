@@ -3,24 +3,25 @@ import Transaction from "./Transaction.js"
 const Schema = mongoose.Schema;
 const ledgerSchema = new mongoose.Schema({
     date: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
-     EODdeposit: {
-        type:Number
-     },
+    EODdeposit: {
+        type: Number
+    },
     openingBalance: {
         type: Number
     },
     txn: [
         {
-          type: Schema.Types.ObjectId,
-          ref: Transaction
+            type: Schema.Types.ObjectId,
+            ref: Transaction
         }
-      ],
+    ],
     closingBalance: {
         type: Number
     }
 
 });
 
-export default mongoose.model("ledger",ledgerSchema)
+export default mongoose.model("ledger", ledgerSchema)

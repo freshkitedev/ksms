@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 mongoose.set('useFindAndModify', false);
 const transactionSchema = new mongoose.Schema({
     dateOfTxn: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
     txnType: {
         type: String
@@ -43,4 +44,4 @@ const transactionSchema = new mongoose.Schema({
 
 });
 
-export default mongoose.model("Transaction",transactionSchema)
+export default mongoose.model("Transaction", transactionSchema)
