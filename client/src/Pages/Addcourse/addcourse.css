@@ -1,0 +1,25 @@
+.head{
+    text-align: center;
+    background-color:rgb(10, 141, 255);
+    padding: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: -18px;
+
+}
+
+.element{
+    margin-top: 15px;
+    font-weight:700;
+    margin-left: 500px;
+  
+}
+.text{
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 48%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+

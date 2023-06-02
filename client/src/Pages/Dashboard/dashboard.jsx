@@ -16,7 +16,7 @@ const DashBoard = () => {
         navigate("/student")
     }
     const FeeNav = () => {
-        navigate("/feeupdate")
+        navigate("/feesupdate")
     }
     const PayFeeNav = () => {
         navigate("/payfee")

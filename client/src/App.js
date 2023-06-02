@@ -5,8 +5,8 @@ import Login from "./Pages/Login/Login";
 import AllDetails from "./Pages/Common/AllDetails";
 import DashBoard from "./Pages/Dashboard/dashboard";
 import CourseFeesComponent from "./Pages/Coursefees/Coursefee"
-
-
+import AddCourse from "./Pages/Addcourse/AddCourse.jsx"
+import FeesUpdate from "./Pages/Feesupdate/FeesUpdate"
 
 
 
@@ -22,6 +22,12 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/coursefee" element={<CourseFeesComponent />} />
+            <Route path="/addcourse" element={<AddCourse/>}/>
+            <Route path="/feesupdate" element={<FeesUpdate/>}/>
+            
+
+           
+
 
           </Routes>
         </div>
