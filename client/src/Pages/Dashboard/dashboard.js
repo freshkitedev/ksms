@@ -13,7 +13,7 @@ import updatebank from "../img/bank.jpg";
 const DashBoard = () => {
     const navigate = useNavigate();
     const StudentNav = () => {
-        navigate("/student")
+        navigate("/Addstudent")
     }
     const FeeNav = () => {
         navigate("/feeupdate")
