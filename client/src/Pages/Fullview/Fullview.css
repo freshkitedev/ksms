@@ -11,14 +11,10 @@
   body {
     background-image: url('../../bg/bg.jpg');
     background-size: cover;
-  
     min-height: 100vh;
     height: auto;
-  
-  
-  
-  
   }
+  
   
   .navbar {
     border-radius: 50px;

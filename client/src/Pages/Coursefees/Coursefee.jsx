@@ -13,7 +13,7 @@ const CourseFeesComponent = () => {
   const [viewMode, setViewMode] = useState(false);
   const [viewCourseFee, setViewCourseFee] = useState(null);
   const [showUploadForm, setShowUploadForm] = useState(false);
-
+  
   const toggleForm = () => {
     setShowForm(!showForm);
     setViewMode(false);
@@ -123,7 +123,7 @@ const CourseFeesComponent = () => {
 
   return (
     <div className="Coursefee" >
-        <h2 style={{textAlign:"center", fontFamily:"fantasy", color:"white"}}>    Course Fee Details</h2>
+        <h2 style={{textAlign:"center", fontFamily:"fantasy", color:"white"}}>  Course Fee Details</h2>
              <div className="d-flex justify-content-center align-items-center">
 
 
@@ -162,7 +162,7 @@ const CourseFeesComponent = () => {
         )}
       </div>
 
-      <div className="table-container p-5">
+      <div className=" table-container p-5" style={{transform:"scale(0.9)"}}>
         <table className="table table-primary" style={{fontFamily:"cursive"}}>
           {/* table header */}
           <thead className="text-primary">

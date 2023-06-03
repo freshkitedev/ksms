@@ -70,8 +70,8 @@ const AddCourseFeeForm = ({ onAdd }) => {
   
 
   return (
-    <div className="d-flex align-items-center justify-content-center vh-70" style={{color:"white"}}>
-      <form onSubmit={handleAdd} className="row" >
+    <div className=" d-flex align-items-center justify-content-center vh-70" style={{color:"white"}}>
+      <form onSubmit={handleAdd} className="row " >
         <div className="col-md-6">
           <div className="form-group">
             <label>Course Name:</label>

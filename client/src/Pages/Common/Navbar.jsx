@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
 
 
-const AllDetails = ()=>{
+const Navbar = ()=>{
 
     return(
 
-        <nav className="navbar shadow navbar-expand-lg navbar-light bg-light p-3">
+        <nav className="navbar shadow navbar-expand-lg navbar-light bg-light p-3 ">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             <h2 style={{ fontFamily: 'cursive' }}>
@@ -113,4 +113,4 @@ const AllDetails = ()=>{
 
 }
 
-export default AllDetails;
+export default Navbar;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './Home.css';
+import './Fullview.css';
 
-function Home() {
+function Fullview() {
 
 
 
@@ -149,4 +149,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Fullview;
