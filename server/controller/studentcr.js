@@ -12,7 +12,7 @@ export const createStudent = async (req, res, next) => {
       const query = {
         courseName: req.body.grade,
         year: req.body.academicYear,
-        studentCategory: req.body.category,
+       
       };
       const coursedata = await course.findOne({ courseName: req.body.grade })
       const courseFeedata = await courseFees.findOne(query)
@@ -21,7 +21,11 @@ export const createStudent = async (req, res, next) => {
       console.log(Studentcnt)
       if (Studentcnt < 1) {
         const newStudent = new student({
-          Name: req.body.Name,
+          Name: {
+            fName: req.body.fname,
+            mName: req.body.mname,
+            lName: req.body.lname,
+          },
           dateOfBirth: req.body.dateOfBirth,
           fatherName: req.body.fatherName,
           motherName: req.body.motherName,
@@ -83,7 +87,7 @@ export const createStudent = async (req, res, next) => {
             console.log(coursedata)
             const courseFeedata = await courseFees.findOne(query)
             console.log(courseFeedata)
-            //const vanStop = req.body.vanStop
+            const vanStop = req.body.vanStop
             const newenrollment = new enrollment({
               year: req.body.academicYear,
               userId: newStudent.rollNumber,
@@ -97,6 +101,7 @@ export const createStudent = async (req, res, next) => {
             })
             console.log(newenrollment)
             await newenrollment.save();
+            console.log("Successfully saved enrollment")
           }
           else {
             next(createError(500, "Fee is not defined for van"))

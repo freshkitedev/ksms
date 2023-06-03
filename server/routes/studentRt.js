@@ -1,5 +1,6 @@
 import express from "express";
 import { createStudent, deleteStudent, getstudent, getstudents, updateStudent } from "../controller/studentcr.js";
+import { uploadStudents } from "../controller/Upload.js";
 
 const Router = express.Router();
 
@@ -17,6 +18,8 @@ Router.put("/update/:id", updateStudent);
 
 //Delete Student 
 Router.delete("/delete/:id", deleteStudent);
+
+
 
 
 export default Router;
