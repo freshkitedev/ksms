@@ -46,26 +46,30 @@ export const createStudent = async (req, res, next) => {
         });
         console.log(newStudent);
         await newStudent.save();
-        const arraySize = 3;
-        const array = new Array(arraySize);
-        // Initialize all elements with 0
-        array.fill(0);
+        console.log("course fee data", courseFeedata.Term)
+        const termData = courseFeedata.Term;
+        const termValueCopy = JSON.parse(JSON.stringify(termData));
+        var TermPaid = termValueCopy;
+        console.log("TErm Paid data", TermPaid);
+        TermPaid.fill(0);
+        console.log("TermPaid",TermPaid);
         console.log(courseFeedata.totalCharges)
         const newenrollment = new enrollment({
           year: req.body.academicYear,
           userId: newStudent.rollNumber,
           totalCharges: courseFeedata.totalCharges,
           totalPaid: 0,
-          balance: 0,
-          termPaid: array,
+          balance: courseFeedata.totalCharges,
+          termPaid: TermPaid,
+          term: courseFeedata.Term,
           courseName: req.body.grade,
           section: req.body.section,
           courseId: coursedata.courseId,
           feesCategory: "termFees",
           bookFees: courseFeedata.bookFees,
-          bookFeesBalance: 0,
+          bookFeesBalance: courseFeedata.bookFees,
           admissionFees: courseFeedata.admissionFees,
-          admissionFeesBalance: 0
+          admissionFeesBalance: courseFeedata.admissionFees
         })
         console.log(newenrollment)
         await newStudent.save();
@@ -89,11 +93,12 @@ export const createStudent = async (req, res, next) => {
               userId: newStudent.rollNumber,
               vanFees: courseFeedata.vanFees,
               totalPaid: 0,
+              vanFeesPaid: 0,
               section: req.body.section,
               courseName: req.body.vanStop,
               courseId: coursedata.courseId,
               feesCategory: "vanFees",
-              balance: 0,
+              vanFeesbalance: courseFeedata.vanFees,
             })
             console.log(newenrollment)
             await newenrollment.save();
@@ -102,7 +107,8 @@ export const createStudent = async (req, res, next) => {
             next(createError(500, "Fee is not defined for van"))
           }
         }
-        res.status(200).send("User Created SuccessFully");
+        var response = [newStudent, newenrollment] 
+        res.status(200).send(response);
       }
       else {
         return next(createError("500", "user already exists"))
@@ -169,5 +175,16 @@ export const deleteStudent = async (req, res, next) => {
     return res.status(204).send("Student has been deleted");
   } catch (err) {
     next(err)
+  }
+};
+
+export const commonsearch = async (req, res, next) => {
+  try{
+    const query = req.body.query;
+  const results = await student.find(query).toArray();
+  // Return the search results
+  return results;
+  } catch(err) {
+    nexr(err)
   }
 };

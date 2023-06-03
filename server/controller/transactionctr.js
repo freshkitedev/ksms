@@ -1,10 +1,11 @@
 import Transaction from "../models/Transaction.js";
 import enrollments from "../models/Enrollment.js";
 import ledgers from "../models/Ledger.js"
-//import { createError } from "../error.js";
+import { createError } from "../error.js";
 // Create Transaction
 export const createTransaction = async (req, res, next) => {
   try {
+    const paymentMode = req.body.paymentMode;
     const newTransaction = new Transaction({
       dateOfTxn: req.body.dateOfTxn,
       txnType: req.body.txnType,
@@ -20,6 +21,7 @@ export const createTransaction = async (req, res, next) => {
     });
     console.log(newTransaction);
     await newTransaction.save();
+    if(paymentMode == "cash") {
     const query = { date: req.body.dateOfTxn };
     const ledgerCnt = await ledgers.countDocuments(query);
     const transactionType = req.body.txnType;
@@ -56,6 +58,7 @@ export const createTransaction = async (req, res, next) => {
       await ledgerdata.save();
 
     }
+  }
     const type = req.body.txnType
     console.log(type)
     //res.json({ success: "Transaction of student/staff Created SuccessFully" });
@@ -71,17 +74,69 @@ export const createTransaction = async (req, res, next) => {
         };
         const termEnrollment = await enrollments.findOne(query)
         console.log(termEnrollment)
-        const paid = termEnrollment.totalPaid + req.body.txnAmount
-        const balanceamt = termEnrollment.totalCharges - paid
+        var totalcharges = termEnrollment.totalCharges;
+        var termPaid = termEnrollment.termPaid
+        const term = termEnrollment.term
+        console.log(termPaid)
+        console.log(term)
+        var paymentAmount = req.body.txnAmount;
+        if(paymentAmount > totalcharges) {
+          return next(createError(405,"Amount is higher"))
+        }
+        console.log(paymentAmount);
+        var checkfilled = false
+        var i = 0;
+        var l1 = term.length;
+        var l2 = termPaid.length;
+        console.log(l1, l2);
+        while( i < l1) {
+          console.log("inside first while loop");
+          if(term[i] == termPaid[i]) {
+            console.log("inside if of term");
+            if(i == l1) {
+              console.log("inside checkfilled of term");
+              checkfilled = true
+              break;
+            }
+           i++;
+          }
+          else {
+            console.log("inside else of term");
+            break;
+          }
+        }
+        if(checkfilled == true) {
+          return next(createError(500, "Term fee already paid"))
+        }
+        var termNo = i;
+        console.log(termNo);
+        var bal = paymentAmount;
+        while(bal !=0 && termNo <= l2) {
+          console.log("inside second while loop")
+          if(bal > term[termNo]) {
+            console.log("inside if ")
+            termPaid[termNo] = term[termNo];
+            bal = bal - term[termNo];
+            console.log(bal);
+            termNo++;
+          } else {
+            console.log(bal);
+            termPaid[termNo] = bal;
+            break;
+          }
+        }
+        var paid = termEnrollment.totalPaid + req.body.txnAmount
+        var balanceamt = termEnrollment.balance - req.body.txnAmount
+        console.log("final data", termPaid);
         const enrollmentdata = await enrollments.findOneAndUpdate(
           query,
-          { $set: { totalPaid: paid, balance: balanceamt } },
+          { $set: { totalPaid: paid, balance: balanceamt, termPaid: termPaid } },
           { new: "true" }
-
         )
         console.log(enrollmentdata)
         await enrollmentdata.save();
-        res.status(200).send("Transaction of student/staff Created SuccessFully");
+        var response = [enrollmentdata, newTransaction] 
+        res.status(200).send(response);
       } else if (category == "vanFees") {
         console.log("inside van fees")
         const query = {
@@ -91,17 +146,18 @@ export const createTransaction = async (req, res, next) => {
         };
         const vanEnrollment = await enrollments.findOne(query)
         console.log(vanEnrollment)
-        const paid = vanEnrollment.totalPaid + req.body.txnAmount
-        const balanceamt = vanEnrollment.vanFees - paid
+        const paid = vanEnrollment.vanFeesPaid + req.body.txnAmount
+        const balanceamt = vanEnrollment.vanFeesBalance - req.body.txnAmount
         const enrollmentdata = await enrollments.findOneAndUpdate(
           query,
-          { $set: { totalPaid: paid, balance: balanceamt } },
+          { $set: { vanFeesPaid: paid, totalPaid: paid,  vanFeesBalance: balanceamt } },
           { new: "true" }
 
         )
         console.log(enrollmentdata)
         await enrollmentdata.save();
-        res.status(200).send("Transaction of student/staff Created SuccessFully");
+        var response = [enrollmentdata, newTransaction] 
+        res.status(200).send(response);
 
       } else if (category == "bookFees") {
         console.log("inside book fees")
@@ -112,17 +168,18 @@ export const createTransaction = async (req, res, next) => {
         };
         const bookEnrollment = await enrollments.findOne(query)
         console.log(bookEnrollment)
-        const paid = bookEnrollment.totalPaid + req.body.txnAmount
-        const balanceamt = bookEnrollment.bookFees - paid
+        const paid = bookEnrollment.bookFeesPaid + req.body.txnAmount
+        const balanceamt = bookEnrollment.bookFeesBalance - req.body.txnAmount
         const enrollmentdata = await enrollments.findOneAndUpdate(
           query,
-          { $set: { totalPaid: paid, bookFeesBalance: balanceamt } },
+          { $set: { bookFeesPaid: paid, bookFeesBalance: balanceamt } },
           { new: "true" }
 
         )
         console.log(enrollmentdata)
         await enrollmentdata.save();
-        res.status(200).send("Transaction of student/staff Created SuccessFully");
+        var response = [enrollmentdata, newTransaction] 
+        res.status(200).send(response);
 
       } else {
         console.log("inside admission fees")
@@ -133,20 +190,21 @@ export const createTransaction = async (req, res, next) => {
         };
         const studentEnrollment = await enrollments.findOne(query)
         console.log(studentEnrollment)
-        const paid = studentEnrollment.totalPaid + req.body.txnAmount
-        const balanceamt = studentEnrollment.admissionFees - paid
+        const paid = studentEnrollment.admissionFeesPaid + req.body.txnAmount
+        const balanceamt = studentEnrollment.admissionFeesBalance - req.body.txnAmount
         const enrollmentdata = await enrollments.findOneAndUpdate(
           query,
-          { $set: { totalPaid: paid, admissionFeesBalance: balanceamt } },
+          { $set: { admissionFeesPaid: paid, admissionFeesBalance: balanceamt } },
           { new: "true" }
 
         )
         console.log(enrollmentdata)
         await enrollmentdata.save();
-        res.status(200).send("Transaction of student/staff Created SuccessFully");
+        var response = [enrollmentdata, newTransaction] 
+        res.status(200).send(response);
       }
     }
-    else if (type == "debit") {
+    /*else if (type == "debit") {
       const studentEnrollment = await enrollments.findOne({ userId: req.body.rollNumber })
       const paid = studentEnrollment.totalPaid - req.body.txnAmount
       const balanceamt = studentEnrollment.totalCharges - paid
@@ -158,9 +216,10 @@ export const createTransaction = async (req, res, next) => {
       )
       console.log(enrollmentdata)
       await enrollmentdata.save();
-    }
+    }*/
     else {
       console.log("inside else")
+      return next(createError(500, "no txn category mentioned"))
     }
   } catch (err) {
     next(err)
@@ -213,24 +272,162 @@ export const updateTransaction = async (req, res, next) => {
 
 };
 
-/*Revert Transaction
+//Revert Transaction
 export const revertTransaction =async(req,res, next)=>{
   try {
-      const revertTransaction = await transaction.findByIdAndUpdate(req.params.id)
-      const studentEnrollment = await enrollment.findById(revertTransaction.rollNumber)
-      const paid = studentEnrollment.totalPaid - revertTransaction.txnAmount
-      const enrollmentdata = await enrollment.findByIdAndUpdate(
-        req.params.id,
-        { $set: { totalPaid: paid }  },
-        { new: "true"}
-        
-      )
+      var revertTransaction = await Transaction.findById(req.params.id)
+      const category = revertTransaction.txnCategory
+      console.log(category)
+      //var studentEnrollment = await enrollments.findOne({ rollNumber: revertTransaction.rollNumber})
+      //var paid = studentEnrollment.totalPaid - revertTransaction.txnAmount
+      if (category == "termFees") {
+        console.log("inside term fees")
+        const query = {
+          userId: revertTransaction.rollNumber,
+          feesCategory: revertTransaction.txnCategory,
+          year: revertTransaction.year
+        };
+        const termEnrollment = await enrollments.findOne(query)
+        console.log(termEnrollment)
+        var totalcharges = termEnrollment.totalCharges;
+        var termPaid = termEnrollment.termPaid
+        const term = termEnrollment.term
+        console.log("before changing", termPaid)
+        termPaid = termPaid.fill(0);
+        console.log("after changing", termPaid)
+        console.log(term)
+        var paymentAmount = termEnrollment.totalPaid - revertTransaction.txnAmount
+        var revertAmount = revertTransaction.txnAmount;
+        if(revertAmount > totalcharges) {
+          return next(createError(405,"Amount is higher"))
+        }
+        console.log(revertAmount);
+        var checkfilled = false
+        var i = 0;
+        var l1 = term.length;
+        var l2 = termPaid.length;
+        console.log(l1, l2);
+        while( i < l1) {
+          console.log("inside first while loop");
+          if(term[i] == termPaid[i]) {
+            console.log("inside if of term");
+            if(i == l1) {
+              console.log("inside checkfilled of term");
+              checkfilled = true
+              break;
+            }
+           i++;
+          }
+          else {
+            console.log("inside else of term");
+            break;
+          }
+        }
+        if(checkfilled == true) {
+          return next(createError(500, "Term fee already paid"))
+        }
+        var termNo = i;
+        console.log(termNo);
+        var bal = paymentAmount;
+        while(bal !=0 && termNo <= l2) {
+          console.log("inside second while loop")
+          if(bal > term[termNo]) {
+            console.log("inside if ")
+            termPaid[termNo] = term[termNo];
+            bal = bal - term[termNo];
+            console.log(bal);
+            termNo++;
+          } else {
+            console.log(bal);
+            termPaid[termNo] = bal;
+            break;
+          }
+        }
+        var balanceamt = termEnrollment.balance +  revertTransaction.txnAmount
+        console.log("final data", termPaid);
+        const enrollmentdata = await enrollments.findOneAndUpdate(
+          query,
+          { $set: { totalPaid: paymentAmount, balance: balanceamt, termPaid: termPaid } },
+          { new: "true" }
+        )
+        console.log(enrollmentdata)
+        await enrollmentdata.save();
+        res.status(200).send("Transaction of student/staff Created SuccessFully");
+      } else if (category == "vanFees") {
+        console.log("inside van fees")
+        const query = {
+          userId: revertTransaction.rollNumber,
+          feesCategory: revertTransaction.txnCategory,
+          year: revertTransaction.year
+        };
+        const vanEnrollment = await enrollments.findOne(query)
+        console.log(vanEnrollment)
+        const paid = vanEnrollment.totalPaid - revertTransaction.txnAmount
+        const balanceamt = vanEnrollment.vanFeesBalance + revertTransaction.txnAmount
+        const enrollmentdata = await enrollments.findOneAndUpdate(
+          query,
+          { $set: { vanFeesPaid: paid, totalPaid: paid,  vanFeesBalance: balanceamt } },
+          { new: "true" }
+
+        )
+        console.log(enrollmentdata)
+        await enrollmentdata.save();
+        res.status(200).send("revert Transaction of student/staff Created SuccessFully");
+
+      } else if (category == "bookFees") {
+        console.log("inside book fees")
+        const query = {
+          userId: revertTransaction.rollNumber,
+          feesCategory: "termFees",
+          year: revertTransaction.year
+        };
+        const bookEnrollment = await enrollments.findOne(query)
+        console.log(bookEnrollment)
+        const paid = bookEnrollment.totalPaid - revertTransaction.txnAmount
+        const balanceamt = bookEnrollment.bookFeesBalance - revertTransaction.txnAmount 
+        const enrollmentdata = await enrollments.findOneAndUpdate(
+          query,
+          { $set: { bookFeesPaid: paid, bookFeesBalance: balanceamt } },
+          { new: "true" }
+
+        )
+        console.log(enrollmentdata)
+        await enrollmentdata.save();
+        res.status(200).send("revert Transaction of student/staff Created SuccessFully");
+
+      } else {
+        console.log("inside admission fees")
+        const query = {
+          userId: revertTransaction.rollNumber,
+          feesCategory: "termFees",
+          year: revertTransaction.year
+        };
+        const studentEnrollment = await enrollments.findOne(query)
+        console.log(studentEnrollment)
+        const paid = studentEnrollment.totalPaid - revertTransaction.txnAmount
+        const balanceamt = studentEnrollment.admissionFeesBalance + revertTransaction.txnAmount
+        const enrollmentdata = await enrollments.findOneAndUpdate(
+          query,
+          { $set: { admissionFeesPaid: paid, admissionFeesBalance: balanceamt } },
+          { new: "true" }
+
+        )
+        console.log(enrollmentdata)
+        await enrollmentdata.save();
+        res.status(200).send("Transaction of student/staff Created SuccessFully");
+      }
+      //const enrollmentdata = await enrollment.findByIdAndUpdate(
+       // req.params.id,
+        //{ $set: { totalPaid: paid }  },
+      //  { new: "true"}
+      //)*/
     } catch (err) {
         next(err)
     }
   
   };
-Delete Transaction
+
+/*Delete Transaction
 export const deleteTransaction = async(req,res,next)=>{
   
   try{
@@ -240,3 +437,14 @@ export const deleteTransaction = async(req,res,next)=>{
       next(err)
   }
 };*/
+
+export const commonsearch = async (req, res, next) => {
+  try{
+    const query = req.body.query;
+  const results = await Transaction.find(query).toArray();
+  // Return the search results
+  return results;
+  } catch(err) {
+    nexr(err)
+  }
+};

@@ -1,5 +1,5 @@
 import express from "express";
-import { createTransaction, getTransaction, getAllTransaction, getTransactionByDate, updateTransaction } from "../controller/transactionctr.js";
+import { createTransaction, getTransaction, getAllTransaction, getTransactionByDate, updateTransaction, revertTransaction, commonsearch } from "../controller/transactionctr.js";
 
 const Router = express.Router();
 
@@ -22,5 +22,8 @@ Router.put("/update/:id", updateTransaction);
 //Delete Transaction
 //Router.delete("/delete/:id",deleteTransaction);
 //Revert Transaction
-//Router.put("/revert/:id", revertTransaction);
+Router.post("/revert/:id", revertTransaction);
+
+//common query search
+Router.get("/commonsearch", commonsearch);
 export default Router;

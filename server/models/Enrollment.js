@@ -38,8 +38,11 @@ const enrollmentSchema = new mongoose.Schema({
     totalPaid: {
         type: Number
     },
+    term : {
+        type: mongoose.Schema.Types.Mixed
+    },
     termPaid: {
-        type: Array
+        type: mongoose.Schema.Types.Mixed
     },
     totalDues: {
         type: Number
@@ -65,7 +68,19 @@ const enrollmentSchema = new mongoose.Schema({
     vanFees: {
         type: Number
     },
+    vanFeesPaid: {
+        type: Number
+    }, 
+    vanFeesBalance: {
+        type: Number
+    },
     bookFeesBalance: {
+        type: Number
+    },
+    admissionFeesPaid: {
+        type: Number
+    },
+    bookFeesPaid: {
         type: Number
     },
     admissionFeesBalance: {

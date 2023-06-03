@@ -15,6 +15,7 @@ export const createCourseFees = async (req, res, next) => {
       console.log(category)
       if (category == "Academic") {
         const Term = req.body.Term
+        //var sum = 0
         console.log(Term)
         const frequency = req.body.frequency
         console.log(frequency)
@@ -22,7 +23,9 @@ export const createCourseFees = async (req, res, next) => {
         console.log(totalCharges)
         const feeCategory = req.body.studentCategory
         if (feeCategory == "General") {
-          if (Term.length == frequency) {
+          const l = Term.length
+          console.log(l);
+          if (l == frequency) {
             var sum = 0
             Term.forEach(item => {
               sum += item;
@@ -198,6 +201,18 @@ export const deleteCourseFees = async (req, res, next) => {
     await courseFees.findByIdAndDelete(req.params.id);
     return res.status(204).send("Course Fees has been deleted");
   } catch (err) {
+    next(err)
+  }
+};
+
+export const commonsearch = async (req, res, next) => {
+  try{
+    const query = req.body.query;
+    console.log("inside common search ")
+  const results = await courseFees.find(query);
+  // Return the search results
+  return results;
+  } catch(err) {
     next(err)
   }
 };

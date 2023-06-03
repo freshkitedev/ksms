@@ -1,5 +1,5 @@
 import express from "express";
-import { createTeacher, getTeachers, getTeacher, updateTeacher, deleteTeacher } from "../controller/Teachercr.js";
+import { createTeacher, getTeachers, getTeacher, updateTeacher, deleteTeacher, commonsearch } from "../controller/Teachercr.js";
 
 const Router = express.Router();
 
@@ -17,5 +17,8 @@ Router.put("/updateteacher/:id", updateTeacher);
 
 //Delete Teacher 
 Router.delete("/delete/:id", deleteTeacher);
+
+//common query search
+Router.get("/commonsearch", commonsearch);
 
 export default Router;
