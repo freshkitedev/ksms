@@ -17,7 +17,6 @@ function App() {
       <div>
         <br></br>
         <AllDetails />
-        <br></br>
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
