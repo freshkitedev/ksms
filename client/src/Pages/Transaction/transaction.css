@@ -6,6 +6,10 @@
     width: 25%;
 }
 
+.trans{
+    background-color: antiquewhite;
+}
+
 .button{
     margin-left: 50px;
     color: rgb(255, 255, 255);
@@ -53,8 +57,10 @@
     
 }
 .tot-fee{
-    background-color: rgb(114, 145, 172);
     /* margin-top: 2%; */
+    width: 130px;
+    float: left;
+    height: 75px;
     border: 1px solid black;
 }
 
@@ -64,15 +70,14 @@
     padding : 10px; 
     
 }
+
 .past-fee{
     background-color: rgb(114, 145, 172);
     /* margin-top: 2%; */
     border: 1px solid black;
 }
 
-.last-year-fees{
-    margin-top: 15px;
-}
+
 .past-fee-tr{
     width: 100px;
     border: 1px solid black;
