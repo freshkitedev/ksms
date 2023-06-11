@@ -1,5 +1,5 @@
 import express from "express";
-import { createCourseFees, deleteCourseFees, getCourseFees, getAllCourseFees, updateCourseFees } from "../controller/courseFeesctr.js";
+import { createCourseFees, deleteCourseFees, getCourseFees, getAllCourseFees, updateCourseFees, commonsearch } from "../controller/courseFeesctr.js";
 
 const Router = express.Router();
 
@@ -18,5 +18,7 @@ Router.put("/updatefees/:id", updateCourseFees);
 //Delete Course Fees defined
 Router.delete("/deletefees/:id", deleteCourseFees);
 
+//common query search
+Router.get("/commonsearch", commonsearch);
 
 export default Router;

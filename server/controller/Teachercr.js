@@ -76,3 +76,14 @@ export const deleteTeacher = async (req, res, next) => {
         next(err)
     }
 };
+
+export const commonsearch = async (req, res, next) => {
+    try{
+      const query = req.body.query;
+    const results = await Teacher.find(query).toArray();
+    // Return the search results
+    return results;
+    } catch(err) {
+      nexr(err)
+    }
+  };

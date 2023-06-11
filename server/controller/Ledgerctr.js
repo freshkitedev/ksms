@@ -19,3 +19,14 @@ export const getAllLedgers = async (req, res, next) => {
   }
 };
 
+export const commonsearch = async (req, res, next) => {
+  try{
+    const query = req.body.query;
+  const results = await ledgers.find(query).toArray();
+  // Return the search results
+  return results;
+  } catch(err) {
+    nexr(err)
+  }
+};
+

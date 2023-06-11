@@ -22,7 +22,7 @@ const courseFeesSchema = new mongoose.Schema({
     type: Number
   },
   Term: {
-    type: Array
+    type: mongoose.Schema.Types.Mixed
   },
   startDate: {
     type: Date

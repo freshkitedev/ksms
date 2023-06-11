@@ -1,21 +1,35 @@
 .para{
     font-weight:bolder;
-    margin-left: 140px;
-    
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.button{
-    
-    padding: 30px;
-    margin-left: 100px;
-      
-}
 
 .image{
-    width: 100px;
-    height: 100px; 
+    width: 120px;
+    height: 120px; 
+    transition: 0.3s;
+    
+   
     
     
  
 }
-.image:hover{opacity: 0.6}
+.image:hover{opacity: 0.6;
+transform: scale(1.1);}
+
+.button{
+    border-radius:5px;
+    transition: 0.4s ease-in-out;
+
+}
+
+.button:hover{
+
+    transform: scale(1.1);
+}
+
+.heading{
+    transform: scale(1);
+    height: 80px;
+}
+

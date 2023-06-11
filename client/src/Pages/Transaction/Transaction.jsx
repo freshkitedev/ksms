@@ -5,6 +5,9 @@ import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 
 function Transaction() {
+
+  const [data, setData] = useState();
+
   const [totalFees, setTotalFees] = useState({
     termOne: 1000,
     termTwo: 1000,
@@ -96,16 +99,17 @@ function Transaction() {
   // const [totalAmount, setTotalAmount] = useState(100);
   // const [termFees, setTermFees] = useState(100);
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   axios
-  //     .get(`http://localhost:5000/api/student/getstudent/${id}`)
-  //     .then((result) => {
-  //       setData(result.data);
-  //       console.log("student data", data);
-  //     });
-  //   console.log("You clicked submit.", data);
-  // };
+  const handleSubmit = (e) => {
+    console.log("first",data);
+    e.preventDefault();
+    axios
+      .get(`http://localhost:5000/api/student/getusers/`)
+      .then((result) => {
+        setData(result.data);
+        console.log("student data", data);
+      });
+    console.log("You clicked submit.", data);
+  };
   const [selectedYear, setSelectedYear] = useState("");
   const currentYear = new Date().getFullYear();
   const startYear = 2010;
@@ -113,6 +117,42 @@ function Transaction() {
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
   };
+  
+  const test = () => {
+
+
+    return(
+    <Modal
+        show={showModal}
+        onHide={() => handleModal()}
+        dialogClassName="modal-lg"
+      >
+        <Modal.Header closeButton>
+          <h4>Student Details</h4>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="market-table">
+            <div className="table-responsive">
+              <table className="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Standard</th>
+                    <th>Father Name</th>
+                    <th>Mother Name</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>{installedToolsTable()}</tbody>
+              </table>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+    )
+  }
 
   return (
     <>
@@ -155,7 +195,7 @@ function Transaction() {
             <input className="search-inp" placeholder="Enter roll number " />
             <label className="search-lab">Student Name</label>
             <input className="search-inp" placeholder="Enter student name " />
-            <button className="button">Submit</button>
+            <button className="button" onClick={test}>Submit</button>
           </form>
         </div>
 
@@ -196,7 +236,6 @@ function Transaction() {
                 <tr><td className="tot-fee-tr">Term 1</td></tr>
                 <tr><td className="tot-fee-tr">Term 2</td></tr>
                 <tr><td className="tot-fee-tr">Term 3</td></tr>
-                <tr><td className="tot-fee-tr">Book Fees</td></tr>
                 <tr><td className="tot-fee-tr">Van Fees</td></tr>
                 <tr><td className="tot-fee-tr">AdmissionFees</td></tr>
               </tbody>
@@ -206,14 +245,14 @@ function Transaction() {
               <tbody>
                 <tr style={{height: 50}}>
                   <td className="tot-fee-tr">
-                    Total Fees
-                    <span style={{ fontSize: 11 }}> (current year)</span>
+                    Total Fees 
+                    <br></br>
+                    <span style={{ fontSize: 11 }}>(current year)</span>
                   </td>
                 </tr>
                 <tr><td className="tot-fee-tr">{totalFees.termOne}</td></tr>
                 <tr><td className="tot-fee-tr">{totalFees.termTwo}</td></tr>
                 <tr><td className="tot-fee-tr">{totalFees.termThree}</td></tr>
-                <tr><td className="tot-fee-tr">{totalFees.bookFees}</td></tr>
                 <tr><td className="tot-fee-tr">{totalFees.vanFees}</td></tr>
                 <tr><td className="tot-fee-tr">{totalFees.admissionFees}</td></tr>
               </tbody>
@@ -222,11 +261,11 @@ function Transaction() {
               <thead></thead>
               <tbody>
                 <tr style={{height: 50}}><td className="tot-fee-tr">Paid Fees
+                <br></br>
                 <span style={{ fontSize: 11 }}> (current year)</span></td></tr>
                 <tr><td className="tot-fee-tr">{paidFees.termOne}</td></tr>
                 <tr><td className="tot-fee-tr">{paidFees.termTwo}</td></tr>
                 <tr><td className="tot-fee-tr">{paidFees.termThree}</td></tr>
-                <tr><td className="tot-fee-tr">{paidFees.bookFees}</td></tr>
                 <tr><td className="tot-fee-tr">{paidFees.vanFees}</td></tr>
                 <tr><td className="tot-fee-tr">{paidFees.admissionFees}</td></tr>
               </tbody>
@@ -238,13 +277,13 @@ function Transaction() {
                   <tr>
                     <td className="tot-fee-tr">
                       Total Fees
-                      <span style={{ fontSize: 11 }}> (Last year)</span>
+                      <br></br>
+                      <span style={{ fontSize: 11 }}> (Past year)</span>
                     </td>
                   </tr>
                   <tr><td className="tot-fee-tr">{lyTotalFees.termOne}</td></tr>
                   <tr><td className="tot-fee-tr">{lyTotalFees.termTwo}</td></tr>
                   <tr><td className="tot-fee-tr">{lyTotalFees.termThree}</td></tr>
-                  <tr><td className="tot-fee-tr">{lyTotalFees.bookFees}</td></tr>
                   <tr><td className="tot-fee-tr">{lyTotalFees.vanFees}</td></tr>
                   <tr><td className="tot-fee-tr">{lyTotalFees.admissionFees}</td></tr>
                 </tbody>
@@ -253,11 +292,11 @@ function Transaction() {
                 <thead></thead>
                 <tbody>
                   <tr style={{height: 50}}><td className="tot-fee-tr">Paid Fees
-                  <span style={{ fontSize: 11 }}> (Last year)</span></td></tr>
+                  <br></br>
+                  <span style={{ fontSize: 11 }}> (Past year)</span></td></tr>
                   <tr><td className="tot-fee-tr">{pastFees.termOne}</td></tr>
                   <tr><td className="tot-fee-tr">{pastFees.termTwo}</td></tr>
                   <tr><td className="tot-fee-tr">{pastFees.termThree}</td></tr>
-                  <tr><td className="tot-fee-tr">{pastFees.bookFees}</td></tr>
                   <tr><td className="tot-fee-tr">{pastFees.vanFees}</td></tr>
                   <tr><td className="tot-fee-tr">{pastFees.admissionFees}</td></tr>
                 </tbody>

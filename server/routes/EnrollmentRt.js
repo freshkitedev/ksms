@@ -1,5 +1,5 @@
 import express from "express";
-import { createEnrollment, deleteEnrollment, getEnrollment, getAllEnrollment, updateEnrollment } from "../controller/enrollmentctr.js";
+import { createEnrollment, deleteEnrollment, getEnrollment, getAllEnrollment, updateEnrollment, commonsearch } from "../controller/enrollmentctr.js";
 
 const Router = express.Router();
 
@@ -18,5 +18,7 @@ Router.put("/update/:id", updateEnrollment);
 //Delete Enrollment
 Router.delete("/delete/:id", deleteEnrollment);
 
+//common query search
+Router.get("/commonsearch", commonsearch);
 
 export default Router;
