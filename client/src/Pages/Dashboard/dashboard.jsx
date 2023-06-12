@@ -49,9 +49,9 @@ const DashBoard = () => {
         </div>
         <div className="col-sm-4 text-center">
           <button className="button shadow" onClick={AddCourseNav}>
-            <img className="image  card" src={addcourse} alt="add course" />
+            <img className="image  card" src={addcourse} alt="add course fees" />
           </button>
-          <p className="para">Add Course&nbsp;<i class="bi bi-building-fill-add"></i></p>
+          <p className="para">Add Course Fees&nbsp;<i class="bi bi-building-fill-add"></i></p>
         </div>
       </div><br></br>
       <div className="row justify-content-center">

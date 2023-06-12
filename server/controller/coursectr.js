@@ -31,7 +31,11 @@ export const createCourse = async (req, res, next) => {
 export const getAllCourse = async (req, res, next) => {
   try {
     const allCourses = await course.find();
+    if(allCourses != "") {
     res.status(201).send(allCourses);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
   } catch (err) {
     next(err)
   }
@@ -41,7 +45,11 @@ export const getAllCourse = async (req, res, next) => {
 export const getCourse = async (req, res) => {
   try {
     const Course = await course.findById(req.params.id);
+    if(Course != "") {
     res.status(201).send(Course);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
   } catch (err) {
     next(err)
   }
@@ -56,7 +64,11 @@ export const updateCourse = async (req, res, next) => {
       { new: "true" }
 
     )
+    if(updatecourse != "") {
     return res.status(202).send(updatecourse);
+    } else {
+      return next(createError(500, "empty data received from server"))
+    }
   } catch (err) {
     next(err)
   }
@@ -77,9 +89,17 @@ export const deleteCourse = async (req, res, next) => {
 export const commonsearch = async (req, res, next) => {
   try{
     const query = req.body.query; 
-  const results = await course.find(query).toArray();
+  const results = await course.find(query);
   // Return the search results
-  return results;
+  if(results != "") {
+    console.log("check");
+   // const results = await cursor.toArray();
+    // Return the search results
+    return res.status(201).send(results);
+    }else {
+      console.log("error")
+      return next(createError(500, "cannot retrieve data"))
+    }
   } catch(err) {
     nexr(err)
   }

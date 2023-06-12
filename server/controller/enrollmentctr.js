@@ -40,7 +40,11 @@ export const createEnrollment = async (req, res, next) => {
 export const getAllEnrollment = async (req, res, next) => {
   try {
     const allEnrollment = await enrollment.find();
+    if(allEnrollment != "") {
     res.status(201).send(allEnrollment);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
   } catch (err) {
     next(err)
   }
@@ -50,7 +54,11 @@ export const getAllEnrollment = async (req, res, next) => {
 export const getEnrollment = async (req, res, next) => {
   try {
     const Enrollment = await enrollment.findById(req.params.id);
+    if(Enrollment != "") {
     res.status(201).send(Enrollment);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
   } catch (err) {
     next(err)
   }
@@ -65,7 +73,11 @@ export const updateEnrollment = async (req, res, next) => {
       { new: "true" }
 
     )
+    if(updateEnrollment != "") {
     return res.status(201).send(updateEnrollment);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
   } catch (err) {
     next(err)
   }
@@ -86,9 +98,17 @@ export const deleteEnrollment = async (req, res, next) => {
 export const commonsearch = async (req, res, next) => {
   try{
     const query = req.body.query;
-  const results = await enrollments.find(query).toArray();
+  const results = await enrollment.find(query);
   // Return the search results
-  return results;
+  if(results != "") {
+    console.log("check");
+   // const results = await cursor.toArray();
+    // Return the search results
+    return res.status(201).send(results);
+    }else {
+      console.log("error")
+      return next(createError(500, "cannot retrieve data"))
+    }
   } catch(err) {
     nexr(err)
   }

@@ -112,6 +112,16 @@ const EditCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
           className="form-control"
         />
       </div>
+      <div className="mb-3">
+        <label className="form-label">Student Category:</label>
+        <input
+          type="text"
+          name="Student Category"
+          value={updatedCourseFee.studentCategory}
+          onChange={handleInputChange}
+          className="form-control"
+        />
+      </div>
      
       {/* Add more input fields for other attributes */}
 

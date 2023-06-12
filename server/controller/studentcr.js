@@ -47,14 +47,61 @@ export const createStudent = async (req, res, next) => {
           vanApplicable: req.body.vanApplicable,
           vanStop: req.body.vanStop,
           newStudent: req.body.newStudent,
+          admissionFeeCategory: req.body.admissionFeeCategory,
         });
         console.log(newStudent);
         await newStudent.save();
+        console.log("student saved");
+        if(req.body.newStudent) {
+          const coursecnt = await course.countDocuments({ courseName: req.body.admissionFeeCategory })
+          console.log(coursecnt)
+          if (coursecnt > 0) {
+            const query = {
+              courseName: req.body.admissionFeeCategory,
+              year: req.body.academicYear
+            };
+            const coursedata = await course.findOne({ courseName: req.body.vanStop })
+            if(coursedata != "") {
+            console.log(coursedata)
+            } else {
+              return next(createError(500, "empty data received"))
+            }
+            const courseFeedata = await courseFees.findOne(query)
+            if(courseFeedata != "") {
+            console.log(courseFeedata)
+            } else {
+              return next(createError(500, "empty data received"))
+            }
+            var admotherFeeData = courseFeedata.otherFees;
+            console.log(admotherFeeData)
+            var admotherFeeValueCopy = JSON.parse(JSON.stringify(admotherFeeData));
+            var admotherfeesPaid = admotherFeeValueCopy.map(item => ({ ...item, value: 0 }));
+            console.log(admotherfeesPaid);
+            console.log(req.body.admissionFeeCategory)
+            const admenrollment = new enrollment({
+              year: req.body.academicYear,
+              userId: newStudent.rollNumber,
+              vanFees: courseFeedata.totalCharges,
+              totalPaid: 0,
+              otherFees: admotherFeeData,
+              otherFeesPaid: admotherfeesPaid,
+              section: req.body.section,
+              courseName: req.body.vanStop,
+              courseId: coursedata.courseId,
+              feesCategory: "admissionFees"
+            })
+            console.log(admenrollment)
+            await admenrollment.save();
+            console.log("Successfully saved admission fee enrollment")
+          }
+        } else {
+          console.log("old student")
+        }
         console.log("course fee data", courseFeedata.Term)
         const termData = courseFeedata.Term;
         const termValueCopy = JSON.parse(JSON.stringify(termData));
         var TermPaid = termValueCopy;
-        console.log("TErm Paid data", TermPaid);
+        console.log("Term Paid data", TermPaid);
         TermPaid.fill(0);
         console.log("TermPaid",TermPaid);
         console.log(courseFeedata.totalCharges)
@@ -69,15 +116,12 @@ export const createStudent = async (req, res, next) => {
           courseName: req.body.grade,
           section: req.body.section,
           courseId: coursedata.courseId,
-          feesCategory: "termFees",
-          bookFees: courseFeedata.bookFees,
-          bookFeesBalance: courseFeedata.bookFees,
-          admissionFees: courseFeedata.admissionFees,
-          admissionFeesBalance: courseFeedata.admissionFees
+          feesCategory: "termFees"
         })
         console.log(newenrollment)
         await newStudent.save();
         await newenrollment.save();
+
         const van = req.body.vanApplicable
         if (van) {
           const coursecnt = await course.countDocuments({ courseName: req.body.vanStop })
@@ -88,24 +132,38 @@ export const createStudent = async (req, res, next) => {
               year: req.body.academicYear
             };
             const coursedata = await course.findOne({ courseName: req.body.vanStop })
+            if(coursedata != "") {
             console.log(coursedata)
+            } else {
+              return next(createError(500, "empty data received"))
+            }
             const courseFeedata = await courseFees.findOne(query)
+            if(courseFeedata != "") {
             console.log(courseFeedata)
+            } else {
+              return next(createError(500, "empty data received"))
+            }
             const vanStop = req.body.vanStop
-            const newenrollment = new enrollment({
+            const otherFeeData = courseFeedata.otherFees;
+            console.log(otherFeeData)
+            const otherFeeValueCopy = JSON.parse(JSON.stringify(otherFeeData));
+            const otherfeesPaid = otherFeeValueCopy.map(item => ({ ...item, value: 0 }));
+            console.log(otherfeesPaid);
+            console.log(vanStop)
+            const vanenrollment = new enrollment({
               year: req.body.academicYear,
               userId: newStudent.rollNumber,
-              vanFees: courseFeedata.vanFees,
+              vanFees: courseFeedata.totalCharges,
               totalPaid: 0,
-              vanFeesPaid: 0,
+              otherFees: otherFeeData,
+              otherFeesPaid: otherfeesPaid,
               section: req.body.section,
               courseName: req.body.vanStop,
               courseId: coursedata.courseId,
-              feesCategory: "vanFees",
-              vanFeesbalance: courseFeedata.vanFees,
+              feesCategory: "vanFees"
             })
-            console.log(newenrollment)
-            await newenrollment.save();
+            console.log(vanenrollment)
+            await vanenrollment.save();
             console.log("Successfully saved enrollment")
           }
           else {
@@ -131,7 +189,11 @@ export const createStudent = async (req, res, next) => {
 export const getstudents = async (req, res, next) => {
   try {
     const allStudents = await student.find();
+    if(allStudents != "") {
     res.status(201).send(allStudents);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
   } catch (err) {
     next(err)
   }
@@ -140,7 +202,8 @@ export const getstudents = async (req, res, next) => {
 //Particular Student Details
 export const getstudent = async (req, res, next) => {
   try {
-    const Student = await student.findById(req.params.id);
+    const rollnumber = req.params.id
+    const Student = await student.findOne({rollNumber: rollnumber});
     const query = {
       userId: req.body.rollNumber
     }
@@ -156,6 +219,22 @@ export const getstudent = async (req, res, next) => {
   }
 };
 
+export const getstudentByName = async (req, res, next) => {
+  try {
+    console.log("inside get by name")
+    const studentName = req.body.fName;
+    console.log(studentName)
+    const Student = await student.find({"Name.fName": studentName})
+    console.log(Student)
+    res.status(201).json(
+      {
+        status: "success",
+        details: Student,
+      });
+  } catch (err) {
+    next(err)
+  }
+};
 //Update Student Details
 export const updateStudent = async (req, res, next) => {
   try {
@@ -188,7 +267,15 @@ export const commonsearch = async (req, res, next) => {
     const query = req.body.query;
   const results = await student.find(query).toArray();
   // Return the search results
-  return results;
+  if(results != "") {
+    console.log("check");
+   // const results = await cursor.toArray();
+    // Return the search results
+    return res.status(201).send(results);
+    }else {
+      console.log("error")
+      return next(createError(500, "cannot retrieve data"))
+    }
   } catch(err) {
     nexr(err)
   }

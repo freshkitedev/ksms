@@ -24,6 +24,10 @@ const courseFeesSchema = new mongoose.Schema({
   Term: {
     type: mongoose.Schema.Types.Mixed
   },
+  otherFees: [{
+    key: String,
+    value: Number
+  }],
   startDate: {
     type: Date
   },
@@ -40,16 +44,8 @@ const courseFeesSchema = new mongoose.Schema({
     type: String
   },
   rteFees: {
-    type: Number
-  },
-  vanFees: {
-    type: Number
-  },
-  admissionFees: {
-    type: Number
-  },
-  bookFees: {
-    type: Number
+    type: Number,
+    default: 0
   },
   feesCategory: {
     type: String

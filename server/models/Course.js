@@ -11,7 +11,10 @@ const courseSchema = new mongoose.Schema({
   },
   courseType: {
     type: String
-  }
+  },
+  courseSubCategory: {
+    type: String
+  },
 });
 autoIncrement.initialize(mongoose.connection);
 courseSchema.plugin(autoIncrement.plugin, {

@@ -1,5 +1,5 @@
 import express from "express";
-import { createStudent, deleteStudent, getstudent, getstudents, updateStudent, commonsearch } from "../controller/studentcr.js";
+import { createStudent, deleteStudent, getstudent, getstudents, updateStudent, commonsearch, getstudentByName} from "../controller/studentcr.js";
 
 const Router = express.Router();
 
@@ -10,7 +10,11 @@ Router.post("/createstudent", createStudent);
 Router.get("/getstudent", getstudents);
 
 //Get Details For Particular Student
-Router.get("/getusers/:id", getstudent);
+Router.get("/getusers/:rollNumber", getstudent);
+
+//Get Student By Name
+Router.get("/getusers/name/firstname", getstudentByName);
+
 
 //Update Student Detials
 Router.put("/update/:id", updateStudent);
