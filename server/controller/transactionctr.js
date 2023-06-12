@@ -141,28 +141,31 @@ export const createTransaction = async (req, res, next) => {
         await enrollmentdata.save();
         var response = [enrollmentdata, newTransaction] 
         res.status(200).send(response);
-      } else {
-        console.log("inside else for other fees")
+      } else if(category == "admissionFees") {
+        console.log("inside admission fees")
+        console.log(category)
         const query = {
           userId: req.body.rollNumber,
-          "otherFees.key": category, 
+          feesCategory: category, 
           year: req.body.year
         };
-        const otherEnrollment = await enrollments.findOne(query)
-        if(otherEnrollment != "") {
-        console.log(otherEnrollment)
+        const admissionFeeEnrollment = await enrollments.findOne(query)
+        if(admissionFeeEnrollment != "") {
+        console.log(admissionFeeEnrollment)
         } else {
           return next(createError(500, "empty data received"))
         }
-        if(req.body.transactionAmt > "otherEnrollment.otherFees.value" || req.body.transactionAmt > "otherEnrollment.otherFeesPaid.value") {
-          return next(createError(500, "Transaction amt is higher"))
+        //var balance = admissionFeeEnrollment.totalCharges - admissionFeeEnrollment.totalPaid
+        if(req.body.transactionAmt > admissionFeeEnrollment.totalCharges) {
+          return next(createError(500, "Transaction amt is higher for admission Fees"))
         } else {
-          var actualPaid = otherEnrollment.otherFeesPaid.value
+          var actualPaid = admissionFeeEnrollment.totalPaid
           var paid = actualPaid + req.body.transactionAmt
-          console.log("inside else", paid)
+          //console.log("inside else", paid)
+          var balanceamt = admissionFeeEnrollment.totalCharges - paid;
           const enrollmentdata = await enrollments.findOneAndUpdate(
             query,
-            { $set: { "otherFeesPaid.value": paid } },
+            { $set: { totalPaid: paid, balance: balanceamt } },
             { new: "true" }
           )
           console.log(enrollmentdata)
@@ -170,8 +173,40 @@ export const createTransaction = async (req, res, next) => {
           var response = [enrollmentdata, newTransaction] 
           res.status(200).send(response);
         }
-      }  
+      } else if(category == "vanFees") {
+        console.log("inside van fees")
+        console.log(category)
+        const query = {
+          userId: req.body.rollNumber,
+          feesCategory: category, 
+          year: req.body.year
+        };
+        const vanFeeEnrollment = await enrollments.findOne(query)
+        if(vanFeeEnrollment != "") {
+        console.log(vanFeeEnrollment)
+        } else {
+          return next(createError(500, "empty data received"))
+        }
+        //var balance = vanFeeEnrollment.totalCharges - vanFeeEnrollment.totalPaid
+        if(req.body.transactionAmt > vanFeeEnrollment.totalCharges) {
+          return next(createError(500, "Transaction amt is higher for van Fees"))
+        } else {
+          var actualPaid = vanFeeEnrollment.totalPaid
+          var paid = actualPaid + req.body.transactionAmt
+          //console.log("inside else", paid)
+          var balanceamt = vanFeeEnrollment.totalCharges - paid;
+          const enrollmentdata = await enrollments.findOneAndUpdate(
+            query,
+            { $set: { totalPaid: paid, balance: balanceamt } },
+            { new: "true" }
+          )
+          console.log(enrollmentdata)
+          await enrollmentdata.save();
+          var response = [enrollmentdata, newTransaction] 
+          res.status(200).send(response);
+      }
     }
+  }
     /*else if (type == "debit") {
       const studentEnrollment = await enrollments.findOne({ userId: req.body.rollNumber })
       const paid = studentEnrollment.totalPaid - req.body.txnAmount

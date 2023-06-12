@@ -60,7 +60,7 @@ export const createStudent = async (req, res, next) => {
               courseName: req.body.admissionFeeCategory,
               year: req.body.academicYear
             };
-            const coursedata = await course.findOne({ courseName: req.body.vanStop })
+            const coursedata = await course.findOne({ courseName: req.body.admissionFeeCategory})
             if(coursedata != "") {
             console.log(coursedata)
             } else {
@@ -72,23 +72,16 @@ export const createStudent = async (req, res, next) => {
             } else {
               return next(createError(500, "empty data received"))
             }
-            var admotherFeeData = courseFeedata.otherFees;
-            console.log(admotherFeeData)
-            var admotherFeeValueCopy = JSON.parse(JSON.stringify(admotherFeeData));
-            var admotherfeesPaid = admotherFeeValueCopy.map(item => ({ ...item, value: 0 }));
-            console.log(admotherfeesPaid);
-            console.log(req.body.admissionFeeCategory)
+            
             const admenrollment = new enrollment({
               year: req.body.academicYear,
               userId: newStudent.rollNumber,
-              vanFees: courseFeedata.totalCharges,
               totalPaid: 0,
-              otherFees: admotherFeeData,
-              otherFeesPaid: admotherfeesPaid,
-              section: req.body.section,
-              courseName: req.body.vanStop,
+              totalCharges: courseFeedata.totalCharges,
+              courseName: req.body.admissionFeeCategory,
               courseId: coursedata.courseId,
-              feesCategory: "admissionFees"
+              feesCategory: "admissionFees",
+              balance: courseFeedata.totalCharges,
             })
             console.log(admenrollment)
             await admenrollment.save();
@@ -144,23 +137,17 @@ export const createStudent = async (req, res, next) => {
               return next(createError(500, "empty data received"))
             }
             const vanStop = req.body.vanStop
-            const otherFeeData = courseFeedata.otherFees;
-            console.log(otherFeeData)
-            const otherFeeValueCopy = JSON.parse(JSON.stringify(otherFeeData));
-            const otherfeesPaid = otherFeeValueCopy.map(item => ({ ...item, value: 0 }));
-            console.log(otherfeesPaid);
             console.log(vanStop)
             const vanenrollment = new enrollment({
               year: req.body.academicYear,
               userId: newStudent.rollNumber,
-              vanFees: courseFeedata.totalCharges,
               totalPaid: 0,
-              otherFees: otherFeeData,
-              otherFeesPaid: otherfeesPaid,
+              totalCharges:  courseFeedata.totalCharges,
               section: req.body.section,
               courseName: req.body.vanStop,
               courseId: coursedata.courseId,
-              feesCategory: "vanFees"
+              feesCategory: "vanFees",
+              balance: courseFeedata.totalCharges,
             })
             console.log(vanenrollment)
             await vanenrollment.save();
