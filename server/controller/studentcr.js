@@ -189,10 +189,11 @@ export const getstudents = async (req, res, next) => {
 //Particular Student Details
 export const getstudent = async (req, res, next) => {
   try {
-    const rollnumber = req.params.id
+    const rollnumber = req.params.rollNumber
+    console.log(rollnumber)
     const Student = await student.findOne({rollNumber: rollnumber});
     const query = {
-      userId: req.body.rollNumber
+      userId: rollnumber
     }
     const Studentfees = await enrollment.find(query);
     res.status(201).json(
@@ -209,7 +210,7 @@ export const getstudent = async (req, res, next) => {
 export const getstudentByName = async (req, res, next) => {
   try {
     console.log("inside get by name")
-    const studentName = req.body.fName;
+    const studentName = req.params.firstname;
     console.log(studentName)
     const Student = await student.find({"Name.fName": studentName})
     console.log(Student)

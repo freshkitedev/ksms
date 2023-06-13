@@ -13,7 +13,7 @@ Router.get("/getstudent", getstudents);
 Router.get("/getusers/:rollNumber", getstudent);
 
 //Get Student By Name
-Router.get("/getusers/name/firstname", getstudentByName);
+Router.get("/getusers/name/:firstname", getstudentByName);
 
 
 //Update Student Detials
