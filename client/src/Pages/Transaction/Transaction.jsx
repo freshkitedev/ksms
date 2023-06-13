@@ -118,41 +118,41 @@ function Transaction() {
     setSelectedYear(e.target.value);
   };
   
-  const test = () => {
+  // const test = () => {
 
 
-    return(
-    <Modal
-        show={showModal}
-        onHide={() => handleModal()}
-        dialogClassName="modal-lg"
-      >
-        <Modal.Header closeButton>
-          <h4>Student Details</h4>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="market-table">
-            <div className="table-responsive">
-              <table className="table mb-0">
-                <thead>
-                  <tr>
-                    <th>Roll No</th>
-                    <th>Name</th>
-                    <th>Standard</th>
-                    <th>Father Name</th>
-                    <th>Mother Name</th>
-                    <th>Address</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>{installedToolsTable()}</tbody>
-              </table>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-    )
-  }
+  //   return(
+  //   <Modal
+  //       show={showModal}
+  //       onHide={() => handleModal()}
+  //       dialogClassName="modal-lg"
+  //     >
+  //       <Modal.Header closeButton>
+  //         <h4>Student Details</h4>
+  //       </Modal.Header>
+  //       <Modal.Body>
+  //         <div className="market-table">
+  //           <div className="table-responsive">
+  //             <table className="table mb-0">
+  //               <thead>
+  //                 <tr>
+  //                   <th>Roll No</th>
+  //                   <th>Name</th>
+  //                   <th>Standard</th>
+  //                   <th>Father Name</th>
+  //                   <th>Mother Name</th>
+  //                   <th>Address</th>
+  //                   <th>Action</th>
+  //                 </tr>
+  //               </thead>
+  //               <tbody>{installedToolsTable()}</tbody>
+  //             </table>
+  //           </div>
+  //         </div>
+  //       </Modal.Body>
+  //     </Modal>
+  //   )
+  // }
 
   return (
     <>
@@ -195,7 +195,7 @@ function Transaction() {
             <input className="search-inp" placeholder="Enter roll number " />
             <label className="search-lab">Student Name</label>
             <input className="search-inp" placeholder="Enter student name " />
-            <button className="button" onClick={test}>Submit</button>
+            <button className="button" >Submit</button>
           </form>
         </div>
 

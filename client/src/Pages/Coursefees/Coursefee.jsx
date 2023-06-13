@@ -60,6 +60,20 @@ const CourseFeesComponent = () => {
       getAllCourseFees();
     } catch (error) {
       // Handle error
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        console.log(errorMessage); // You can log the error message for debugging purposes
+        alert(`Error: ${errorMessage}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log(error.request);
+        // Handle the request error in the UI or perform any necessary actions
+        alert("Error: No response received from the server.");
+      } else {
+        console.log("Error", error.message);
+        alert(`Error: ${error.message}`);
+      }
+      // Handle any other error related to the request or perform any necessary actions
     }
   };
 
@@ -132,7 +146,7 @@ const CourseFeesComponent = () => {
   {showForm && <AddCourseFeeForm onAdd={handleAddCourseFee} />}
   <br />
   <button className="btn btn-info mb-3" onClick={toggleForm}>
-    {showForm ? "Hide Course Fee Form" : "Add New Course Here!..."}
+    {showForm ? "Hide Course Fee Form" : "Add New Course Fees Here!..."}
   </button>
 </div></div>
 
@@ -171,8 +185,10 @@ const CourseFeesComponent = () => {
              
               <th >Year</th>
               <th>Frequency</th>
+              <th>Student Category</th>
+              <th>Rte Fees</th>
               <th>Total Charges</th>
-              <th>Terms</th>
+              <th>Term</th>
               <th>Start Date</th>
               <th>End Date</th>
               <th>Status</th>
@@ -191,8 +207,10 @@ const CourseFeesComponent = () => {
                
                 <td>{courseFee.year}</td>
                 <td>{courseFee.frequency}</td>
+                <td>{courseFee.studentCategory}</td>
+                <td>{courseFee.rteFees}</td>
                 <td>{courseFee.totalCharges}</td>
-                <td>{courseFee.Term.join(", ")}</td>
+                <td>{courseFee.Term}</td>
                 <td>{courseFee.startDate}</td>
                 <td>{courseFee.endDate}</td>
                 <td>{courseFee.status ? "Active" : "Inactive"}</td>
@@ -235,8 +253,9 @@ const CourseFeesComponent = () => {
                         <p>Course ID: {courseFee.courseId}</p>
                         <p>Year: {courseFee.year}</p>
                         <p>Frequency: {courseFee.frequency}</p>
+                        <p>Student Category: {courseFee.studentCategory}</p>
                         <p>Total Charges: {courseFee.totalCharges}</p>
-                        <p>Terms: {courseFee.Term.join(", ")}</p>
+                        <p>Term: {courseFee.Term}</p>
                         <p>Start Date: {courseFee.startDate}</p>
                         <p>End Date: {courseFee.endDate}</p>
                         <p>

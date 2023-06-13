@@ -44,6 +44,15 @@ const enrollmentSchema = new mongoose.Schema({
     termPaid: {
         type: mongoose.Schema.Types.Mixed
     },
+    otherFees: [{
+        key: String,
+        value: Number,
+      }],
+    otherFeesPaid: [{
+        key: String,
+        value: Number,
+        default: 0
+      }],
     totalDues: {
         type: Number
     },
@@ -56,37 +65,9 @@ const enrollmentSchema = new mongoose.Schema({
     concession: {
         type: Number
     },
-    bookFees: {
-        type: Number
-    },
-    admissionFees: {
-        type: Number
-    },
     section: {
         type: String
     },
-    vanFees: {
-        type: Number
-    },
-    vanFeesPaid: {
-        type: Number
-    }, 
-    vanFeesBalance: {
-        type: Number
-    },
-    bookFeesBalance: {
-        type: Number
-    },
-    admissionFeesPaid: {
-        type: Number
-    },
-    bookFeesPaid: {
-        type: Number
-    },
-    admissionFeesBalance: {
-        type: Number
-    }
-
 });
 autoIncrement.initialize(mongoose.connection);
 enrollmentSchema.plugin(autoIncrement.plugin, {

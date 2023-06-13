@@ -80,9 +80,17 @@ export const deleteTeacher = async (req, res, next) => {
 export const commonsearch = async (req, res, next) => {
     try{
       const query = req.body.query;
-    const results = await Teacher.find(query).toArray();
+    const results = await Teacher.find(query);
     // Return the search results
-    return results;
+    if(results != "") {
+        console.log("check");
+       // const results = await cursor.toArray();
+        // Return the search results
+        return res.status(201).send(results);
+        }else {
+          console.log("error")
+          return next(createError(500, "cannot retrieve data"))
+        }
     } catch(err) {
       nexr(err)
     }

@@ -3,6 +3,34 @@ import Student from "../models/Student.js";
 import { createError } from "../error.js";
 import XLSX from "xlsx";
 
+/*var upload = multer({dest: "uploads/"});
+
+export const xlupload = async (req, res, next) => {
+  try {
+    const file = req.file;
+
+    if (file == null || file == "undefined") {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    else {
+      var filepath = "uploads" + req.file;
+      const excelData = excelToJson({
+        sourceFile: filepath,
+        header: {
+          rows: 1,
+        },
+        columntoKey: {
+          "*": "{{columnHeader}}",
+        }
+      });
+      fs.remove(filepath);
+      res.status92zzzzzz
+    }
+
+  } catch(err) {
+    next(err)
+  }
+}*/
 // Process uploaded Excel file
 export const xlupload = async (req, res) => {
   try {
@@ -72,27 +100,23 @@ export const uploadStudents = async (req, res) => {
     // ...
 
     const formattedData = xlData.map((row) => ({
-      rollNumber: row.rollNumber,
       Name: {
-        fName: row.fName,
-        mName: row.mName,
-        lName: row.lName,
-      },
-      dateOfBirth: new Date((row.dateOfBirth- 25569)*86400*1000), // Convert date string to JavaScript date
+        fName: row.FirstName,
+        mName: row.MiddleName,
+        lName: row.LastName,
+      }, // Convert date string to JavaScript date
       fatherName: row.fatherName,
       motherName: row.motherName,
-      homeAddress: row.homeAddress,
-      enrollmentDate: new Date((row.enrollmentDate- 25569)*86400*1000), // Convert date string to JavaScript date
+      homeAddress: row.homeAddress, // Convert date string to JavaScript date
       emailID: row.emailID,
-      mobileNo: row.mobileNo,
-      lastDate: new Date((row.lastDate - 25569)*86400*1000), // Convert date string to JavaScript datenew Date((row.startDate - 25569) * 86400 * 1000)
+      mobileNo: row.MobileNumber, // Convert date string to JavaScript datenew Date((row.startDate - 25569) * 86400 * 1000)
       activeIndicator: row.activeIndicator,
       userGroup: row.userGroup,
-      grade: row.grade,
-      section: row.section,
-      group: row.group,
-      emisNumber: row.emisNumber,
-      admissionNo: row.admissionNo,
+      grade: row.Grade,
+      section: row.Section,
+      group: row.Group,
+      emisNumber: row.EMISNumber,
+      admissionNo: row.AdmissionNo,
       category: row.category,
       academicYear: row.academicYear,
       concessionApplicable: row.concessionApplicable,
@@ -106,9 +130,9 @@ export const uploadStudents = async (req, res) => {
     console.log('formattedData:', formattedData); // Check the formattedData in the console
 
     // Validate the data and ensure 'Name' fields are present
-    if (!formattedData.every((row) => row.Name.fName && row.Name.lName)) {
-      throw createError(400, "Invalid data: First name and last name are required");
-    }
+   // if (!formattedData.every((row) => row.Name.fName && row.Name.lName)) {
+     // throw createError(400, "Invalid data: First name and last name are required");
+   // }
 
     // Insert the student data into the database
     const insertedData = await Student.insertMany(formattedData);

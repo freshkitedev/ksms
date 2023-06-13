@@ -31,7 +31,6 @@ const studentSchema = new mongoose.Schema({
   },
   enrollmentDate: {
     type: String,
-    required: true,
   },
   emailID: {
     type: String
@@ -50,7 +49,6 @@ const studentSchema = new mongoose.Schema({
   },
   grade: {
     type: String,
-    required: true
   },
   section: {
     type: String
@@ -63,29 +61,27 @@ const studentSchema = new mongoose.Schema({
   },
   admissionNo: {
     type: Number,
-    required: true
   },
   category: {
     type: String,
-    required: true
   },
   academicYear: {
     type: String,
-    required: true
   },
   concessionApplicable: {
     type: Boolean,
-    required: true
   },
   vanApplicable: {
     type: Boolean,
-    required: true
   },
   vanStop: {
     type: String
   },
   newStudent: {
     type: Boolean
+  },
+  admissionnFeeCategory: {
+    type: String
   }
 });
 autoIncrement.initialize(mongoose.connection);

@@ -7,8 +7,10 @@ const AddCourseFeeForm = ({ onAdd }) => {
     courseId: "",
     year: "",
     frequency: "",
+    studentCategory: "",
+    rteFees: "",
     totalCharges: "",
-    terms: [],
+    term: [],
     startDate: "",
     endDate: "",
     status: false,
@@ -21,7 +23,15 @@ const AddCourseFeeForm = ({ onAdd }) => {
       ...prevCourseFee,
       [name]: value,
     }));
-  };
+
+  if (name === "studentCategory" && value !== "RTE") {
+    // If student category is not RTE, clear and disable RTE fees
+    setCourseFee((prevCourseFee) => ({
+      ...prevCourseFee,
+      rteFees: "",
+    }));
+  }
+}; 
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
@@ -39,14 +49,14 @@ const AddCourseFeeForm = ({ onAdd }) => {
     const termsArray = termsInput.split(",").map(Number);
     setCourseFee((prevCourseFee) => ({
       ...prevCourseFee,
-      terms: termsArray,
+      term: termsArray,
     }));
   };
 
   const handleAdd = (e) => {
     e.preventDefault();
   
-    const termsTotal = courseFee.terms.reduce((sum, term) => sum + term, 0);
+    const termsTotal = courseFee.term.reduce((sum, term) => sum + term, 0);
     if (termsTotal !== parseInt(courseFee.totalCharges)) {
       alert("Error: Terms and Total Charges do not match!");
       return;
@@ -58,8 +68,10 @@ const AddCourseFeeForm = ({ onAdd }) => {
       courseId: "",
       year: "",
       frequency: "",
+      studentCategory: "",
+      rteFees: "",
       totalCharges: "",
-      terms: [],
+      term: [],
       startDate: "",
       endDate: "",
       status: false,
@@ -113,6 +125,27 @@ const AddCourseFeeForm = ({ onAdd }) => {
               onChange={handleInputChange}
             />
           </div>
+        <div className="form-group">
+            <label>Student Category:</label>
+            <input
+              type="text"
+              className="form-control"
+              name="studentCategory"
+              value={courseFee.studentCategory}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Rte Fees:</label>
+            <input
+              type="number"
+              className="form-control"
+              name="rteFees"
+              value={courseFee.rteFees}
+              onChange={handleInputChange}
+              disabled={courseFee.studentCategory !== "RTE"}
+            />
+          </div>
         </div>
         <div className="col-md-6">
           <div className="form-group">
@@ -126,11 +159,11 @@ const AddCourseFeeForm = ({ onAdd }) => {
             />
           </div>
           <div className="form-group">
-            <label>Terms:</label>
+            <label>Term:</label>
             <input
               type="text"
               className="form-control"
-              name="terms"
+              name="term"
               value={termsInput}
               onChange={handleInputChangeterms}
               onBlur={handleTermsBlur}

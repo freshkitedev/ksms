@@ -73,7 +73,11 @@ export const createTransaction = async (req, res, next) => {
           year: req.body.year
         };
         const termEnrollment = await enrollments.findOne(query)
+        if(termEnrollment != "") {
         console.log(termEnrollment)
+        } else {
+          return next(createError(500, "empty data received"))
+        }
         var totalcharges = termEnrollment.totalCharges;
         var termPaid = termEnrollment.termPaid
         const term = termEnrollment.term
@@ -137,72 +141,36 @@ export const createTransaction = async (req, res, next) => {
         await enrollmentdata.save();
         var response = [enrollmentdata, newTransaction] 
         res.status(200).send(response);
-      } else if (category == "vanFees") {
-        console.log("inside van fees")
-        const query = {
-          userId: req.body.rollNumber,
-          feesCategory: req.body.txnCategory,
-          year: req.body.year
-        };
-        const vanEnrollment = await enrollments.findOne(query)
-        console.log(vanEnrollment)
-        const paid = vanEnrollment.vanFeesPaid + req.body.txnAmount
-        const balanceamt = vanEnrollment.vanFeesBalance - req.body.txnAmount
-        const enrollmentdata = await enrollments.findOneAndUpdate(
-          query,
-          { $set: { vanFeesPaid: paid, totalPaid: paid,  vanFeesBalance: balanceamt } },
-          { new: "true" }
-
-        )
-        console.log(enrollmentdata)
-        await enrollmentdata.save();
-        var response = [enrollmentdata, newTransaction] 
-        res.status(200).send(response);
-
-      } else if (category == "bookFees") {
-        console.log("inside book fees")
-        const query = {
-          userId: req.body.rollNumber,
-          feesCategory: "termFees",
-          year: req.body.year
-        };
-        const bookEnrollment = await enrollments.findOne(query)
-        console.log(bookEnrollment)
-        const paid = bookEnrollment.bookFeesPaid + req.body.txnAmount
-        const balanceamt = bookEnrollment.bookFeesBalance - req.body.txnAmount
-        const enrollmentdata = await enrollments.findOneAndUpdate(
-          query,
-          { $set: { bookFeesPaid: paid, bookFeesBalance: balanceamt } },
-          { new: "true" }
-
-        )
-        console.log(enrollmentdata)
-        await enrollmentdata.save();
-        var response = [enrollmentdata, newTransaction] 
-        res.status(200).send(response);
-
       } else {
-        console.log("inside admission fees")
+        console.log("inside else for other fees")
         const query = {
           userId: req.body.rollNumber,
-          feesCategory: "termFees",
+          "otherFees.key": category, 
           year: req.body.year
         };
-        const studentEnrollment = await enrollments.findOne(query)
-        console.log(studentEnrollment)
-        const paid = studentEnrollment.admissionFeesPaid + req.body.txnAmount
-        const balanceamt = studentEnrollment.admissionFeesBalance - req.body.txnAmount
-        const enrollmentdata = await enrollments.findOneAndUpdate(
-          query,
-          { $set: { admissionFeesPaid: paid, admissionFeesBalance: balanceamt } },
-          { new: "true" }
-
-        )
-        console.log(enrollmentdata)
-        await enrollmentdata.save();
-        var response = [enrollmentdata, newTransaction] 
-        res.status(200).send(response);
-      }
+        const otherEnrollment = await enrollments.findOne(query)
+        if(otherEnrollment != "") {
+        console.log(otherEnrollment)
+        } else {
+          return next(createError(500, "empty data received"))
+        }
+        if(req.body.transactionAmt > "otherEnrollment.otherFees.value" || req.body.transactionAmt > "otherEnrollment.otherFeesPaid.value") {
+          return next(createError(500, "Transaction amt is higher"))
+        } else {
+          var actualPaid = otherEnrollment.otherFeesPaid.value
+          var paid = actualPaid + req.body.transactionAmt
+          console.log("inside else", paid)
+          const enrollmentdata = await enrollments.findOneAndUpdate(
+            query,
+            { $set: { "otherFeesPaid.value": paid } },
+            { new: "true" }
+          )
+          console.log(enrollmentdata)
+          await enrollmentdata.save();
+          var response = [enrollmentdata, newTransaction] 
+          res.status(200).send(response);
+        }
+      }  
     }
     /*else if (type == "debit") {
       const studentEnrollment = await enrollments.findOne({ userId: req.body.rollNumber })
@@ -443,7 +411,15 @@ export const commonsearch = async (req, res, next) => {
     const query = req.body.query;
   const results = await Transaction.find(query).toArray();
   // Return the search results
-  return results;
+  if(results != "") {
+    console.log("check");
+   // const results = await cursor.toArray();
+    // Return the search results
+    return res.status(201).send(results);
+    }else {
+      console.log("error")
+      return next(createError(500, "cannot retrieve data"))
+    }
   } catch(err) {
     nexr(err)
   }
