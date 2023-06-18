@@ -15,17 +15,13 @@ export const createStudent = async (req, res, next) => {
        
       };
       const coursedata = await course.findOne({ courseName: req.body.grade })
-      const courseFeedata = await courseFees.findOne(query)
-      console.log(courseFeedata)
+      const courseFeesdata = await courseFees.findOne(query)
+      console.log(courseFeesdata)
       const Studentcnt = await student.countDocuments({ admissionNo: req.body.admissionNo });
       console.log(Studentcnt)
       if (Studentcnt < 1) {
         const newStudent = new student({
-          Name: {
-            fName: req.body.fname,
-            mName: req.body.mname,
-            lName: req.body.lname,
-          },
+          Name: req.body.Name,
           dateOfBirth: req.body.dateOfBirth,
           fatherName: req.body.fatherName,
           motherName: req.body.motherName,
@@ -52,7 +48,8 @@ export const createStudent = async (req, res, next) => {
         console.log(newStudent);
         await newStudent.save();
         console.log("student saved");
-        if(req.body.newStudent) {
+        res.status(200).send(newStudent);
+       /* if(req.body.newStudent == "NEW") {
           const coursecnt = await course.countDocuments({ courseName: req.body.admissionFeeCategory })
           console.log(coursecnt)
           if (coursecnt > 0) {
@@ -90,22 +87,23 @@ export const createStudent = async (req, res, next) => {
         } else {
           console.log("old student")
         }
-        console.log("course fee data", courseFeedata.Term)
-        const termData = courseFeedata.Term;
-        const termValueCopy = JSON.parse(JSON.stringify(termData));
-        var TermPaid = termValueCopy;
+        console.log("course fee data", courseFeesdata.Term)
+        var termData = courseFeesdata.Term;
+        console.log("Term data is", termData);
+       var termValueCopy = JSON.parse(JSON.stringify(termData));
+        var TermPaid = termValueCopy
         console.log("Term Paid data", TermPaid);
         TermPaid.fill(0);
         console.log("TermPaid",TermPaid);
-        console.log(courseFeedata.totalCharges)
+        console.log(courseFeesdata.totalCharges)
         const newenrollment = new enrollment({
           year: req.body.academicYear,
           userId: newStudent.rollNumber,
-          totalCharges: courseFeedata.totalCharges,
+          totalCharges: courseFeesdata.totalCharges,
           totalPaid: 0,
-          balance: courseFeedata.totalCharges,
+          balance: courseFeesdata.totalCharges,
           termPaid: TermPaid,
-          term: courseFeedata.Term,
+          term: courseFeesdata.Term,
           courseName: req.body.grade,
           section: req.body.section,
           courseId: coursedata.courseId,
@@ -158,14 +156,14 @@ export const createStudent = async (req, res, next) => {
           }
         }
         var response = [newStudent, newenrollment] 
-        res.status(200).send(response);
+        res.status(200).send(response);*/
       }
       else {
         return next(createError("500", "user already exists"))
       }
     }
     else {
-      return next(createError("500", "student already exists"))
+      return next(createError("500", "course does not exist"))
     }
   } catch (err) {
     next(err)

@@ -7,13 +7,13 @@ const studentSchema = new mongoose.Schema({
     type: Number
   },
   Name: {
-    fName: {
+    firstName: {
       type: String
     },
-    mName: {
+    middleName: {
       type: String
     },
-    lName: {
+    lastName: {
       type: String
     }
   },
@@ -78,7 +78,7 @@ const studentSchema = new mongoose.Schema({
     type: String
   },
   newStudent: {
-    type: Boolean
+    type: String
   },
   admissionnFeeCategory: {
     type: String

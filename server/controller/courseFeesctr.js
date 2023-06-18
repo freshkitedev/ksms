@@ -1,4 +1,5 @@
 import courseFees from "../models/CourseFees.js";
+import course from "../models/Course.js";
 import { createError } from "../error.js";
 // Create CourseFees
 export const createCourseFees = async (req, res, next) => {
@@ -15,7 +16,9 @@ export const createCourseFees = async (req, res, next) => {
       console.log(category)
       if (category == "Academic") {
         //const Term = req.body.Term
-        if(req.body.otherFees != "") 
+        var otherfee = req.body.otherFees
+        console.log(otherfee);
+        if(otherfee) 
         {
           const newadmCourseFees = new courseFees({
             courseName: req.body.courseName,
@@ -37,6 +40,7 @@ export const createCourseFees = async (req, res, next) => {
         }
         //var sum = 0
         else {
+          const Term = req.body.Term
         console.log(Term)
         const frequency = req.body.frequency
         console.log(frequency)
@@ -177,6 +181,21 @@ export const createCourseFees = async (req, res, next) => {
 export const getAllCourseFees = async (req, res, next) => {
   try {
     const allCourseFees = await courseFees.find();
+    if(allCourseFees != "") {
+    res.status(201).send(allCourseFees);
+    } else {
+      return next(createError(500, "empty data received"))
+    }
+  } catch (err) {
+    next(err)
+  }
+};
+
+//All Course Fees Details
+export const getAllCourseFeesByYear = async (req, res, next) => {
+  try {
+    const academicyear = req.params.year;
+    const allCourseFees = await courseFees.find({year: academicyear});
     if(allCourseFees != "") {
     res.status(201).send(allCourseFees);
     } else {

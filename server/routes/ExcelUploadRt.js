@@ -7,8 +7,8 @@ const uploadstudents = multer({ dest: "uploadsstudents/" });
 const Router = express.Router();
 
 //Create xl upload
-Router.post("/xl", upload.single('file'), xlupload);
-Router.post("/studentupload", uploadstudents.single('file'), uploadStudents);
+Router.post("/xl", xlupload);
+Router.post("/studentupload", uploadStudents);
 
 
 

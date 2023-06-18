@@ -20,12 +20,13 @@ export const createEnrollment = async (req, res, next) => {
       dateDeEnrolled: req.body.dateDeEnrolled,
       feesStatus: req.body.feesStatus,
       totalCharges: totalFee,
+      term: req.body.Term,
+      terPaid: req.body.TermPaid,
       totalPaid: req.body.totalPaid,
       totalDues: req.body.totalDues,
       balance: req.body.balance,
       concession: req.body.concession,
-      bookFees: req.body.bookFees,
-      admissionFees: req.body.admissionFees,
+      feesCategory: req.body.feesCategory,
       section: req.body.section,
     });
     console.log(newEnrollment);

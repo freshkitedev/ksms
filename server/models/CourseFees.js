@@ -10,10 +10,10 @@ const courseFeesSchema = new mongoose.Schema({
     type: Number
   },
   courseId: {
-    type: String
+    type: Number
   },
   year: {
-    type: Number
+    type: String
   },
   frequency: {
     type: Number

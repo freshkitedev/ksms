@@ -1,5 +1,5 @@
 import express from "express";
-import { createCourseFees, deleteCourseFees, getCourseFees, getAllCourseFees, updateCourseFees, commonsearch } from "../controller/courseFeesctr.js";
+import { createCourseFees, deleteCourseFees, getCourseFees, getAllCourseFees, updateCourseFees, commonsearch, getAllCourseFeesByYear } from "../controller/courseFeesctr.js";
 
 const Router = express.Router();
 
@@ -8,6 +8,9 @@ Router.post("/createcoursefees", createCourseFees);
 
 //Get All Course Fees
 Router.get("/getcoursefees", getAllCourseFees);
+
+//Get All Course Name
+Router.get("/getcoursefees/:year", getAllCourseFeesByYear);
 
 //Get Particular Course Fees
 Router.get("/getcoursefees/:id", getCourseFees);
