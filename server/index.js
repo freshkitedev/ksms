@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+// import cors from "cors";
 import dotenv from "dotenv";
 import studentroutes from "./routes/studentRt.js"
 import teacherroutes from "./routes/TeacherRt.js"
