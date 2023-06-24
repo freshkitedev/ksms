@@ -80,7 +80,7 @@ const studentSchema = new mongoose.Schema({
   newStudent: {
     type: String
   },
-  admissionnFeeCategory: {
+  admissionFeeCategory: {
     type: String
   }
 });

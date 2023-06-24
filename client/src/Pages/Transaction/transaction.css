@@ -23,9 +23,22 @@
     border-radius: 4px;
 }
 
+.table-cell {
+    border-right: 1px solid #ccc;
+    padding: 8px;
+  }
+
 .sandy{
     display: flex;
 }
+
+.modal-title {
+    width: 100%; /* Set the width of the modal title to 100% */
+  }
+  
+  .students-table {
+    width: 100%; /* Set the width of the table to 100% */
+  }  
 
 .fees-details{
     margin: 20px;

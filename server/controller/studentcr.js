@@ -210,7 +210,7 @@ export const getstudentByName = async (req, res, next) => {
     console.log("inside get by name")
     const studentName = req.params.firstname;
     console.log(studentName)
-    const Student = await student.find({"Name.fName": studentName})
+    const Student = await student.find({"Name.firstName": studentName})
     console.log(Student)
     res.status(201).json(
       {

@@ -19,7 +19,6 @@ const ExcelUpload = () => {
       if (e.target && e.target.result) {
       const data = new Uint8Array(e.target.result);
       console.log(data)
-      console.log("hi")
       const workbook = XLSX.read(data, { type: "array" });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
@@ -38,6 +37,8 @@ const ExcelUpload = () => {
           middleName: row[columnNames.indexOf("Middle Name")],
         };   
         const studentCategory =  row[columnNames.indexOf("RTE")]  
+        var studentGroup = row[columnNames.indexOf("Group")]
+        var grade = row[columnNames.indexOf("Grade")]
          var category;
         if(studentCategory !== "")
         {
@@ -45,11 +46,14 @@ const ExcelUpload = () => {
         } else {
            category = "RTE"
         }
+        if(studentGroup !== "") {
+          grade = grade+"-"+studentGroup;
+        } 
         const studentobj = {
           Name: name,
           newStudent: row[columnNames.indexOf("New/Exisiting")],
           category: category,
-          grade: row[columnNames.indexOf("Grade")],
+          grade: grade,
           section: row[columnNames.indexOf("Section")],
           group: row[columnNames.indexOf("Group")],
           mobileNo: row[columnNames.indexOf("Mobile Number")],
