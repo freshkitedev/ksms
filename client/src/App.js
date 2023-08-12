@@ -8,7 +8,7 @@ import Fullview from "./Pages/Fullview/Fullview";
 import StudentsComponent from "./Pages/Student/StudentForm";
 // import CourseFeesComponent from "./Pages/Coursefees/Coursefee"
 import Transaction from "./Pages/Transaction/Transaction";
-
+import TransactionUpdate from "./Pages/UpdateTransaction/UpdateTransaction";
 
 
 
@@ -28,6 +28,7 @@ function App() {
             <Route path="/coursefee" element={<CourseFeesComponent />} />
             <Route path="/addstudent" element={<StudentsComponent />} />
             <Route path="/payfee" element={<Transaction />} />
+            <Route path="/transaction/:fees" element={<TransactionUpdate />} />
 
           </Routes>
         </div>

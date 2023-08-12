@@ -1,5 +1,5 @@
 import express from "express";
-import { createTransaction, getTransaction, getAllTransaction, getTransactionByDate, updateTransaction, revertTransaction, commonsearch } from "../controller/transactionctr.js";
+import { createTransaction, getTransaction, getAllTransaction, getTransactionByDate, updateTransaction, revertTransaction, commonsearch,  getAllTransactionByStudent } from "../controller/transactionctr.js";
 
 const Router = express.Router();
 
@@ -16,6 +16,9 @@ Router.get("/gettransaction/:id", getTransaction);
 
 Router.get("/getalltransaction", getTransactionByDate);
 
+//Get All Transaction of a particular student
+
+Router.get("/getalltransaction/:userid", getAllTransactionByStudent);
 //Update Transaction Detials
 Router.put("/update/:id", updateTransaction);
 

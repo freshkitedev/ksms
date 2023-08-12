@@ -12,6 +12,7 @@ export const createEnrollment = async (req, res, next) => {
     }
     const newEnrollment = new enrollment({
       courseId: req.body.courseId,
+      courseName: req.body.courseName,
       year: req.body.year,
       userId: req.body.userId,
       enrollmentId: req.body.enrollmentId,
@@ -24,7 +25,7 @@ export const createEnrollment = async (req, res, next) => {
       terPaid: req.body.TermPaid,
       totalPaid: req.body.totalPaid,
       totalDues: req.body.totalDues,
-      balance: req.body.balance,
+      balance: req.body.totalCharges,
       concession: req.body.concession,
       feesCategory: req.body.feesCategory,
       section: req.body.section,

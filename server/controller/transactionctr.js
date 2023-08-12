@@ -252,8 +252,20 @@ export const getTransaction = async (req, res, next) => {
 //Get Transaction details by date
 export const getTransactionByDate = async (req, res, next) => {
   try {
-    const Transaction = await Transaction.findOne(req.body.dateOfTxn);
+    const Transaction = await Transaction.find(req.body.dateOfTxn);
     res.status(201).send(Transaction);
+  } catch (err) {
+    next(err)
+  }
+};
+
+//Get all Transaction details by student
+export const getAllTransactionByStudent = async (req, res, next) => {
+  try {
+    const userid = req.params.userid
+    console.log(userid)
+    const Transactiondetail = await Transaction.find({rollNumber: userid});
+    res.status(201).send(Transactiondetail);
   } catch (err) {
     next(err)
   }

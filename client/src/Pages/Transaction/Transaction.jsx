@@ -1,31 +1,142 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import jsPDF from "jspdf";
+import "../UpdateTransaction/UpdateTransaction.css"
+import html2canvas from "html2canvas";
+import { useNavigate } from 'react-router-dom';
 import { Card, CardDeck, CardSubtitle, CardText, CardHeader, CardFooter } from 'reactstrap';
 import "./transaction.css";
-import { Button, Modal, Table, Row, Col } from "react-bootstrap";
+import { Button, Modal, Table, Row, Col, Tabs, Tab } from "react-bootstrap";
+
 import axios from "axios";
+const ReceiptContent = ({ receiptRef, transaction }) => {
+  //const componentRef = useRef(null);
+  var studentdata;
+  const [studentdetails, setstudentdetails] = useState(null);
+  console.log("transaction data", transaction)
+  var rollnum = transaction.rollNumber;
+
+  React.useEffect(() => {
+    axios
+        .get(`http://localhost:5000/api/student/getusers/${rollnum}`)
+        .then((response) => {
+          studentdata = response.data?.details;
+          console.log("student data", studentdata);
+          setstudentdetails(studentdata);
+          
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+  }, []);
+
+
+  return (
+    <div id="receipt-container" ref={receiptRef}>
+      <div class="flex-container">
+      <h2 style={{textAlign: "center", fontFamily: "fantasy", color: "black", marginTop: "2em", marginBottom: "2em"}}>Kamatchi Shanmugam Matriculation Higher Secondary School</h2>
+      </div>
+      <h3 style={{textAlign: "center", fontFamily: "fantasy", color: "black", marginBottom: "1em"}}>Transaction Details</h3>
+      <div>
+      <div class="block">
+      <label> Student Name        :</label>
+      <span>{studentdetails?.Name?.firstName}</span>     
+      </div>
+      </div>
+      <div>
+      <div class="block">
+      <label> Roll Number         : </label>
+      <span>{transaction?.rollNumber}</span>
+      </div>
+      </div> 
+      <div>
+      <div class="block">
+      <label> Class               :</label>
+      <span>{transaction?.courseName || ""}</span>
+      </div>
+      </div> 
+      <div>
+      <div class="block">
+      <label> Enrollment          : </label>
+      <span>{transaction?.txnCategory}</span>
+      </div>
+      </div>
+      <div>
+      <div class="block">
+      <label> Paid Amount        :</label>
+      <span>{transaction?.txnAmount}</span>
+      </div>
+      </div>
+      <div>
+      <div class="block">
+      <label> Payment Mode       :</label>
+      <span>{transaction?.paymentMode}</span>
+      </div>
+      </div>
+      <div>
+      <div class="block">
+      <label> Transaction type   : </label>
+      <span>{transaction?.txnType}</span>
+      </div>
+      </div>
+      <div>
+      <div class="block">
+      <label> Date              : </label>
+      <span>{transaction?.dateOfTxn}</span>
+      </div>
+      </div>
+    </div>
+  );
+};
 
 function Transaction() {
-  const [studentId, setStudentId] = useState("");
-  const [selectedItem, setSelectedItem] = useState("");
-  const [studentName, setStudentName] = useState("");
-  const [studentdata, setStudentData] = useState("");
-  const [students, setStudents] = useState([]);
-  const [feeDetails, setFeeDetails] = useState([]);
-  const [activeButton, setActiveButton] = useState("");
-  //const [isModalOpen, setIsModalOpen] = useState(false);
-  //const [enteredAmount, setEnteredAmount] = useState(0);
+  //const location = useLocation(); 
+  //const { location } = props;
+  const navigate = useNavigate();
+ // var [studentId, setStudentId] = useState("");
+  var [studentId, setStudentId] = useState(() => localStorage.getItem('studentId') || "");
+  var [selectedItem, setSelectedItem] = useState(() => localStorage.getItem('selectedItem') || "");
+  var [studentName, setStudentName] = useState(() => localStorage.getItem('studentName') || "");
+  var [studentdata, setStudentData] = useState(() => localStorage.getItem('studentdata') || "");
+  var [students, setStudents] = useState(() => localStorage.getItem('students') || []);
+  var [feeDetails, setFeeDetails] = useState(() => localStorage.getItem('feeDetails') || []);
+  var [activeButton, setActiveButton] = useState(() => localStorage.getItem('activeButton') || []);
+  var [previousTransactions, setPreviousTransactions] = useState([]);
+  var [showPreviousTransaction, setShowPreviousTransaction] = useState(false);
+  var [CurrentTransaction, setCurrentTransaction] = useState(null);
 
-  const handleStudentIdChange = (event) => {
-    setStudentId(event.target.value);
+  const handlePayFees = (feedata) => {
+    const feesJson = JSON.stringify(feedata);
+    navigate(`/transaction/${encodeURIComponent(feesJson)}`, {
+      activeButton,
+      studentdata,
+      students,
+      feeDetails,
+      showDetails,
+      selectedItem,
+    });
+
   };
-  const [showDetails, setShowDetails] = useState(false);
+  useEffect(() => {
+    localStorage.setItem('studentId', studentId);
+    //localStorage.setItem('selectedItem', JSON.stringify(selectedItem));
+    localStorage.setItem('studentName', studentName);
+   // localStorage.setItem('previousTransactions', previousTransactions);
+    // ... save other relevant state data here
+  }, [studentId, selectedItem, studentName]);
+  const handleStudentIdChange = (event) => {
+    console.log("inside set student id")
+    setStudentId(event.target.value);
+    console.log("calling gettable data function")
+    getTableData(event.target.value);
+  };
+
+  var [showDetails, setShowDetails] = useState(() => localStorage.getItem('showDetails') || false);
 
   const handleStudentNameChange = (event) => {
     setStudentName(event.target.value);
   };
 
   const handleStudentIdSubmit = () => {
-    if (studentId) {
       // Call backend API to get student by ID
       axios
         .get(`http://localhost:5000/api/student/getusers/${studentId}`)
@@ -36,13 +147,11 @@ function Transaction() {
         .catch((error) => {
           console.error(error);
         });
-    }
   };
 
   const handleViewClick = (item) => () => {
     setSelectedItem(item);
     setShowDetails(!showDetails);
-    //setIsModalOpen(true);
   };
   const handleStudentNameSubmit = () => {
     if (studentName) {
@@ -59,52 +168,98 @@ function Transaction() {
     }
   };
 
-  const handlePayFees = () => {
-    console.log("inside");
-    const enteredAmount = parseFloat(document.querySelector('input[type="number"]').value);
-    const balance = selectedItem.totalCharges - selectedItem.totalPaid;
-    console.log("inside handle pay fees after clicking pay fees");
-    if (enteredAmount > balance) {
-      console.log("inside if")
-      alert("Entered amount is greater than the balance!");
-    } else {
-      console.log("inside else")
-      //setIsModalOpen(true);
-    }
-  };
-  
-/*const sendPaymentRequest = () => {
-    // Make an API call to the backend using Axios
-    axios.post('http://localhost:5000/api/transaction/create', 5000)
-      .then((response) => {
-        // Handle the response from the backend API
-        // For example, display a success message or update the payment status
-        alert('Payment successful!');
-        setIsModalOpen(false); // Close the modal after successful payment
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during the API call
-        console.error('Error making API call:', error);
-        alert('Payment failed. Please try again.');
-      });
-  };*/
   
   const handleSelectStudent = (studentId) => {
     // Call backend API to get student fee details by ID
+    console.log("setting the student id")
+    setStudentId(studentId);
+    console.log("set the student id")
     axios
       .get(`http://localhost:5000/api/student/getusers/${studentId}`)
       .then((response) => {
         // Display fee details in a table or perform any other action
         console.log(response.data);
         setFeeDetails(response.data.fees);
+        console.log("calling gettable data fucn")
+        getTableData(studentId);
+        console.log("called gettabledata()")
       })
       .catch((error) => {
         console.error(error);
       });
   };
+  const getTableData = (studentId) => {
+    console.log("inside gettabledata()")
+      axios
+        .get(`http://localhost:5000/api/transaction/getalltransaction/${studentId}`)
+        .then((response) => {
+          console.log(response.data);
+          setPreviousTransactions(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+        return 
+  };
+
+  const handlePreviousTransactionModal = (id, transactions) => {
+    console.log("setting current transaction")
+    setCurrentTransaction(transactions);
+    console.log("setting current transaction done")
+    handleShowTransactionModal();
+  };
+  /*useEffect(() => {
+    console.log("CurrentTransaction updated:", CurrentTransaction);
+  }, [CurrentTransaction]); */
+
+  const handleShowTransactionModal = () => {
+    setShowPreviousTransaction(true);
+  }
+  const receipt = useRef(null);
+  const generateReceiptPDF = (transaction) => {
+    console.log("enrollment data", transaction);
+    const rollnumber = transaction.rollNumber;
+      // Call backend API to get student by ID
+      axios
+        .get(`http://localhost:5000/api/student/getusers/${rollnumber}`)
+        .then((response) => {
+          var studentdata = response.data?.details;
+          console.log("student data", studentdata);
+          const currentDate = CurrentTransaction.dateOfTxn;
+          var formattedDate = currentDate.slice(0, 10);
+            const input = receipt.current;
+            html2canvas(input).then((canvas) => {
+              const imgData = canvas.toDataURL("image/png");
+              const pdf = new jsPDF();
+        
+              const imgWidth = 210;
+              const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+              pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+              const studentName = studentdata.Name.firstName;
+              const enrollmentInfo = CurrentTransaction;
+              console.log(enrollmentInfo.courseName)
+              const transactionInfo = CurrentTransaction;
+              console.log(transactionInfo.dateOfTxn);
+              const enrollmentdata = enrollmentInfo.txnCategory
+              const fileName = `${studentName}_${enrollmentdata}_${formattedDate}.pdf`;
+              pdf.save(fileName);
+            });
+          
+        })
+        .catch((error) => {
+          console.error(error);
+        }); 
+  };
 
   return (
+    <React.Fragment>
     <div>
+      <Tabs defaultActiveKey="enrollment" style={{marginLeft: "70px", fontFamily: "fantasy", fontSize: "20px", color: "white" }}>
+      <Tab eventKey="enrollment" title="Enrollment">
+      <h2 style={{ textAlign: "center", fontFamily: "fantasy", color: "white", marginTop: "5px" }}>
+      <i class="bi bi-person-circle"></i>&nbsp;Enrollment Details
+      </h2>
       <input
         type="text"
         placeholder="Student ID"
@@ -121,12 +276,11 @@ function Transaction() {
         className="input-field"
       />
       <Button onClick={handleStudentNameSubmit}>Get Student by Name</Button>
-      {/* Display fee details in a table */}
       {activeButton === "id" && studentdata.length > 0 && (
         <div>
         <CardDeck>
           <Row>
-        {studentdata.map((studentinfo) => (
+          {studentdata.map((studentinfo, index) => (
           <Col sm="6">
           <Card className="card-container">
           <CardHeader>Enrollment {studentinfo.feesCategory} </CardHeader>
@@ -141,11 +295,7 @@ function Transaction() {
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-              <input
-              type="number"
-              placeholder="Enter Amount"
-              />
-             <Button onClick={handlePayFees}>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
               </>
                )}
               {selectedItem.feesCategory === "termFees" &&  (
@@ -153,14 +303,7 @@ function Transaction() {
               <CardText>Term1 fees:{selectedItem.term[0]} Term1 Paid:{selectedItem.termPaid[0]} Balance:{selectedItem.term[0]-selectedItem.termPaid[0]}</CardText>
               <CardText>Term2 fees:{selectedItem.term[1]} Term2 Paid:{selectedItem.termPaid[1]} Balance:{selectedItem.term[1]-selectedItem.termPaid[1]}</CardText>
               <CardText>Term3 fees:{selectedItem.term[2]} Term3 Paid:{selectedItem.termPaid[2]} Balance:{selectedItem.term[2]-selectedItem.termPaid[2]}</CardText>
-              <input
-              type="number"
-              placeholder="Enter Amount"
-              //value={Enter Amount}
-              //onChange={handleStudentIdChange}
-               //className="input-field"
-              />
-             <Button>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
               </>
               )} 
               {selectedItem.feesCategory === "vanFees"  && (
@@ -168,14 +311,7 @@ function Transaction() {
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-              <input
-              type="number"
-              placeholder="Enter Amount"
-              //value={Enter Amount}
-              //onChange={handleStudentIdChange}
-               //className="input-field"
-              />
-             <Button>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
               </>
               )}
             </Card>
@@ -188,6 +324,7 @@ function Transaction() {
         </div>
       )}
       {/* Display students in a popup */}
+      <div style={{marginTop: "40px"}}>
       <Modal show={students.length > 0} onHide={() => setStudents([])}>
         <Modal.Header closeButton style={{ display: 'flex', justifyContent: 'center' }}>
           <Modal.Title className="modal-title">Students</Modal.Title>
@@ -223,6 +360,7 @@ function Transaction() {
           </Table>
         </Modal.Body>
       </Modal>
+      </div>
 {activeButton === "name" && feeDetails.length > 0 && (
   <div>
     <CardDeck>
@@ -245,14 +383,7 @@ function Transaction() {
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-              <input
-              type="number"
-              placeholder="Enter Amount"
-              //value={Enter Amount}
-              //onChange={handleStudentIdChange}
-               //className="input-field"
-              />
-             <Button>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
               </>
                )}
               {selectedItem.feesCategory === "termFees" &&  (
@@ -260,14 +391,7 @@ function Transaction() {
               <CardText>Term1 fees:{selectedItem.term[0]} Term1 Paid:{selectedItem.termPaid[0]} Balance:{selectedItem.term[0]-selectedItem.termPaid[0]}</CardText>
               <CardText>Term2 fees:{selectedItem.term[1]} Term2 Paid:{selectedItem.termPaid[1]} Balance:{selectedItem.term[1]-selectedItem.termPaid[1]}</CardText>
               <CardText>Term3 fees:{selectedItem.term[2]} Term3 Paid:{selectedItem.termPaid[2]} Balance:{selectedItem.term[2]-selectedItem.termPaid[2]}</CardText>
-              <input
-              type="number"
-              placeholder="Enter Amount"
-              //value={Enter Amount}
-              //onChange={handleStudentIdChange}
-               //className="input-field"
-              />
-             <Button>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
               </>
               )} 
               {selectedItem.feesCategory === "vanFees"  && (
@@ -275,14 +399,7 @@ function Transaction() {
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-              <input
-              type="number"
-              placeholder="Enter Amount"
-              //value={Enter Amount}
-              //onChange={handleStudentIdChange}
-               //className="input-field"
-              />
-             <Button>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
               </>
               )}
         </Card>
@@ -295,7 +412,66 @@ function Transaction() {
       </CardDeck>
     </div>
     )}
+    </Tab>
+    <Tab eventKey="transactions" title="Previous Transactions">
+      <div style={{marginTop: "40px", width: "500px"}}>
+        <Modal show={showPreviousTransaction} onHide={() => setShowPreviousTransaction(false)} 
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered>
+        <Modal.Header closeButton>
+          <h4>Transaction Details</h4>
+          </Modal.Header>
+        <Modal.Body>
+        {CurrentTransaction != null   && (
+              <ReceiptContent receiptRef={receipt} transaction={CurrentTransaction}/>
+        )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => generateReceiptPDF(CurrentTransaction)}>Generate Pdf</Button>
+        </Modal.Footer>
+        </Modal>
+      </div>
+      <div>
+      <h2 style={{ textAlign: "center", fontFamily: "fantasy", color: "white", marginTop: "5px" }}>
+      <i class="bi bi-person-circle"></i>&nbsp;Trasaction Details
+      </h2>
+      {previousTransactions && previousTransactions.length > 0 ? (
+      <table className="students-table">
+                  <thead>
+                    <tr>
+                      <th>Date Of Transaction</th>
+                      <th>Student Enrollment</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  {previousTransactions.map((transactions) => (
+                  <tbody>
+                    <tr>
+                      <td>{transactions.dateOfTxn}</td>
+                      <td>{transactions.txnCategory}</td>
+                      <td>
+                      <Button id={transactions.id}
+                        variant="link"
+                        onClick={() => handlePreviousTransactionModal(transactions.id, transactions)}
+                        >
+                        <strong>
+                        <i>View</i> 
+                        </strong>
+                      </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  ))}
+                </table>
+                ) : (
+                  <p>No previous transactions available.</p>
+                )}
+      </div>
+    </Tab>
+    </Tabs>
   </div>
+  </React.Fragment>
 )}
 export default Transaction; 
 
