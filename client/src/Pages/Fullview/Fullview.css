@@ -9,7 +9,7 @@
   
   
   body {
-    background-image: url('../../bg/download.png');
+    background-color: #d5d7d9 !important;
     background-size: cover;
     min-height: 100vh;
     height: auto;

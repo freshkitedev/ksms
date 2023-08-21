@@ -255,9 +255,9 @@ function Transaction() {
   return (
     <React.Fragment>
     <div>
-      <Tabs defaultActiveKey="enrollment" style={{marginLeft: "70px", fontFamily: "fantasy", fontSize: "20px", color: "white" }}>
+      <Tabs defaultActiveKey="enrollment" style={{marginLeft: "70px", fontFamily: "arial", fontSize: "20px", color: "white" }}>
       <Tab eventKey="enrollment" title="Enrollment">
-      <h2 style={{ textAlign: "center", fontFamily: "fantasy", color: "white", marginTop: "5px" }}>
+      <h2 style={{ textAlign: "center", fontFamily: "arial", color: "black", marginTop: "5px" }}>
       <i class="bi bi-person-circle"></i>&nbsp;Enrollment Details
       </h2>
       <input
@@ -277,25 +277,24 @@ function Transaction() {
       />
       <Button onClick={handleStudentNameSubmit}>Get Student by Name</Button>
       {activeButton === "id" && studentdata.length > 0 && (
-        <div>
+        <div className="align-modals">
         <CardDeck>
           <Row>
           {studentdata.map((studentinfo, index) => (
           <Col sm="6">
           <Card className="card-container">
-          <CardHeader>Enrollment {studentinfo.feesCategory} </CardHeader>
+          <CardHeader><p className="modal-header">Enrollment {studentinfo.feesCategory}</p></CardHeader>
               <CardFooter>
-              <Button onClick={handleViewClick(studentinfo)}>View</Button>
+              <Button onClick={handleViewClick(studentinfo)}><i class="bi bi-chevron-double-down"></i></Button>
               </CardFooter>
               {showDetails && selectedItem &&  studentinfo.feesCategory === selectedItem.feesCategory && (
             <Card className="card-container">
-              <CardHeader>{selectedItem.feesCategory}</CardHeader>
               {selectedItem.feesCategory === "admissionFees" && (
                 <>
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
+             <Button onClick={() => handlePayFees(selectedItem)}><i class="bi bi-currency-rupee"></i>Pay Fees</Button>
               </>
                )}
               {selectedItem.feesCategory === "termFees" &&  (
@@ -303,7 +302,7 @@ function Transaction() {
               <CardText>Term1 fees:{selectedItem.term[0]} Term1 Paid:{selectedItem.termPaid[0]} Balance:{selectedItem.term[0]-selectedItem.termPaid[0]}</CardText>
               <CardText>Term2 fees:{selectedItem.term[1]} Term2 Paid:{selectedItem.termPaid[1]} Balance:{selectedItem.term[1]-selectedItem.termPaid[1]}</CardText>
               <CardText>Term3 fees:{selectedItem.term[2]} Term3 Paid:{selectedItem.termPaid[2]} Balance:{selectedItem.term[2]-selectedItem.termPaid[2]}</CardText>
-             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}><i class="bi bi-currency-rupee"></i>Pay Fees</Button>
               </>
               )} 
               {selectedItem.feesCategory === "vanFees"  && (
@@ -311,7 +310,7 @@ function Transaction() {
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}><i class="bi bi-currency-rupee"></i>Pay Fees</Button>
               </>
               )}
             </Card>
@@ -372,18 +371,17 @@ function Transaction() {
           <CardSubtitle>{fees.feesCategory}</CardSubtitle>
           <CardText>{fees.totalCharges}</CardText>
           <CardFooter>
-          <Button onClick={handleViewClick(fees)}>View</Button>
+          <Button onClick={handleViewClick(fees)}><i class="bi bi-chevron-double-down"></i></Button>
           </CardFooter>
           {showDetails && selectedItem &&  fees.feesCategory === selectedItem.feesCategory && (
         //<Col sm="6">
         <Card className="card-container">
-          <CardHeader>{selectedItem.feesCategory}</CardHeader>
           {selectedItem.feesCategory === "admissionFees" && (
                 <>
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}><i class="bi bi-currency-rupee"></i>Pay Fees</Button>
               </>
                )}
               {selectedItem.feesCategory === "termFees" &&  (
@@ -391,7 +389,7 @@ function Transaction() {
               <CardText>Term1 fees:{selectedItem.term[0]} Term1 Paid:{selectedItem.termPaid[0]} Balance:{selectedItem.term[0]-selectedItem.termPaid[0]}</CardText>
               <CardText>Term2 fees:{selectedItem.term[1]} Term2 Paid:{selectedItem.termPaid[1]} Balance:{selectedItem.term[1]-selectedItem.termPaid[1]}</CardText>
               <CardText>Term3 fees:{selectedItem.term[2]} Term3 Paid:{selectedItem.termPaid[2]} Balance:{selectedItem.term[2]-selectedItem.termPaid[2]}</CardText>
-             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
+             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}><i class="bi bi-currency-rupee"></i>Pay Fees</Button>
               </>
               )} 
               {selectedItem.feesCategory === "vanFees"  && (
@@ -399,7 +397,7 @@ function Transaction() {
               <CardText>Total fees: {selectedItem.totalCharges} </CardText>
               <CardText>Total Paid: {selectedItem.totalPaid} </CardText>
               <CardText>Balance   : {selectedItem.totalCharges - selectedItem.totalPaid} </CardText>
-             <Button className="btn btn-primary" onClick={() => handlePayFees(selectedItem)}>Pay Fees</Button>
+             <Button onClick={() => handlePayFees(selectedItem)}><i class="bi bi-currency-rupee"></i>Pay Fees</Button>
               </>
               )}
         </Card>
@@ -413,7 +411,7 @@ function Transaction() {
     </div>
     )}
     </Tab>
-    <Tab eventKey="transactions" title="Previous Transactions">
+    <Tab eventKey="transactions" title="Transactions">
       <div style={{marginTop: "40px", width: "500px"}}>
         <Modal show={showPreviousTransaction} onHide={() => setShowPreviousTransaction(false)} 
         size="lg"
@@ -428,16 +426,17 @@ function Transaction() {
         )}
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => generateReceiptPDF(CurrentTransaction)}>Generate Pdf</Button>
+          <Button onClick={() => generateReceiptPDF(CurrentTransaction)}>Generate <i class="bi bi-file-earmark-pdf-fill"></i></Button>
         </Modal.Footer>
         </Modal>
       </div>
       <div>
-      <h2 style={{ textAlign: "center", fontFamily: "fantasy", color: "white", marginTop: "5px" }}>
-      <i class="bi bi-person-circle"></i>&nbsp;Trasaction Details
+      <h2 style={{ textAlign: "center", fontFamily: "arial", color: "black", marginTop: "5px" }}>
+      <i class="bi bi-person-circle"></i>&nbsp;Transaction Details
       </h2>
       {previousTransactions && previousTransactions.length > 0 ? (
-      <table className="students-table">
+      <div className="table-align-modals">
+      <Table responsive="sm" striped="columns">
                   <thead>
                     <tr>
                       <th>Date Of Transaction</th>
@@ -450,22 +449,24 @@ function Transaction() {
                     <tr>
                       <td>{transactions.dateOfTxn}</td>
                       <td>{transactions.txnCategory}</td>
-                      <td>
+                      <td >
                       <Button id={transactions.id}
                         variant="link"
+                        style={{color: "black"}}
                         onClick={() => handlePreviousTransactionModal(transactions.id, transactions)}
                         >
                         <strong>
-                        <i>View</i> 
+                        <i class="bi bi-eye-fill"></i>
                         </strong>
                       </Button>
                       </td>
                     </tr>
                   </tbody>
                   ))}
-                </table>
+                </Table>
+                </div>
                 ) : (
-                  <p>No previous transactions available.</p>
+                  <p className="modal-header align-modals">No previous transactions available.</p>
                 )}
       </div>
     </Tab>

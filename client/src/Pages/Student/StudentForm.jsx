@@ -4,6 +4,7 @@ import axios from "axios";
 import EditStudentForm from "./EditComponent";
 import AddStudentForm from "./Addstudent";
 import ExcelUpload from "./ExcelUpload";
+import { Button, Modal, Table, Row, Col, Tabs, Tab } from "react-bootstrap";
 
 const StudentsComponent = () => {
   const [students, setStudents] = useState([]);
@@ -115,7 +116,7 @@ const StudentsComponent = () => {
           {showForm && <AddStudentForm onAdd={handleAddStudent} />}
           <br />
           <button className="btn btn-info mb-3" onClick={toggleForm}>
-            {showForm ? "Hide Student Form" : "Add New Student"}
+            {showForm ? <i class="bi bi-eye-slash"></i> : "Add New Student"}
           </button>
         </div>
       </div>
@@ -145,7 +146,7 @@ const StudentsComponent = () => {
       </div>
 
       <div className="table-container p-5" style={{ transform: "scale(0.9)" }}>
-        <table className="table table-primary" style={{ fontFamily: "cursive" }}>
+        <Table responsive="sm" striped="columns">
           <thead className="text-primary">
             <tr>
               <th>Roll Number</th>
@@ -271,7 +272,7 @@ const StudentsComponent = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       </div>
     </div>
   );

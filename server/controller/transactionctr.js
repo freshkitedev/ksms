@@ -160,9 +160,12 @@ export const createTransaction = async (req, res, next) => {
           return next(createError(500, "Transaction amt is higher for admission Fees"))
         } else {
           var actualPaid = admissionFeeEnrollment.totalPaid
-          var paid = actualPaid + req.body.transactionAmt
-          //console.log("inside else", paid)
+          console.log("actualPaid", actualPaid);
+          var paid = actualPaid + req.body.txnAmount
+          console.log("re.body", req.body.txnAmount)
+          console.log("inside else", paid)
           var balanceamt = admissionFeeEnrollment.totalCharges - paid;
+          console.log("balanceamt", balanceamt);
           const enrollmentdata = await enrollments.findOneAndUpdate(
             query,
             { $set: { totalPaid: paid, balance: balanceamt } },
@@ -192,7 +195,7 @@ export const createTransaction = async (req, res, next) => {
           return next(createError(500, "Transaction amt is higher for van Fees"))
         } else {
           var actualPaid = vanFeeEnrollment.totalPaid
-          var paid = actualPaid + req.body.transactionAmt
+          var paid = actualPaid + req.body.txnAmount
           //console.log("inside else", paid)
           var balanceamt = vanFeeEnrollment.totalCharges - paid;
           const enrollmentdata = await enrollments.findOneAndUpdate(
