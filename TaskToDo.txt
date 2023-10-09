@@ -1,0 +1,32 @@
+JWT Authentication (react and node)
+
+
+Changes in Add Student Page:
+
+	* Search Option to display student details.
+	* Verify Excel Upload Functionality.
+	* Change the look of add student Page.
+	* Form Validation should be done.
+	* Option to Update All Student Details.  (use same Add student component).
+	* Remove View Button in the students details table.
+
+Changes in PayFees Page:
+
+	* Display the fees in Table.
+	* Enter the Amount and spliting the amount for term fess, vanfees and admission fees should be done automatically.
+	* Send mail, sms and whatsapp the invoice when payment is done.
+
+Add Reports Page:
+
+	* Dispaly Total Fees Collected on one Day.
+	* Show fees collected class wise.
+	* Able to generate report for fees pending. (like paid term1, term2 ..)
+
+Remove Update Course Fees Branch.
+
+Add Course Page.
+
+Change enrollment to feespay.
+
+
+	
