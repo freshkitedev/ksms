@@ -9,6 +9,7 @@ import StudentsComponent from "./Pages/Student/StudentForm";
 // import CourseFeesComponent from "./Pages/Coursefees/Coursefee"
 import Transaction from "./Pages/Transaction/Transaction";
 import TransactionUpdate from "./Pages/UpdateTransaction/UpdateTransaction";
+import AddStudentForm from "./Pages/Student/Addstudent";
 
 
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/addstudent" element={<StudentsComponent />} />
             <Route path="/payfee" element={<Transaction />} />
             <Route path="/transaction/:fees" element={<TransactionUpdate />} />
+            <Route path="/studentform" element={<AddStudentForm/>}/>
 
           </Routes>
         </div>

@@ -25,6 +25,7 @@ const Login = () => {
   <h2>Login</h2>
   <form>
     <div class="user-box">
+      
       <input type="text" name="" required=""/>
       <label>Username</label>
     </div>
