@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddStudentForm = ({ onAdd }) => {
   const [student, setStudent] = useState({
@@ -28,6 +29,12 @@ const AddStudentForm = ({ onAdd }) => {
     vanStop: "",
     newStudent: false,
   });
+
+  const navigate = useNavigate();
+   
+  const addstudentpage = ()=>{
+        navigate("/addstudent")
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,9 +88,10 @@ const AddStudentForm = ({ onAdd }) => {
   };
 
   return (
-    <div className="AddStudentForm " style={{color:"white"}}><br></br>
-      <h3 className="d-flex justify-content-center align-items-center" style={{backgroundColor:"ThreeDDarkShadow" ,height:"70px", borderRadius:"20px", fontFamily:"monospace", marginLeft:"40px"}} ><i class="bi bi-person-add"></i> &nbsp;Add New Student : </h3>
-      <form onSubmit={handleSubmit} className="row">
+    <div className="AddStudentForm " style={{color:"black"}}><br></br>
+     <button className="btn-success p-2 fw-bold" style={{marginLeft:"50px" ,marginBottom:"-10px"}} onClick={addstudentpage}><i class="bi bi-arrow-left-square-fill"></i>Back</button>
+      <h3 className="d-flex justify-content-center align-items-center fw-bold" style={{backgroundColor:"ThreeDDarkShadow",color:"whitesmoke" ,height:"70px", borderRadius:"20px", fontFamily:"monospace", marginLeft:"200px",marginRight:"200px",marginTop:"-45px"}} ><i class="bi bi-person-add"></i> &nbsp;Add New Student : </h3>
+      <form onSubmit={handleSubmit} className="row p-4 border border-5 border-info fw-bold "  style={{margin:"50px", backgroundColor:"lightblue"}}>
         <div className="col-md-3">
         <div className="form-group">
           <label>Roll Number:</label>
@@ -96,6 +104,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>First Name:</label>
           <input
@@ -107,6 +116,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Middle Name:</label>
           <input
@@ -118,6 +128,7 @@ const AddStudentForm = ({ onAdd }) => {
     
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Last Name:</label>
           <input
@@ -129,6 +140,7 @@ const AddStudentForm = ({ onAdd }) => {
            
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Date of Birth:</label>
           <input
@@ -140,6 +152,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div></div>
+        <br></br>
         <div className="col-md-3">
         <div className="form-group">
           <label>Father's Name:</label>
@@ -152,6 +165,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Mother's Name:</label>
           <input
@@ -163,6 +177,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Home Address:</label>
           <input
@@ -174,6 +189,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Enrollment Date:</label>
           <input
@@ -185,6 +201,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Email ID:</label>
           <input
@@ -196,6 +213,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div></div>
+        <br></br>
         <div className="col-md-3">
         <div className="form-group">
           <label>Mobile Number:</label>
@@ -208,6 +226,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Last Date:</label>
           <input
@@ -219,6 +238,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Active:</label>
           <input
@@ -228,6 +248,7 @@ const AddStudentForm = ({ onAdd }) => {
             onChange={handleCheckboxChange}
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>User Group:</label>
           <input
@@ -239,6 +260,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Grade:</label>
           <input
@@ -250,6 +272,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Section:</label>
           <input
@@ -261,6 +284,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div></div>
+        <br></br>
         <div className="col-md-3">
         <div className="form-group">
           <label>Group:</label>
@@ -273,6 +297,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>EMIS Number:</label>
           <input
@@ -284,6 +309,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Admission Number:</label>
           <input
@@ -295,6 +321,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Category:</label>
           <input
@@ -306,6 +333,7 @@ const AddStudentForm = ({ onAdd }) => {
             required
           />
         </div>
+        <br></br>
         <div className="form-group">
           <label>Academic Year:</label>
           <input
@@ -326,6 +354,7 @@ const AddStudentForm = ({ onAdd }) => {
             onChange={handleCheckboxChange}
           />
         </div>
+        <br></br>
         <div className="col-md-6">
         <div className="form-group">
           <label>Van Applicable:</label>
@@ -357,8 +386,9 @@ const AddStudentForm = ({ onAdd }) => {
             onChange={handleCheckboxChange}
           />
         </div></div>
+        <br></br>
         <div className="col-md-12 d-flex justify-content-center align-items-center">
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary fw-bold btn-lg">
         <i class="bi bi-person-add"></i>&nbsp; Click Here to Add!!!
         </button></div>
       </form>

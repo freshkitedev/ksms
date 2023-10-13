@@ -12,7 +12,7 @@ const ExcelUpload = () => {
       formData.append('file', selectedFile);
       const fileReader = new FileReader();
       if (!selectedFile) {
-        console.error("No file selected");
+        console.error("No file selected"); 
         return;
       }
     fileReader.onload = async (e) => {
