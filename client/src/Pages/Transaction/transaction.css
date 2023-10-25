@@ -1,0 +1,245 @@
+.search-lab{
+    margin: 15px;
+}
+
+.search-inp{
+    width: 25%;
+}
+
+.trans{
+    min-height: 100%;
+    max-height: 100%;
+    background-color: antiquewhite;
+}
+
+.button{
+    margin-left: 50px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(37, 218, 37);
+    padding: 10px 15px;
+    font-weight: bolder;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+}
+
+.table-cell {
+    border-right: 1px solid #ccc;
+    padding: 8px;
+  }
+
+.sandy{
+    display: flex;
+}
+
+.input-field {
+    width: 300px; /* Adjust the width as desired */
+    padding: 8px;
+    margin: 50px;
+    margin-top: 10px;
+    margin-left: 70px;
+  }
+  
+.modal-title {
+    width: 200%; /* Set the width of the modal title to 100% */
+    padding: 8px;
+    margin: 20px;
+  }
+  
+  .students-table {
+    width: 80%; /* Set the width of the table to 100% */
+    padding: 8px;
+    margin: 8%;
+  }  
+
+.fees-details{
+    margin: 20 px;
+    width: 50%;
+    padding: 20px;
+}
+
+.details-lab{
+    margin: 10px;
+    width: 40%;
+}
+
+.details-inp{
+    width: 50%;
+}
+
+.submit-btn{
+    margin-left: 318px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(37, 218, 37);
+    padding: 10px 15px;
+    font-weight: bolder;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .align-modals {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10%;
+    width: 120%;
+  }
+  .table-align-modals {
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 35%;
+    margin-top: 10px;
+    padding: 8px;
+  }
+  
+  .card {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+.list-item {
+    width: 50%;
+    margin: 40 px;
+    padding: 8px;
+    text-align: center;
+}
+.trans-tab{
+    width: 100%;
+    margin-left: 10px;
+    margin-top: 27px;
+    
+}
+.tot-fee{
+    /* margin-top: 2%; */
+    width: 130px;
+    float: left;
+    height: 75px;
+    border: 1px solid black;
+}
+
+.tot-fee-tr{
+    width: 100px;
+    border: 1px solid black;
+    padding : 10px; 
+    
+}
+
+.past-fee{
+    background-color: rgb(114, 145, 172);
+    /* margin-top: 2%; */
+    border: 1px solid black;
+}
+
+
+.past-fee-tr{
+    width: 100px;
+    border: 1px solid black;
+    padding : 10px; 
+    
+}
+
+body.active-modal {
+    overflow-y: hidden;
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    display: block;
+    margin: 100px auto 0;
+    font-size: 18px;
+}
+
+.modal, .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.overlay {
+    background: rgba(49,49,49,0.8);
+}
+.modal-content {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #f1f1f1;
+    padding: 14px 28px;
+    border-radius: 3px;
+    max-width: 600px;
+    min-width: 300px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 7px;
+}
+
+.custom-modal-content {
+    margin-top: 50px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .label {
+      margin-left: 400px;
+      font-family: fantasy;
+      color: black; 
+      margin-bottom: 10px; 
+      font-size: 22px;
+      width: 200px;
+  }
+
+  .span {
+    margin-left: 200px;
+    text-align: center;
+    font-family: fantasy;
+    color: black; 
+    margin-bottom: 10px; 
+    font-size: 22px;
+    width: 200px;
+}
+  
+  .input {
+    padding: 5px;
+  }
+
+  .hide-on-print{
+		display: none;
+	}
+
+    .modal-header{
+        font-size: 18px;
+        font-weight: bold;
+        font-family: arial;
+        text-align: center;
+    }
+
+
+    
+
+  
+
+  

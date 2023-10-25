@@ -1,23 +1,23 @@
 import mongoose from "mongoose";
-
-const teacher = new mongoose.Schema({
+import autoIncrement from "mongoose-auto-increment"
+mongoose.set('useFindAndModify', false);
+const teacherSchema = new mongoose.Schema({
     StaffID: {
         type: Number,
-        required: true,
     },
-     
+
     Name: {
         fName: {
-          type: String,
-          required: true,
+            type: String,
+            required: true,
         },
-        mName:{
-          type: String,
-          required: true,
+        mName: {
+            type: String,
+            required: true,
         },
         lName: {
-          type: String,
-          required: true,
+            type: String,
+            required: true,
         },
     },
     dateOfBirth: {
@@ -25,59 +25,56 @@ const teacher = new mongoose.Schema({
         required: true,
     },
     fatherName: {
-          type: String,
-          required: true,
+        type: String,
     },
-    motherName:{
-        type:String,
-        required:true
+    motherName: {
+        type: String,
     },
-    homeAddress:{
-        type:String,
-        required:true
+    homeAddress: {
+        type: String,
+        required: true
     },
-    enrollmentDate:{
-        type:String,
-        required:true
+    enrollmentDate: {
+        type: String
     },
-    emailID:{
-        type:String,
-        required:true
+    emailID: {
+        type: String,
+        required: true
     },
-    mobileNo:{
-        type:Number,
-        required:true
+    mobileNo: {
+        type: Number,
+        required: true
     },
-    lastDate:{
-        type:String,
-        required:true
+    lastDate: {
+        type: String,
     },
-    activeIndicator:{
-        type:Boolean,
-        required:true
+    activeIndicator: {
+        type: Boolean,
     },
-    isAdim:{
-        type:Boolean,
-        required:true
-
+    isAdim: {
+        type: Boolean,
     },
-    userGroup:{
-        type:Array,
-        required:true
+    userGroup: {
+        type: Array,
     },
-    primarySubject:{
-        type:String,
-        required:true
+    primarySubject: {
+        type: String,
+        required: true
     },
-    secondarySubject:{
-        type:Array,
-        required:true
+    secondarySubject: {
+        type: Array,
     },
-    deptID:{
-        type:Number,
-        required:true
+    deptID: {
+        type: Number,
     }
 
 });
+autoIncrement.initialize(mongoose.connection);
+teacherSchema.plugin(autoIncrement.plugin, {
+    model: "teacher",
+    field: "StaffID",
+    startAt: 5001,
+    incrementBy: 1,
+});
 
-export default mongoose.model("Teacher",teacher)
+export default mongoose.model("teacher", teacherSchema)

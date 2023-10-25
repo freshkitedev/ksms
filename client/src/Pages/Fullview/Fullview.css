@@ -1,0 +1,74 @@
+*{
+    margin: 0;
+    padding: 0;
+    height: auto;
+  }
+  
+  
+  
+  
+  
+  body {
+    background-color: #d5d7d9 !important;
+    background-size: cover;
+    min-height: 100vh;
+    height: auto;
+  }
+  
+  
+  .navbar {
+    border-radius: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: scale(.9)
+  }
+  
+  
+  
+  
+  /* Importing fonts from Google */
+  
+  
+  
+  .card {
+  
+    padding: 10px;
+    text-align: center;
+    transform: scale(1.1);
+  
+  }
+  
+  
+  .table-container {
+    max-height: 500px;
+    /* Adjust the maximum height as needed */
+    overflow-y: auto;
+  
+  }
+  
+  .container-1 {
+    transform: scale(0.9);
+  
+  
+  }
+  
+  .table-rounded {
+    border-radius: 20px;
+  }
+  
+  .card-container {
+    border-radius: 20px;
+    transform: scale(0.93);
+  
+  }
+  
+  .card-body {
+    transform: scale(1);
+  }
+  
+  .table-responsive{
+    max-height: 500px;
+    /* Adjust the maximum height as needed */
+    overflow-y: auto;
+   
+  }
+  

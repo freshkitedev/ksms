@@ -1,71 +1,95 @@
 import mongoose from "mongoose";
+import autoIncrement from "mongoose-auto-increment"
+mongoose.set('useFindAndModify', false);
+const studentSchema = new mongoose.Schema({
 
-const student = new mongoose.Schema({
- 
   rollNumber: {
-    type: Number,
-    required: true,
+    type: Number
   },
   Name: {
-    fName: {
-      type: String,
-      required: true,
+    firstName: {
+      type: String
     },
-    mName: {
-      type: String,
-      required: true,
+    middleName: {
+      type: String
     },
-    lName: {
-      type: String,
-      required: true,
-    },
+    lastName: {
+      type: String
+    }
   },
   dateOfBirth: {
-    type: String,
-    required: true,
+    type: Date
   },
   fatherName: {
-      type: String,
-      required: true,
+    type: String
   },
-  motherName:{
-    type:String,
-    required:true
+  motherName: {
+    type: String,
   },
-  homeAddress:{
-    type:String,
-    required:true
+  homeAddress: {
+    type: String
   },
-  enrollmentDate:{
-    type:String,
-    required:true
+  enrollmentDate: {
+    type: String,
   },
-  emailID:{
-    type:String,
-    required:true
+  emailID: {
+    type: String
   },
-  mobileNo:{
-    type:Number,
-    required:true
+  mobileNo: {
+    type: Number
   },
-  lastDate:{
-    type:String,
-    required:true
+  lastDate: {
+    type: Date
   },
-  activeIndicator:{
-    type:Boolean,
-    required:true
+  activeIndicator: {
+    type: Boolean
   },
-  userGroup:{
-    type:Array,
-    required:true
+  userGroup: {
+    type: Array,
   },
-  class:{
-    type:String,
-    required:true
+  grade: {
+    type: String,
+  },
+  section: {
+    type: String
+  },
+  group: {
+    type: String,
+  },
+  emisNumber: {
+    type: Number
+  },
+  admissionNo: {
+    type: Number,
+  },
+  category: {
+    type: String,
+  },
+  academicYear: {
+    type: String,
+  },
+  concessionApplicable: {
+    type: Boolean,
+  },
+  vanApplicable: {
+    type: Boolean,
+  },
+  vanStop: {
+    type: String
+  },
+  newStudent: {
+    type: String
+  },
+  admissionFeeCategory: {
+    type: String
   }
 });
+autoIncrement.initialize(mongoose.connection);
+studentSchema.plugin(autoIncrement.plugin, {
+  model: "Student",
+  field: "rollNumber",
+  startAt: 1001,
+  incrementBy: 1,
+})
 
-
-
-export default mongoose.model("student",student)
+export default mongoose.model("Student", studentSchema)

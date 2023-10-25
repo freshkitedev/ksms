@@ -1,0 +1,36 @@
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .label {
+      margin-left: 400px;
+      font-family: fantasy;
+      color: black; 
+      margin-bottom: 10px; 
+      font-size: 22px;
+      width: 200px;
+  }
+
+  .span {
+    margin-left: 200px;
+    text-align: center;
+    font-family: fantasy;
+    color: black; 
+    margin-bottom: 10px; 
+    font-size: 22px;
+    width: 200px;
+}
+  
+  .input {
+    padding: 5px;
+  }
+
+  .hide-on-print{
+		display: none;
+	}
+
+  
