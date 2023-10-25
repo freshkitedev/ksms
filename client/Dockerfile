@@ -23,6 +23,6 @@ EXPOSE 3000
 
 # CMD Which will executed when we create conatiner 
 
-CMD ["node","index.js"]
+CMD ["npm","start"]
 
 
