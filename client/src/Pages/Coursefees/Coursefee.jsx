@@ -100,7 +100,7 @@ const CourseFeesComponent = () => {
   const getAllCourseFees = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/coursefees/getcoursefees"
+        "http://13.126.95.121:5000//api/coursefees/getcoursefees"
       );
       const allCourseFees = response.data;
       setCourseFees(allCourseFees);
