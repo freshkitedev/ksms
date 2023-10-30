@@ -237,6 +237,11 @@ body.active-modal {
         text-align: center;
     }
 
+.backbutton{
+   margin: 30px -10px;
+   width: 150px;
+}
+    
 
     
 
