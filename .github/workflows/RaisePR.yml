@@ -27,7 +27,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.GITHUBSECRET }}
+          token: ${{ secrets.TOKENPAT }}
           branch: main
           title: "Automated PR from dev-branch to main"
           body: "This PR was automatically created when tests passed on the dev-branch."
