@@ -1,0 +1,39 @@
+name: Merge to Main Branch
+
+on:
+  workflow_run:
+    workflows: ["CI for Development Branch"]
+    types:
+      - completed
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Workflow Status
+        id: check_status
+        run: echo ::set-output name=status::${{ github.event.workflow_run.conclusion }}
+        
+      - name: Notify Reviewers
+        if: steps.check_status.outputs.status == 'success'
+        run: |
+          # Notify the reviewers and request their input
+          echo "The tests passed for the pull request. Reviewers, please check the code and provide your feedback."
+
+          # Provide instructions or links to review guidelines
+          echo "Review Guidelines: [Insert link to your review guidelines or documentation]"
+
+          # Add additional steps specific to your review process
+
+      - name: Merge to Main
+        if: steps.check_status.outputs.status == 'success'
+        run: |
+          # Switch to the main branch
+          git checkout main
+
+          # Merge the code from the development branch
+          git merge --no-ff ${{ github.event.workflow_run.head_commit.sha }}
+
+          # Push the changes to the main branch
+          git push origin main
