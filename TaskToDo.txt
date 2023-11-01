@@ -1,5 +1,4 @@
 JWT Authentication (react and node)
-new modifications
 
 Changes in Add Student Page:
 
