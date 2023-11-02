@@ -19,7 +19,7 @@ jobs:
           node-version: '16' # You can specify your preferred Node.js version here
 
       - name: Install api-backend dependencies
-        run: cd api && npm install
+        run: cd server && npm install
         
       - name: Install client-frontend dependencies
         run: cd client && npm install
