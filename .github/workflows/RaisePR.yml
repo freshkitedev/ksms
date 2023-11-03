@@ -1,4 +1,4 @@
-name: Test and raise PR to Main Branch
+name: Auto-PR to Main
 
 on:
   pull_request:
@@ -6,28 +6,19 @@ on:
       - development
 
 jobs:
-  build:
+  auto_pr:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Check if PR is from development to main
+        id: is_development_to_main
+        run: echo ::set-output name=is_development_to_main::${{ github.event.pull_request.base.ref == 'main' }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16' # You can specify your preferred Node.js version here
-
-      - name: Install api-backend dependencies
-        run: cd server && npm install
-        
-      - name: Install client-frontend dependencies
-        run: cd client && npm install
-
-      - name: Create Pull Request
+      - name: Create PR to main
+        if: steps.is_development_to_main.outputs.is_development_to_main == 'true'
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.TOKENPAT }}
+          title: 'Merge development into main'
+          body: 'This PR is automatically generated to merge changes from development into main.'
+          commit-message: 'Merge development into main'
           branch: main
-          title: "Automated PR from dev-branch to main"
-          body: "This PR was automatically created when tests passed on the dev-branch."
