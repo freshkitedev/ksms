@@ -11,6 +11,7 @@ import xlupload from "./routes/ExcelUploadRt.js"
 import transactionrt from "./routes/TransactionRt.js"
 import ledgerrt from "./routes/LedgerRoutes.js"
 import staticrt from "./routes/StaticSchemaRt.js"
+import expensesroutes from "./routes/expenseRt.js"
 import cors from "cors"
 dotenv.config();
 const app = express();
@@ -38,17 +39,18 @@ app.use("/api/upload", xlupload)
 app.use("/api/transaction", transactionrt)
 app.use("/api/ledger", ledgerrt)
 app.use("/api/static", staticrt)
+app.use("/api/expenses",expensesroutes)
 
 
 const connect = async () => {
     try {
-        await mongoose.connect(process.env.MONGO, { useNewUrlParser: true });
+        await mongoose.connect(process.env.MONGO, { useNewUrlParser: true },{ useUnifiedTopology: true });
         console.log("Connected to MongoDB");
     }
     catch (err) {
         throw err;
     }
-
+ 
 }
 
 app.listen(5000, () => {
