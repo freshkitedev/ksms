@@ -10,28 +10,28 @@ import StudentsComponent from "./Pages/Student/StudentForm";
 import Transaction from "./Pages/Transaction/Transaction";
 import TransactionUpdate from "./Pages/UpdateTransaction/UpdateTransaction";
 import AddStudentForm from "./Pages/Student/Addstudent";
-
-
-
+import Expenses from "./Pages/Expenses/expenses.jsx";
+import Bankupdate from "./Pages/Bankupdate/bankupdate";
+import Report from "./Pages/Report/report.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <div>
-        <br></br>
-        <Navbar />
-        <br></br>
+       
         <div>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/fullView" element={<Fullview/>} />
+            <Route path="/fullView" element={<Fullview />} />
             <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/Expenses" element={<Expenses />} />
+            <Route path="/Report" element={<Report />} />
+            <Route path="/Bankupdate" element={<Bankupdate />} />
             <Route path="/coursefee" element={<CourseFeesComponent />} />
             <Route path="/addstudent" element={<StudentsComponent />} />
             <Route path="/payfee" element={<Transaction />} />
             <Route path="/transaction/:fees" element={<TransactionUpdate />} />
-            <Route path="/studentform" element={<AddStudentForm/>}/>
-
+            <Route path="/studentform" element={<AddStudentForm />} />
           </Routes>
         </div>
       </div>

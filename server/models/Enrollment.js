@@ -72,7 +72,7 @@ const enrollmentSchema = new mongoose.Schema({
 autoIncrement.initialize(mongoose.connection);
 enrollmentSchema.plugin(autoIncrement.plugin, {
     model: "enrollment",
-    field: "enrollmentId",
+    field: "enrollment",
     startAt: 100001,
     incrementBy: 1,
 });

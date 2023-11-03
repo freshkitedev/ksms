@@ -6,6 +6,7 @@ import EditStudentForm from "./EditComponent";
 import AddStudentForm from "./Addstudent";
 import ExcelUpload from "./ExcelUpload";
 import { Button, Modal, Table, Row, Col, Tabs, Tab } from "react-bootstrap";
+import Navbar from "../Common/Navbar";
 
 const StudentsComponent = () => {
   const [students, setStudents] = useState([]);
@@ -115,6 +116,7 @@ const StudentsComponent = () => {
 
   return (
     <div className="Student">
+      <Navbar/>
        <button className="btn-success p-2 fw-bold mt-4" style={{marginLeft:"50px" ,marginBottom:"-10px"}} onClick={dashboard}><i class="bi bi-arrow-left-square-fill"></i>Back</button>
       <h2 style={{ textAlign: "center", fontFamily: "fantasy", color: "black"}}>
       <i class="bi bi-person-circle"></i>&nbsp;Student Details

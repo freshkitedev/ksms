@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import EditCourseFeeForm from "./formedit";
 import AddCourseFeeForm from "./AddCourseFeeForm";
 import UploadForm from "./upload";
+import Backbutton from "../../component/backbutton";
+import Navbar from "../Common/Navbar";
 
 const CourseFeesComponent = () => {
   const [courseFees, setCourseFees] = useState([]);
@@ -13,7 +14,10 @@ const CourseFeesComponent = () => {
   const [viewMode, setViewMode] = useState(false);
   const [viewCourseFee, setViewCourseFee] = useState(null);
   const [showUploadForm, setShowUploadForm] = useState(false);
-  
+
+
+ 
+
   const toggleForm = () => {
     setShowForm(!showForm);
     setViewMode(false);
@@ -136,21 +140,24 @@ const CourseFeesComponent = () => {
   }, []);
 
   return (
-    <div className="Coursefee" >
-        <h2 style={{textAlign:"center", fontFamily:"fantasy", color:"white"}}>  Course Fee Details</h2>
-             <div className="d-flex justify-content-center align-items-center">
-
-
-
-<div className="d-flex flex-column align-items-center ">
-  {showForm && <AddCourseFeeForm onAdd={handleAddCourseFee} />}
-  <br />
-  <button className="btn btn-info mb-3" onClick={toggleForm}>
-    {showForm ? "Hide Course Fee Form" : "Add New Course Fees Here!..."}
-  </button>
-</div></div>
-
-     
+    <div className="Coursefee">
+      <Navbar/>
+      <Backbutton />
+      <h2
+        style={{ textAlign: "center", fontFamily: "fantasy", color: "white" }}
+      >
+        {" "}
+        Course Fee Details
+      </h2>
+      <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex flex-column align-items-center ">
+          {showForm && <AddCourseFeeForm onAdd={handleAddCourseFee} />}
+          <br />
+          <button className="btn btn-info mb-3" onClick={toggleForm}>
+            {showForm ? "Hide Course Fee Form" : "Add New Course Fees Here!..."}
+          </button>
+        </div>
+      </div>
 
       <div className="d-flex justify-content-center align-items-center">
         {!showUploadForm && (
@@ -176,14 +183,17 @@ const CourseFeesComponent = () => {
         )}
       </div>
 
-      <div className=" table-container p-5" style={{transform:"scale(0.9)"}}>
-        <table className="table table-primary" style={{fontFamily:"cursive"}}>
+      <div className=" table-container p-5" style={{ transform: "scale(0.9)" }}>
+        <table
+          className="table table-primary"
+          style={{ fontFamily: "cursive" }}
+        >
           {/* table header */}
           <thead className="text-primary">
-            <tr >
-              <th >Course Name</th>
-             
-              <th >Year</th>
+            <tr>
+              <th>Course Name</th>
+
+              <th>Year</th>
               <th>Frequency</th>
               <th>Student Category</th>
               <th>Rte Fees</th>
@@ -204,7 +214,7 @@ const CourseFeesComponent = () => {
             {courseFees.map((courseFee) => (
               <tr key={courseFee._id}>
                 <td>{courseFee.courseName}</td>
-               
+
                 <td>{courseFee.year}</td>
                 <td>{courseFee.frequency}</td>
                 <td>{courseFee.studentCategory}</td>
@@ -262,7 +272,10 @@ const CourseFeesComponent = () => {
                           Status: {courseFee.status ? "Active" : "Inactive"}
                         </p>
                         <p>Category: {courseFee.category}</p>
-                        <button className="btn btn-primary" onClick={() => toggleViewMode(courseFee)}>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => toggleViewMode(courseFee)}
+                        >
                           Close
                         </button>
                       </div>

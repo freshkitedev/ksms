@@ -8,11 +8,16 @@
     width: 120px;
     height: 120px; 
     transition: 0.3s;
+    object-fit: cover;
     
    
     
     
  
+}
+
+.hello{
+    width: 100px;
 }
 .image:hover{opacity: 0.6;
 transform: scale(1.1);}
@@ -27,6 +32,7 @@ transform: scale(1.1);}
 
     transform: scale(1.1);
 }
+
 
 .heading{
     transform: scale(1);

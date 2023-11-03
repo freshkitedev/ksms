@@ -2,11 +2,12 @@ import React from "react";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import addstudent from "../img/addstudent.png";
-import addfees from "../img/addfees.png";
+import expenses from "../img/expenses.png";
 import payfees from "../img/payfees.png";
 import report from "../img/report.png";
 import addcourse from "../img/addcourse.jpg";
 import updatebank from "../img/bank.jpg";
+import Navbar from "../Common/Navbar";
 
 const DashBoard = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const DashBoard = () => {
     navigate("/addstudent");
   };
   const FeeNav = () => {
-    navigate("/feeupdate");
+    navigate("/expenses");
   };
   const PayFeeNav = () => {
     navigate("/payfee");
@@ -26,10 +27,13 @@ const DashBoard = () => {
     navigate("/coursefee");
   };
   const BankNav = () => {
-    navigate("/bank");
+    navigate("/Bankupdate");
   };
 
   return (
+    <div className="header">
+
+    <Navbar/>
     <div className="container card shadow bg-light"style={{ transform: "scale(0.85)", borderRadius:"50px" }}>
 
       <h2 className="heading shadow d-flex justify-content-center align-items-center" style={{backgroundColor:"ButtonHighlight", borderRadius:"30px", fontFamily:"cursive"}}><b><i class="bi bi-alexa"></i>&nbsp;Welcome To Ksms</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style={{}}><i class="bi bi-box-arrow-right"></i></span></h2>
@@ -43,9 +47,9 @@ const DashBoard = () => {
         </div>
         <div className="col-sm-4 text-center">
           <button className="button shadow" onClick={FeeNav}>
-            <img className="image  card" src={addfees} alt="Update Fees" />
+            <img className="image  card" src={expenses} alt="Expenses" />
           </button>
-          <p className="para">Update Fees&nbsp;<i class="bi bi-wallet-fill"></i></p>
+          <p className="para">Expenses&nbsp;<i class="bi bi-wallet-fill"></i></p>
         </div>
         <div className="col-sm-4 text-center">
           <button className="button shadow" onClick={AddCourseNav}>
@@ -74,6 +78,7 @@ const DashBoard = () => {
           <p className="para">Bank Update&nbsp;<i class="bi bi-bank"></i></p>
         </div>
       </div>
+    </div>
     </div>
   );
 };
