@@ -53,7 +53,7 @@ const AddStudentForm = ({ studentData, onAdd, onUpdate,onCancel }) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
   
-    // Handle special case for name fields
+  
     if (name === 'firstName' || name === 'middleName' || name === 'lastName') {
       setStudent((prevStudent) => ({
         ...prevStudent,
