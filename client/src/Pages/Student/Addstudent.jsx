@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { useNavigate,useLocation, useParams } from "react-router-dom";
 
-const AddStudentForm = ({ onAdd }) => {
+const AddStudentForm = ({ studentData, onAdd, onUpdate,onCancel }) => {
+  const location = useLocation();
+  const [isUpdating , setIsUpdating] = useState(false)
   const [student, setStudent] = useState({
+    Name:{
+      firstName: "",
+      middleName: "",
+      lastName: "",
+    },
     rollNumber: "",
-    fname: "",
-    mname: "",
-    lname: "",
     dateOfBirth: "",
     fatherName: "",
     motherName: "",
@@ -30,6 +34,15 @@ const AddStudentForm = ({ onAdd }) => {
     newStudent: false,
   });
 
+
+  useEffect(() => {
+    if (location.state?.data) {
+      setStudent(location.state.data);
+      setIsUpdating(true)
+    }
+  }, [location.state?.data]);
+  
+
   const navigate = useNavigate();
    
   const addstudentpage = ()=>{
@@ -37,60 +50,44 @@ const AddStudentForm = ({ onAdd }) => {
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setStudent((prevStudent) => ({
-      ...prevStudent,
-      [name]: value,
-    }));
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+  
+  
+    if (name === 'firstName' || name === 'middleName' || name === 'lastName') {
+      setStudent((prevStudent) => ({
+        ...prevStudent,
+        Name: {
+          ...prevStudent.Name,
+          [name]: newValue,
+        },
+      }));
+    } else {
+      setStudent((prevStudent) => ({
+        ...prevStudent,
+        [name]: newValue,
+      }));
+    }
   };
-
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setStudent((prevStudent) => ({
-      ...prevStudent,
-      [name]: checked,
-    }));
-  };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAdd(student);
-
-    setStudent({
-      rollNumber: "",
-      fname: "",
-      mname: "",
-      lname: "",
-      dateOfBirth: "",
-      fatherName: "",
-      motherName: "",
-      homeAddress: "",
-      enrollmentDate: "",
-      emailID: "",
-      mobileNo: "",
-      lastDate: "",
-      activeIndicator: false,
-      userGroup: "",
-      grade: "",
-      section: "",
-      group: "",
-      emisNumber: "",
-      admissionNo: "",
-      category: "",
-      academicYear: "",
-      concessionApplicable: false,
-      vanApplicable: false,
-      vanStop: "",
-      newStudent: false,
-
-      
-    });
+    if (!isUpdating) {
+      // Only call onAdd when you are adding a new student
+      onAdd(student);
+    } else if (isUpdating) {
+      // Handle updating an existing student
+      onUpdate(student);
+      onCancel(); 
+    }
   };
 
   return (
-    <div className="AddStudentForm " style={{color:"black"}}><br></br>
+    <div className="AddStudentForm " style={{color:"black",overflow:"auto"}}><br></br>
      <button className="btn-success p-2 fw-bold" style={{marginLeft:"50px" ,marginBottom:"-10px"}} onClick={addstudentpage}><i class="bi bi-arrow-left-square-fill"></i>Back</button>
-      <h3 className="d-flex justify-content-center align-items-center fw-bold" style={{backgroundColor:"ThreeDDarkShadow",color:"whitesmoke" ,height:"70px", borderRadius:"20px", fontFamily:"monospace", marginLeft:"200px",marginRight:"200px",marginTop:"-45px"}} ><i class="bi bi-person-add"></i> &nbsp;Add New Student : </h3>
+      <h3 className="d-flex justify-content-center align-items-center fw-bold" style={{backgroundColor:"ThreeDDarkShadow",color:"whitesmoke" ,height:"70px", borderRadius:"20px", fontFamily:"monospace", marginLeft:"200px",marginRight:"200px",marginTop:"-45px"}} >
+       <i className="bi bi-person-add"></i> &nbsp;{isUpdating  ? "Update" : "Add"} Student
+      </h3>
       <form onSubmit={handleSubmit} className="row p-4 border border-5 border-info fw-bold "  style={{margin:"50px", backgroundColor:"lightblue"}}>
         <div className="col-md-3">
         <div className="form-group">
@@ -109,8 +106,8 @@ const AddStudentForm = ({ onAdd }) => {
           <label>First Name:</label>
           <input
             type="text"
-            name="fname"
-            value={student.fname}
+            name="firstName"
+            value={student.Name.firstName}
             onChange={handleChange}
             className="form-control"
             required
@@ -121,11 +118,10 @@ const AddStudentForm = ({ onAdd }) => {
           <label>Middle Name:</label>
           <input
             type="text"
-            name="mname"
-            value={student.mname}
+            name="middleName"
+            value={student.Name.middleName}
             onChange={handleChange}
             className="form-control"
-    
           />
         </div>
         <br></br>
@@ -133,8 +129,8 @@ const AddStudentForm = ({ onAdd }) => {
           <label>Last Name:</label>
           <input
             type="text"
-            name="lname"
-            value={student.lname}
+            name="lastName"
+            value={student.Name.lastName}
             onChange={handleChange}
             className="form-control"
            
@@ -245,7 +241,7 @@ const AddStudentForm = ({ onAdd }) => {
             type="checkbox"
             name="activeIndicator"
             checked={student.activeIndicator}
-            onChange={handleCheckboxChange}
+            onChange={handleChange}
           />
         </div>
         <br></br>
@@ -351,7 +347,7 @@ const AddStudentForm = ({ onAdd }) => {
             type="checkbox"
             name="concessionApplicable"
             checked={student.concessionApplicable}
-            onChange={handleCheckboxChange}
+            onChange={handleChange}
           />
         </div>
         <br></br>
@@ -362,7 +358,7 @@ const AddStudentForm = ({ onAdd }) => {
             type="checkbox"
             name="vanApplicable"
             checked={student.vanApplicable}
-            onChange={handleCheckboxChange}
+            onChange={handleChange}
           />
         </div><br></br>
         </div>
@@ -383,14 +379,17 @@ const AddStudentForm = ({ onAdd }) => {
             type="checkbox"
             name="newStudent"
             checked={student.newStudent}
-            onChange={handleCheckboxChange}
+            onChange={handleChange}
           />
         </div></div>
         <br></br>
         <div className="col-md-12 d-flex justify-content-center align-items-center">
-        <button type="submit" className="btn btn-primary fw-bold btn-lg">
-        <i class="bi bi-person-add"></i>&nbsp; Click Here to Add!!!
-        </button></div>
+          <button type="submit" className="btn btn-primary fw-bold btn-lg">
+            <i className="bi bi-person-add"></i> &nbsp;{isUpdating ? "Update" : "Add"} Student          
+          </button>
+          
+        </div>
+        
       </form>
     </div>
   );
