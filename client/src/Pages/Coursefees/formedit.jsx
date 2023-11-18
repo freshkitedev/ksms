@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./formedit .css"
-
-const EditCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
+const AddCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
   const [updatedCourseFee, setUpdatedCourseFee] = useState(courseFee);
 
   const handleInputChange = (e) => {
@@ -33,45 +31,16 @@ const EditCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
     <form className="card p-2" onSubmit={handleSubmit}>
       {/* Render input fields for editing course fee attributes */}
       <div className="mb-3">
-        <label className="form-label">Course ID:</label>
+        <label className="form-label">CourseName:</label>
         <input
           type="text"
-          name="courseId"
+          name="coursename"
           value={updatedCourseFee.courseId}
           onChange={handleInputChange}
           className="form-control"
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Category:</label>
-        <input
-          type="text"
-          name="category"
-          value={updatedCourseFee.category}
-          onChange={handleInputChange}
-          className="form-control"
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Start Date:</label>
-        <input
-          type="text"
-          name="startDate"
-          value={updatedCourseFee.startDate}
-          onChange={handleInputChange}
-          className="form-control"
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">End Date:</label>
-        <input
-          type="text"
-          name="endDate"
-          value={updatedCourseFee.endDate}
-          onChange={handleInputChange}
-          className="form-control"
-        />
-      </div>
+     
       <div className="mb-3">
         <label className="form-label">Total Charges:</label>
         <input
@@ -92,6 +61,17 @@ const EditCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
           className="form-control"
         />
       </div>
+      
+      <div className="mb-3">
+        <label className="form-label">BookFees:</label>
+        <input
+          type="text"
+          name="BookFees"
+          value={updatedCourseFee.year}
+          onChange={handleInputChange}
+          className="form-control"
+        />
+      </div>
       <div className="mb-3">
         <label className="form-label">Term:</label>
         <input
@@ -102,26 +82,7 @@ const EditCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
           className="form-control"
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Frequency:</label>
-        <input
-          type="text"
-          name="frequency"
-          value={updatedCourseFee.frequency}
-          onChange={handleInputChange}
-          className="form-control"
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Student Category:</label>
-        <input
-          type="text"
-          name="Student Category"
-          value={updatedCourseFee.studentCategory}
-          onChange={handleInputChange}
-          className="form-control"
-        />
-      </div>
+     
      
       {/* Add more input fields for other attributes */}
 
@@ -138,4 +99,4 @@ const EditCourseFeeForm = ({ courseFee, onUpdate, onCancel }) => {
 };
 
 
-export default EditCourseFeeForm
+export default AddCourseFeeForm;
