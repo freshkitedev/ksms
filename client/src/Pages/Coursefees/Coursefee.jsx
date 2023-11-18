@@ -137,7 +137,7 @@ const CourseFeesComponent = () => {
 
   return (
     <div className="Coursefee" >
-        <h2 style={{textAlign:"center", fontFamily:"fantasy", color:"white"}}>  Course Fee Details</h2>
+        <h2 style={{textAlign:"center", fontFamily:"fantasy", color:"Black"}}>  Course Fee Details</h2>
              <div className="d-flex justify-content-center align-items-center">
 
 
@@ -181,21 +181,18 @@ const CourseFeesComponent = () => {
           {/* table header */}
           <thead className="text-primary">
             <tr >
-              <th >Course Name</th>
+              <th style={{  color:"Black"}}>Course Name</th>
              
-              <th >Year</th>
-              <th>Frequency</th>
-              <th>Student Category</th>
+              <th>Year</th>
+              <th>BookFees</th>
+              
               <th>Rte Fees</th>
               <th>Total Charges</th>
               <th>Term</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Status</th>
-              <th>Category</th>
-              <th>Update</th>
-              <th>Delete</th>
-              <th>View</th>
+              
+              <th style={{color:"Green"}}>Update</th>
+              <th style={{color:"Red"}}>Delete</th>
+              <th style={{color:"Green"}}>View</th>
             </tr>
           </thead>
 
@@ -206,15 +203,13 @@ const CourseFeesComponent = () => {
                 <td>{courseFee.courseName}</td>
                
                 <td>{courseFee.year}</td>
-                <td>{courseFee.frequency}</td>
-                <td>{courseFee.studentCategory}</td>
+                <td>{courseFee.BookFees}</td>
+                
+                
                 <td>{courseFee.rteFees}</td>
                 <td>{courseFee.totalCharges}</td>
                 <td>{courseFee.Term}</td>
-                <td>{courseFee.startDate}</td>
-                <td>{courseFee.endDate}</td>
-                <td>{courseFee.status ? "Active" : "Inactive"}</td>
-                <td>{courseFee.category}</td>
+                
                 <td>
                   {editMode &&
                   editCourseFee &&
@@ -231,12 +226,7 @@ const CourseFeesComponent = () => {
                     ></i>
                   )}
                 </td>
-                <td>
-                  <i
-                    className="bi bi-trash-fill"
-                    onClick={() => deleteCourseFeeById(courseFee._id)}
-                  ></i>
-                </td>
+                
                 <td>
                   {!viewMode && (
                     <i
@@ -250,18 +240,14 @@ const CourseFeesComponent = () => {
                     viewCourseFee._id === courseFee._id && (
                       <div>
                         <p>Course Name: {courseFee.courseName}</p>
-                        <p>Course ID: {courseFee.courseId}</p>
+                        
                         <p>Year: {courseFee.year}</p>
-                        <p>Frequency: {courseFee.frequency}</p>
-                        <p>Student Category: {courseFee.studentCategory}</p>
+                        <p>BookFees: {courseFee.BookFees}</p>
+                       
                         <p>Total Charges: {courseFee.totalCharges}</p>
                         <p>Term: {courseFee.Term}</p>
-                        <p>Start Date: {courseFee.startDate}</p>
-                        <p>End Date: {courseFee.endDate}</p>
-                        <p>
-                          Status: {courseFee.status ? "Active" : "Inactive"}
-                        </p>
-                        <p>Category: {courseFee.category}</p>
+                        
+                        
                         <button className="btn btn-primary" onClick={() => toggleViewMode(courseFee)}>
                           Close
                         </button>

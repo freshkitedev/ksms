@@ -45,10 +45,9 @@ const UploadForm = () => {
         ];
         const obj = {
           courseName: row[columnNames.indexOf("CourseName")],
-          courseId: row[columnNames.indexOf("CourseId")],
+          
           year: row[columnNames.indexOf("Year")],
-          studentCategory: row[columnNames.indexOf("StudentCategory")],
-          courseCategory: row[columnNames.indexOf("CourseCategory")],
+          BookFees: row[columnNames.indexOf("BookFees")],
           totalCharges: row[columnNames.indexOf("TotalCharges")],
           Term: termValues
           // Add more mappings for other columns as needed

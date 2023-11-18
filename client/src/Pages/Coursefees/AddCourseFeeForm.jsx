@@ -1,21 +1,37 @@
 import React, { useState } from "react";
+import "../Coursefees/Coursefee.css";
+
 
 const AddCourseFeeForm = ({ onAdd }) => {
   const [termsInput, setTermsInput] = useState("");
   const [courseFee, setCourseFee] = useState({
     courseName: "",
-    courseId: "",
     year: "",
-    frequency: "",
-    studentCategory: "",
+    BookFees: "",
     rteFees: "",
     totalCharges: "",
     term: [],
-    startDate: "",
-    endDate: "",
-    status: false,
-    category: "",
   });
+  const [errorName, setErrorName] = useState("");
+  const [errorYear, setErrorYear] = useState("");
+     
+  const courseNames = [
+    "Pre KG",
+    "LKG",
+    "UKG",
+    "class 1",
+    "class 2",
+    "class 3",
+    "class 4",
+    "class 5",
+    "class 6",
+    "class 7",
+    "class 8",
+    "class 9",
+    "class 10",
+    "class 11",
+    "class 12",
+  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,21 +40,30 @@ const AddCourseFeeForm = ({ onAdd }) => {
       [name]: value,
     }));
 
-  if (name === "studentCategory" && value !== "RTE") {
-    // If student category is not RTE, clear and disable RTE fees
-    setCourseFee((prevCourseFee) => ({
-      ...prevCourseFee,
-      rteFees: "",
-    }));
-  }
-}; 
+    if (name === "studentCategory" && value !== "RTE") {
+      setCourseFee((prevCourseFee) => ({
+        ...prevCourseFee,
+        rteFees: "",
+      }));
+    }
+  };
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setCourseFee((prevCourseFee) => ({
-      ...prevCourseFee,
-      [name]: checked,
-    }));
+  const validateName = () => {
+    const regex = /^[A-Za-z 0-9\s]+$/;
+    if (!regex.test(courseFee.courseName.trim())) {
+      setErrorName("Invalid course name");
+    } else {
+      setErrorName("");
+    }
+  };
+
+  const validateYear = () => {
+    const regex = /^[0-4]+$/;
+    if (!regex.test(courseFee.year.trim())) {
+      setErrorYear("Invalid year format");
+    } else {
+      setErrorYear("");
+    }
   };
 
   const handleInputChangeterms = (event) => {
@@ -55,86 +80,93 @@ const AddCourseFeeForm = ({ onAdd }) => {
 
   const handleAdd = (e) => {
     e.preventDefault();
-  
+
     const termsTotal = courseFee.term.reduce((sum, term) => sum + term, 0);
     if (termsTotal !== parseInt(courseFee.totalCharges)) {
       alert("Error: Terms and Total Charges do not match!");
       return;
     }
-  
+
+    if (errorName || errorYear) {
+      alert("Error: Please fix the validation errors.");
+      return;
+    }
+
     onAdd(courseFee);
     setCourseFee({
       courseName: "",
-      courseId: "",
       year: "",
-      frequency: "",
-      studentCategory: "",
+      BookFees: "",
       rteFees: "",
       totalCharges: "",
       term: [],
-      startDate: "",
-      endDate: "",
-      status: false,
-      category: "",
     });
-    setTermsInput(""); // Clear the terms input field
+    setTermsInput("");
   };
-  
 
   return (
-    <div className=" d-flex align-items-center justify-content-center vh-70" style={{color:"white"}}>
-      <form onSubmit={handleAdd} className="row " >
+    <div className="d-flex align-items-center justify-content-center vh-70">
+      <form
+        onSubmit={handleAdd}
+        className="row p-4 border border-5 border-info fw-bold"
+        style={{ margin: "50px", backgroundColor: "lightblue" }}
+      >
+      <div class="dropdown">
+
+  <div class="dropdown-content">
+  </div> 
+  </div>
+ 
         <div className="col-md-6">
           <div className="form-group">
             <label>Course Name:</label>
-            <input
-              type="text"
+
+            <select
               className="form-control"
               name="courseName"
               value={courseFee.courseName}
               onChange={handleInputChange}
-            />
+              onBlur={validateName}
+            >
+              <option value="">Select Course name</option>
+              {courseNames.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+                
+ 
+              ))}
+            </select>
+            {errorName && <div style={{ color: "red" }}>{errorName}</div>}
           </div>
-          <div className="form-group">
-            <label>Course ID:</label>
-            <input
-              type="text"
-              className="form-control"
-              name="courseId"
-              value={courseFee.courseId}
-              onChange={handleInputChange}
-            />
-          </div>
+
           <div className="form-group">
             <label>Year:</label>
             <input
-              type="number"
+              type="text"
               className="form-control"
               name="year"
               value={courseFee.year}
               onChange={handleInputChange}
+              onBlur={validateYear}
             />
+            {errorYear && <div style={{ color: "red" }}>{errorYear}</div>}
           </div>
+
           <div className="form-group">
-            <label>Frequency:</label>
+            <label>Book Fees:</label>
             <input
               type="number"
               className="form-control"
-              name="frequency"
-              value={courseFee.frequency}
+              name="BookFees"
+              value={courseFee.BookFees}
               onChange={handleInputChange}
             />
           </div>
-        <div className="form-group">
-            <label>Student Category:</label>
-            <input
-              type="text"
-              className="form-control"
-              name="studentCategory"
-              value={courseFee.studentCategory}
-              onChange={handleInputChange}
-            />
-          </div>
+      
+
+
+        
           <div className="form-group">
             <label>Rte Fees:</label>
             <input
@@ -143,10 +175,11 @@ const AddCourseFeeForm = ({ onAdd }) => {
               name="rteFees"
               value={courseFee.rteFees}
               onChange={handleInputChange}
-              disabled={courseFee.studentCategory !== "RTE"}
+              
             />
           </div>
         </div>
+       
         <div className="col-md-6">
           <div className="form-group">
             <label>Total Charges:</label>
@@ -159,7 +192,7 @@ const AddCourseFeeForm = ({ onAdd }) => {
             />
           </div>
           <div className="form-group">
-            <label>Term:</label>
+            <label>Term Fees:</label>
             <input
               type="text"
               className="form-control"
@@ -172,46 +205,10 @@ const AddCourseFeeForm = ({ onAdd }) => {
               Enter terms separated by commas (e.g., 1, 2, 3)
             </small>
           </div>
-          <div className="form-group">
-            <label>Start Date:</label>
-            <input
-              type="date"
-              className="form-control"
-              name="startDate"
-              value={courseFee.startDate}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>End Date:</label>
-            <input
-              type="date"
-              className="form-control"
-              name="endDate"
-              value={courseFee.endDate}
-              onChange={handleInputChange}
-            />
-          </div><br></br>
-          <div className="form-group">
-            <label>Status: &nbsp;</label>
-            <input
-              type="checkbox"
-              className="form-check-input"
-              name="status"
-              checked={courseFee.status}
-              onChange={handleCheckboxChange}
-            />
-          </div>
-          <div className="form-group m-2">
-            <label>Category:</label>
-            <input
-              type="text"
-              className="form-control"
-              name="category"
-              value={courseFee.category}
-              onChange={handleInputChange}
-            />
-          </div>
+          
+          
+          
+          
         </div>&nbsp;
         <div className="col-md-12 d-flex justify-content-center align-items-center">
           <button type="submit" className="btn btn-success" >
@@ -219,9 +216,13 @@ const AddCourseFeeForm = ({ onAdd }) => {
           </button>
         </div>
       </form>
+      
+      
     </div>
+    
+    
   );
 };
 
 
-export default AddCourseFeeForm
+export default AddCourseFeeForm;
